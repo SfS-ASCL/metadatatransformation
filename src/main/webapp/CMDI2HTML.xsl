@@ -525,8 +525,10 @@
 							<b>Description: </b>
 						</td>
 						<td>
-							<xsl:value-of
-									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/>
+							<!-- <xsl:apply-templates select="./*[local-name() = 'Descriptions']"></xsl:apply-templates>-->
+							<xsl:apply-templates select="*:Descriptions"/> 
+							<!-- <xsl:value-of
+									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
 					</tr>
 					<tr>
@@ -670,8 +672,9 @@
 							<b>Descriptions: </b>
 						</td>
 						<td>
-							<xsl:value-of
-									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/>
+							<xsl:apply-templates select="*:Descriptions"/> 
+							<!-- <xsl:value-of
+									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
 					</tr>
 					<tr>
@@ -754,9 +757,10 @@
 											<b>Abstract:</b>
 										</td>
 										<td>
-											<xsl:value-of
+											<xsl:apply-templates select="*:Descriptions"/> 
+<!--											<xsl:value-of
 													select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"
-											/>
+											/> -->
 										</td>
 									</tr>
 									<tr>
@@ -1698,8 +1702,9 @@
 							<b>Description: </b>
 						</td>
 						<td>
-							<xsl:value-of
-									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/>
+							<xsl:apply-templates select="*:Descriptions"/> 
+	<!-- 						<xsl:value-of
+									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
 					</tr>
 				</table>
@@ -1751,8 +1756,9 @@
 									<b>Description:</b>
 								</td>
 								<td>
-									<xsl:value-of
-											select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/>
+									<xsl:apply-templates select="*:Descriptions"/> 
+<!-- 									<xsl:value-of
+											select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 								</td>
 							</tr>
 							<!-- more here -->
@@ -1791,9 +1797,10 @@
                           <xsl:text>
 			      :
 			    </xsl:text>
-													<xsl:value-of
+													<xsl:apply-templates select="*:Descriptions"/> 
+<!-- 													<xsl:value-of
 															select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"
-													/>
+													/> -->
 												</xsl:if>
 											</li>
 										</xsl:for-each>
@@ -2482,8 +2489,12 @@
       </xsl:text>
 					{
 					"name": "<xsl:value-of select="//*[local-name() = 'ResourceName']"/>",
+					<xsl:variable name="description_in_cmdi">  
+						<xsl:for-each select="//*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description'][@xml:lang='en' or @xml:lang='de']">
+							<xsl:value-of select="."/>
+						</xsl:for-each>
+					</xsl:variable>
 
-					<xsl:variable name="description_in_cmdi" select="//*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description'][@xml:lang='en' or @xml:lang='de']"/>
 					"description": " <xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/>",
 					"url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
 					"identifier": <xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/*[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name()='ResourceType'],'LandingPage')]">"<xsl:value-of select="./*[local-name() = 'ResourceRef']"/>" </xsl:for-each>,
@@ -2577,6 +2588,12 @@
 		</xsl:choose>
 	</xsl:template>
 
-
+<xsl:template match="*:Descriptions">
+	<xsl:for-each select="*:Description">
+		<xsl:value-of select="."/>
+	</xsl:for-each>
+<!-- 	<xsl:value-of
+		select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
+</xsl:template>
 
 </xsl:stylesheet>
