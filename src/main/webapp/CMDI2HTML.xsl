@@ -2488,17 +2488,26 @@
         /*&lt;![CDATA[*/
       </xsl:text>
 					{
-					"name": "<xsl:value-of select="//*[local-name() = 'ResourceName']"/>",
+					"name": "<xsl:value-of select="//*[local-name() = 'ResourceName']"/>",		
 					<xsl:variable name="description_in_cmdi">  
-						<xsl:for-each select="//*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description'][@xml:lang='en' or @xml:lang='de']">
+						<xsl:for-each select="//*[local-name()='GeneralInfo']/*[local-name()='Descriptions']/*[local-name()='Description']">
+							<xsl:if test='@xml:lang="en"'>
 							<xsl:value-of select="."/>
+							</xsl:if>
+							<xsl:if test='@xml:lang="de" and not(../*:Description[@xml:lang="en"])'>
+								<xsl:value-of select="."/>
+							</xsl:if>
+							<!-- <xsl:value-of select="."/>-->
+							<xsl:if test='not(@xml:lang="de") and not(../*:Description[@xml:lang="en"])'>
+								<xml:text>No English or German description available.</xml:text>
+							</xsl:if>
 						</xsl:for-each>
 					</xsl:variable>
-
 					"description": " <xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/>",
 					"url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
-					"identifier": <xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/*[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name()='ResourceType'],'LandingPage')]">"<xsl:value-of select="./*[local-name() = 'ResourceRef']"/>" </xsl:for-each>,
-
+					"identifier": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
+					<!-- <xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/*[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name()='ResourceType'],'LandingPage')]">"<xsl:value-of select="./*[local-name() = 'ResourceRef']"/>" </xsl:for-each>,
+-->
 					"sameAs": "<xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/
       *[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name() = 'ResourceType'],'LandingPage')]">
 					<xsl:value-of select="./*[local-name() = 'ResourceRef']"/> </xsl:for-each>",
@@ -2590,7 +2599,14 @@
 
 <xsl:template match="*:Descriptions">
 	<xsl:for-each select="*:Description">
-		<xsl:value-of select="."/>
+		<xsl:if test="@xml:lang='en'">
+			<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
+		</xsl:if>
+		<xsl:if test="@xml:lang='de'">
+			<p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
+		</xsl:if>	
+		
+		
 	</xsl:for-each>
 <!-- 	<xsl:value-of
 		select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
