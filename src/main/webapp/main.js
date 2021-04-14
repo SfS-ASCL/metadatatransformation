@@ -1,12 +1,14 @@
 /** @jsx React.DOM */
 
+var transformer = "CMDI2HTML";
 var Container = React.createClass({displayName: 'Container',
 	getInitialState: function() {
 		return {status:"info", msg:"", files: {}};
 	},
 	upload: function(event) {
+		console.log(transformer)
 		var that = this;
-		var up = new Uploader("rest/multi");
+		var up = new Uploader("rest/multi/" + transformer);
 		up.onSuccess = function() {
 			if (this.xhr.status === 200) {
 				var json = JSON.parse(this.xhr.response);
@@ -22,32 +24,63 @@ var Container = React.createClass({displayName: 'Container',
 	},
 	render: function() {
 		return (
-			React.DOM.div({className: "container"}, 
-				React.DOM.div({className: "row clearfix"}, 
-					React.DOM.div({className: "col-md-12 column"}, 
-						React.DOM.div({className: "jumbotron"}, 
-							React.DOM.h2(null, "CMDI to HTML transformer (support for CMDI 1.2)"),
-							React.DOM.p(null, "This web service allows you to convert a CMDI metadata file to the HTML format.")
-						), 
-						FileUploadBox({onUpload: this.upload}), 
-						StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}), 
-						DownloadBox({files: this.state.files}), 
-						React.DOM.hr(null), 
-						React.DOM.p(null, "You can also use this service programmatically, like this:"), 
-						React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html.xml http://weblicht.sfs.uni-tuebingen.de/converter/Cmdi2HTML/rest"
-						),
-                                                React.DOM.hr(null), 
-						React.DOM.p(null, "© Seminar für Sprachwissenschaft, Universität Tübingen, 2021.")
+			React.DOM.div({className: "container"},
+				React.DOM.div({className: "row clearfix"},
+					React.DOM.div({className: "col-md-12 column"},
+						React.DOM.div({className: "jumbotron"},
+							React.DOM.h2(null, "Metadata Transformer"),
+							React.DOM.p(null, "This web service allows you to convert various metadata formats"),
+							React.DOM.hr(null),
+							TransformList(),
+							FileUploadBox({onUpload: this.upload}),
+							StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
+							DownloadBox({files: this.state.files}),
+							React.DOM.hr(null),
+							React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
+							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
+							React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
+							React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
+							React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
+							React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
+							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
+							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+						)
 					)
 				)
-			)
+			));
+	}
+});
+
+var TransformList = React.createClass({
+	displayName: 'TransformerList',
+	handleChange: function(event) {
+		var value = event.target.value;
+		console.log(value, " was selected");
+		transformer = value;
+		console.log("TRANSFORMER", transformer)
+
+	},
+	render: function () {
+		return (
+			React.DOM.select({multiple:false, name: "TransformerSelection", onChange:this.handleChange},
+				React.DOM.option({value:"CMDI2HTML", disabled:true}, "Select a transformer"),
+				React.DOM.option({value:"CMDI2HTML", disabled:false}, "CMDI2HTML"),
+				React.DOM.option({value:"CMDI2Marc", disabled: false}, "CMDI2Marc"),
+				React.DOM.option({value:"CMDI2DC", disabled:false}, "CMDI2DC"),
+				React.DOM.option({value:"Marc2RDFDC", disabled:false}, "Marc2RDFDC"),
+				React.DOM.option({value:"Marc2EAD", disabled:false}, "Marc2EAD"),
+				React.DOM.option({value:"DC2Marc", disabled:false}, "DC2Marc"),
+				React.DOM.option({value:"NaLiDa2Marc", disabled:false}, "NaLiDa2Marc"))
+
 		);
 	}
 });
 
+
+
 var FileUploadBox = React.createClass({displayName: 'FileUploadBox',
 	propTypes: {
-		onUpload: React.PropTypes.func.isRequired		
+		onUpload: React.PropTypes.func.isRequired
 	},
 	onUpload: function(event) {
 		this.props.onUpload(event);
@@ -55,13 +88,13 @@ var FileUploadBox = React.createClass({displayName: 'FileUploadBox',
 	render: function() {
 		var specialAddon = {marginRight:"10px", border:"none", background:"none"};
 		return (
-			React.DOM.div({className: "fileUploadBox"}, 
-				React.DOM.div({className: "input-group"}, 
-					React.DOM.span({style: specialAddon}, 
-						"Upload your CMDI files:"
-					), 
-					React.DOM.span({className: "btn btn-primary btn-file"}, 
-						"Browse",  
+			React.DOM.div({className: "fileUploadBox"},
+				React.DOM.div({className: "input-group"},
+					React.DOM.span({style: specialAddon},
+						"Upload your metadata instance:"
+					),
+					React.DOM.span({className: "btn btn-primary btn-file"},
+						"Browse",
 						React.DOM.input({type: "file", name: "fileUpload", onChange: this.onUpload})
 					)
 				)
@@ -78,10 +111,10 @@ var StatusBox = React.createClass({displayName: 'StatusBox',
 	render: function() {
 		var style = {marginTop:"10px"};
 		var className="alert alert-" + this.props.status;
-		if (this.props.text.length === 0) 
-			return React.DOM.div(null);		return 	React.DOM.div({className: "statusBox", style: style}, 
-					React.DOM.div({className: className, role: "alert"}, this.props.text)
-				) ;
+		if (this.props.text.length === 0)
+			return React.DOM.div(null);		return 	React.DOM.div({className: "statusBox", style: style},
+			React.DOM.div({className: className, role: "alert"}, this.props.text)
+		) ;
 	}
 });
 
@@ -103,10 +136,10 @@ var DownloadBox = React.createClass({displayName: 'DownloadBox',
 		iterateMap(this.props.files, function (i, k, v) {
 			files.push(React.DOM.li({key: i, className: "list-group-item"}, React.DOM.a({href: v}, k)));
 		});
-		var header = $.isEmptyObject(files) ? (React.DOM.span(null)) : (React.DOM.p(null, "Download Dublin Core: "));
-		return (React.DOM.div(null, " ", header, 
-					React.DOM.ul({className: "downloadBox list-group"}, " ", files, " ")
-				) );
+		var header = $.isEmptyObject(files) ? (React.DOM.span(null)) : (React.DOM.p(null, "Download generated HTML file: "));
+		return (React.DOM.div(null, " ", header,
+			React.DOM.ul({className: "downloadBox list-group"}, " ", files, " ")
+		) );
 	}
 });
 
