@@ -194,6 +194,10 @@
 
 				<script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/>
 				<xsl:call-template name="JSONLD"/>
+				
+				
+				<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
+				
 			</head>
 
 
@@ -285,7 +289,7 @@
 							<a href="#tabs-9">About...</a>
 						</li>
 						<li>
-							<a href="#tabs-10">Cite as</a>
+							<a href="#tabs-10">Cite dataset as</a>
 						</li>
 					</ul>
 
@@ -526,7 +530,7 @@
 						</td>
 						<td>
 							<!-- <xsl:apply-templates select="./*[local-name() = 'Descriptions']"></xsl:apply-templates>-->
-							<xsl:apply-templates select="*:Descriptions"/> 
+							<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 							<!-- <xsl:value-of
 									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
@@ -672,7 +676,7 @@
 							<b>Descriptions: </b>
 						</td>
 						<td>
-							<xsl:apply-templates select="*:Descriptions"/> 
+							<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 							<!-- <xsl:value-of
 									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
@@ -757,7 +761,7 @@
 											<b>Abstract:</b>
 										</td>
 										<td>
-											<xsl:apply-templates select="*:Descriptions"/> 
+											<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 <!--											<xsl:value-of
 													select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"
 											/> -->
@@ -1539,10 +1543,31 @@
 			</td>
 			<td>
 				<xsl:if test="*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text()">
+					<xsl:variable name="FileSizeKb">
+						
+						<!-- <xsl:if test="string-length(*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text() &gt; 0">
+							-->
+							<xsl:if test="number(*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text()) &gt; 0"> 
+								
+								<xsl:choose>
+									<xsl:when test="round(*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text()div 1024) &lt; 1">
+										<xsl:value-of select="*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text()" /> <xsl:text> Bytes</xsl:text></xsl:when>
+									<xsl:when test="round(*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text() div 1048576) &lt; 1">
+										<xsl:value-of select="format-number((*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text() div 1024), '0.0')" /><xsl:text> KB</xsl:text></xsl:when> 
+									<xsl:otherwise><xsl:value-of select="format-number((*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size']/text() div 1048576), '0.00')" /><xsl:text> MB</xsl:text></xsl:otherwise> 
+								</xsl:choose> 
+							</xsl:if> 
+							
+						<!-- </xsl:if> -->
+						
+					</xsl:variable>
+					<xsl:value-of select="$FileSizeKb"/>
+					
+					<!-- 
 					<xsl:for-each select="*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']">
-						<xsl:value-of select="*[local-name() = 'Size']"/>
+						<xsl:value-of select="*[local-name() = 'Size']"/><xsl:text> </xsl:text>
 						<xsl:value-of select="*[local-name() = 'SizeUnit']"/>
-					</xsl:for-each>
+					</xsl:for-each> -->
 				</xsl:if>
 			</td>
 			<td>
@@ -1565,7 +1590,7 @@
 				<th>
 					<h4>
 						<!-- Get the list of creators, last name followed by initial, comma separated -->
-						<xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
+						Dataset by <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
 							<xsl:when test="position() = last()">
 								<xsl:value-of select="*[local-name() = 'lastName']"/>
 								<xsl:text> </xsl:text>
@@ -1594,7 +1619,10 @@
                            </xsl:matching-substring>
                          </xsl:analyze-string> -->
 						<xsl:value-of select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
-
+						<xsl:if test="//*[local-name() = 'LastUpdate'] !=''">
+							<xsl:text> - </xsl:text>
+						<xsl:value-of select="substring-before(//*[local-name() = 'LastUpdate'], '-')"/>
+						</xsl:if>
 						<xsl:text>): </xsl:text>
 						<xsl:choose>
 							<xsl:when test="//*[local-name() = 'ResourceTitle']">
@@ -1692,9 +1720,13 @@
 							<b>Type-specific Size Info(s): </b>
 						</td>
 						<td>
-							<xsl:value-of
+							
+							<xsl:apply-templates select="*[local-name() = 'TypeSpecificSizeInfo']"></xsl:apply-templates>
+							
+							
+							<!-- <xsl:value-of
 									select="./*[local-name() = 'TypeSpecificSizeInfo']/*[local-name() = 'TypeSpecificSize']/*[local-name() = 'Size']"
-							/>
+							/> -->
 						</td>
 					</tr>
 					<tr>
@@ -1702,7 +1734,7 @@
 							<b>Description: </b>
 						</td>
 						<td>
-							<xsl:apply-templates select="*:Descriptions"/> 
+							<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 	<!-- 						<xsl:value-of
 									select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 						</td>
@@ -1756,7 +1788,7 @@
 									<b>Description:</b>
 								</td>
 								<td>
-									<xsl:apply-templates select="*:Descriptions"/> 
+									<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 <!-- 									<xsl:value-of
 											select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
 								</td>
@@ -1797,7 +1829,7 @@
                           <xsl:text>
 			      :
 			    </xsl:text>
-													<xsl:apply-templates select="*:Descriptions"/> 
+													<xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 <!-- 													<xsl:value-of
 															select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"
 													/> -->
@@ -2494,16 +2526,19 @@
 							<xsl:if test='@xml:lang="en"'>
 							<xsl:value-of select="."/>
 							</xsl:if>
-							<xsl:if test='@xml:lang="de" and not(../*:Description[@xml:lang="en"])'>
+							<xsl:if test='@xml:lang="de" and not(../*[local-name() = "Description"][@xml:lang="en"])'>
 								<xsl:value-of select="."/>
 							</xsl:if>
 							<!-- <xsl:value-of select="."/>-->
-							<xsl:if test='not(@xml:lang="de") and not(../*:Description[@xml:lang="en"])'>
+							<xsl:if test='not(@xml:lang="de") and not(../*[local-name() = "Description"][@xml:lang="en"])'>
 								<xml:text>No English or German description available.</xml:text>
 							</xsl:if>
 						</xsl:for-each>
 					</xsl:variable>
-					"description": " <xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/>",
+					<xsl:variable name="description_in_cmdi2">
+						<xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/>
+					</xsl:variable>
+					"description": " <xsl:value-of select="$description_in_cmdi2"/>", 
 					"url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
 					"identifier": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
 					<!-- <xsl:for-each select="//*[local-name() = 'CMD']/*[local-name() = 'Resources']/*[local-name() = 'ResourceProxyList']/*[local-name() = 'ResourceProxy'][contains(*[local-name()='ResourceType'],'LandingPage')]">"<xsl:value-of select="./*[local-name() = 'ResourceRef']"/>" </xsl:for-each>,
@@ -2597,8 +2632,8 @@
 		</xsl:choose>
 	</xsl:template>
 
-<xsl:template match="*:Descriptions">
-	<xsl:for-each select="*:Description">
+	<xsl:template match="*[local-name() = 'Descriptions']">
+		<xsl:for-each select="*[local-name() = 'Description']">
 		<xsl:if test="@xml:lang='en'">
 			<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
 		</xsl:if>
@@ -2610,6 +2645,29 @@
 	</xsl:for-each>
 <!-- 	<xsl:value-of
 		select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
+</xsl:template>
+
+	<xsl:template match="*[local-name() ='TypeSpecificSizeInfo']">
+
+		<dl>
+			<dt>
+				<xsl:variable name="referenceid">
+					<xsl:value-of select="@*[local-name()='ref']"></xsl:value-of>
+				</xsl:variable>
+			
+		<!-- <xsl:value-of select="../../../*:ResourceProxyListInfo/*:ResourceProxyInfo"/> -->
+				
+				<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref']=$referenceid]/*[local-name() = 'ResProxItemName']"/>
+			
+			<!--	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@ref=$referenceid]/*[local-name() = 'ResProxItemName']"></xsl:value-of>
+			-->
+			</dt>
+		<dd>
+			<xsl:for-each select="./*[local-name() = 'TypeSpecificSize']">
+		<li><xsl:value-of select="*[local-name() = 'Size']"/> <xsl:text> </xsl:text><xsl:value-of select="*[local-name() = 'SizeUnit']"/> </li>
+	</xsl:for-each>
+	</dd>
+</dl>	
 </xsl:template>
 
 </xsl:stylesheet>
