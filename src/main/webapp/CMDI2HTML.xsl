@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
+<xsl:stylesheet version="1.0"
 				xmlns:xlink="http://www.w3.org/1999/xlink"
 				xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 				xmlns:xs="http://www.w3.org/2001/XMLSchema"
@@ -10,7 +10,8 @@
 				xmlns:functx="http://www.functx.com"
 				xmlns:foo="foo.com"
 				xmlns:fn="http://www.w3.org/2005/xpath-functions"
-				exclude-result-prefixes="xs xd functx">
+				exclude-result-prefixes="xs xd functx" 
+	>
 
 	<xd:doc scope="stylesheet">
 		<xd:desc>
@@ -2536,7 +2537,14 @@
 						</xsl:for-each>
 					</xsl:variable>
 					<xsl:variable name="description_in_cmdi2">
-						<xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/>
+						<!-- <xsl:value-of select="replace($description_in_cmdi[1], '&quot;', '\\&quot;')"/> -->
+						<xsl:call-template name="replace-string">
+							<xsl:with-param name="text" select="$description_in_cmdi"/>
+							<xsl:with-param name="replace" select="'&quot;'" />
+							<xsl:with-param name="with" select="'\\&quot;'"/>
+						</xsl:call-template>
+						
+						
 					</xsl:variable>
 					"description": " <xsl:value-of select="$description_in_cmdi2"/>", 
 					"url": "<xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>",
@@ -2669,5 +2677,26 @@
 	</dd>
 </dl>	
 </xsl:template>
+
+	<xsl:template name="replace-string">
+		<xsl:param name="text"/>
+		<xsl:param name="replace"/>
+		<xsl:param name="with"/>
+		<xsl:choose>
+			<xsl:when test="contains($text,$replace)">
+				<xsl:value-of select="substring-before($text,$replace)"/>
+				<xsl:value-of select="$with"/>
+				<xsl:call-template name="replace-string">
+					<xsl:with-param name="text"
+						select="substring-after($text,$replace)"/>
+					<xsl:with-param name="replace" select="$replace"/>
+					<xsl:with-param name="with" select="$with"/>
+				</xsl:call-template>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$text"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
 
 </xsl:stylesheet>
