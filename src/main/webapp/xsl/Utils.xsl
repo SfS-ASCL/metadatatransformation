@@ -8,6 +8,46 @@
 
   <xsl:output method="html" indent="yes"/>
 
+  <!-- This is called from many different templates: -->
+  <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
+    <xsl:for-each select="*[local-name() = 'Description']">
+      <xsl:if test="@xml:lang='en'">
+	<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
+      </xsl:if>
+      <xsl:if test="@xml:lang='de'">
+	<p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
+      </xsl:if>	
+      
+      
+    </xsl:for-each>
+    <!-- 	<xsl:value-of
+	 select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
+  </xsl:template>
+
+  <!-- This is called from the resource-specific templates: -->
+  <xsl:template name="TypeSpecificSizeInfoAsDefList"
+                match="*[local-name() ='TypeSpecificSizeInfo']">
+    <dl>
+      <dt>
+	<xsl:variable name="referenceid">
+	  <xsl:value-of select="@*[local-name()='ref']"></xsl:value-of>
+	</xsl:variable>
+	
+	<!-- <xsl:value-of select="../../../*:ResourceProxyListInfo/*:ResourceProxyInfo"/> -->
+	
+	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref']=$referenceid]/*[local-name() = 'ResProxItemName']"/>
+	
+	<!--	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@ref=$referenceid]/*[local-name() = 'ResProxItemName']"></xsl:value-of>
+	-->
+      </dt>
+      <dd>
+	<xsl:for-each select="./*[local-name() = 'TypeSpecificSize']">
+	  <li><xsl:value-of select="*[local-name() = 'Size']"/> <xsl:text> </xsl:text><xsl:value-of select="*[local-name() = 'SizeUnit']"/> </li>
+	</xsl:for-each>
+      </dd>
+    </dl>	
+  </xsl:template>
+
   <xsl:template name="replace-string">
     <xsl:param name="text"/>
     <xsl:param name="replace"/>
