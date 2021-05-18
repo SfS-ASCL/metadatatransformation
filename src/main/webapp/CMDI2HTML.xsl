@@ -37,6 +37,7 @@
   <xsl:include href="xsl/ExperimentContext.xsl"/>
   <xsl:include href="xsl/ToolContext.xsl"/>
   <xsl:include href="xsl/SpeechCorpusContext.xsl"/>
+  <xsl:include href="xsl/TextCorpusContext.xsl"/>
 
   <xsl:output method="html" indent="yes"/>
 
@@ -473,71 +474,11 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
     <div id="tabs-7">
-      <p>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <h3>Text Corpus</h3>
-              </th>
-              <th/>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              <b>Corpus Type: </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'CorpusType']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Temporal Classification: </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'TemporalClassification']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Description(s): </b>
-            </td>
-            <td>
-              <xsl:value-of select=".//*[local-name() = 'Description']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Validation: </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'ValidationGrp']//*[local-name() = 'Description']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Subject Language(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'SubjectLanguages']//*[local-name() = 'LanguageName']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Type-specific Size Info: </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'TypeSpecificSizeInfo']//*[local-name() = 'Size']"/>
-            </td>
-          </tr>
-        </table>
-      </p>
+      <h3>Text Corpus</h3>
+      <xsl:call-template name="TextCorpusContextAsTable" /> 
     </div>
   </xsl:template>
+
   <xsl:template match="*[local-name() = 'CourseProfileSpecific']">
     <div id="tabs-7">
       <p>
