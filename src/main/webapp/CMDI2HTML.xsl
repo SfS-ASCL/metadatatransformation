@@ -33,6 +33,7 @@
   <xsl:include href="xsl/ResourceProxyList.xsl"/>
   <xsl:include href="xsl/ResourceProxyListInfo.xsl"/>
 
+  <xsl:include href="xsl/LexicalResourceContext.xsl"/>
   <xsl:output method="html" indent="yes"/>
 
   <!-- <xsl:strip-space elements="cmd:Description"/> -->
@@ -440,81 +441,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
   <xsl:template match="*[local-name() = 'LexicalResourceContext']">
     <div id="tabs-7">
-      <p>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <h3>Lexical Resource</h3>
-              </th>
-              <th/>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              <b>Lexicon Type: </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'LexiconType']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Subject Language(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'SubjectLanguages']/*[local-name() = 'SubjectLanguage']/*[local-name() = 'Language']/*[local-name() = 'LanguageName']"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Auxiliary Language(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'AuxiliaryLanguages']/*[local-name() = 'Language']/*[local-name() = 'LanguageName']"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Headword Type: </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'HeadwordType']/*[local-name() = 'LexicalUnit']"/>
-              <xsl:if
-                test="./*[local-name() = 'HeadwordType']/*[local-name() = 'Descriptions']/*[local-name() = 'Description'] != ''"
-                > (<xsl:value-of
-                  select="./*[local-name() = 'HeadwordType']/*[local-name() = 'Descriptions']/*[local-name() = 'Description']"
-                />) </xsl:if>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Type-specific Size Info(s): </b>
-            </td>
-            <td>
-              <xsl:apply-templates select="*[local-name() = 'TypeSpecificSizeInfo']"></xsl:apply-templates>
-              <!-- <xsl:value-of
-                   select="./*[local-name() =
-                   'TypeSpecificSizeInfo']/*[local-name() = 'TypeSpecificSize']/*[local-name() = 'Size']" /> -->
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Description: </b>
-            </td>
-            <td>
-              <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
-              <!-- <xsl:value-of
-                   select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
-            </td>
-          </tr>
-        </table>
-      </p>
+      <h3>Lexical Resource</h3>
+      <xsl:call-template name="LexicalResourceContextAsTable" /> 
     </div>
   </xsl:template>
 
