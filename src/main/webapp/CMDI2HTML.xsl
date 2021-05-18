@@ -487,39 +487,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </div>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'IsPartOfList']">
   
-    <!-- <xsl:if test=".//text()">
-    <tr>
-      
-      <td>
-        <b>Part of Collection:</b>
-        
-      </td>
-      <td>
-        
-   
-    <xsl:for-each select="./*[local-name() = 'IsPartOf']">
-      <ul>
-       
-          <li>
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="."/>
-              </xsl:attribute>
-              <xsl:value-of select="."/>
-            </xsl:element>
-          </li>
-        
-      </ul>
-    </xsl:for-each>
-      </td>
-    </tr>
-    </xsl:if> -->
-    
-    
-    
-  </xsl:template>
   
   <xsl:template name="JSONLD">
 
@@ -670,7 +638,6 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   </xsl:template>
 
   <xsl:template match="*[local-name() ='TypeSpecificSizeInfo']">
-
     <dl>
       <dt>
 	<xsl:variable name="referenceid">
