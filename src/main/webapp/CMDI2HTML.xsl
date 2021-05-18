@@ -35,6 +35,7 @@
 
   <xsl:include href="xsl/LexicalResourceContext.xsl"/>
   <xsl:include href="xsl/ExperimentContext.xsl"/>
+  <xsl:include href="xsl/ToolContext.xsl"/>
 
   <xsl:output method="html" indent="yes"/>
 
@@ -457,101 +458,10 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
   <xsl:template match="*[local-name() = 'ToolContext']">
     <div id="tabs-7">
-      <p>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <h3>Tool(s)</h3>
-              </th>
-              <th/>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              <b>Tool Classification: </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'ToolClassification']/*[local-name() = 'ToolType']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Distribution: </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'Distribution']/*[local-name() = 'DistributionType']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Size: </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'TotalSize']/*[local-name() = 'Size']"/>
-              <xsl:value-of select="./*[local-name() = 'TotalSize']/*[local-name() = 'SizeUnit']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Input(s): </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'Inputs']//*[local-name() = 'Description']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Output(s): </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'Outputs']//*[local-name() = 'Description']"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Implementatation(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'Implementations']//*[local-name() = 'ImplementationLanguage']"
-              />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Install Environment(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'InstallEnv']//*[local-name() = 'OperatingSystem']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Prerequisite(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'Prerequisites']//*[local-name() = 'PrerequisiteName']"/>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Tech Environment(s): </b>
-            </td>
-            <td>
-              <xsl:value-of
-                select="./*[local-name() = 'TechEnv']//*[local-name() = 'ApplicationType']"/>
-            </td>
-          </tr>
-        </table>
-      </p>
+      <h3>Tool(s)</h3>
+      <xsl:call-template name="ToolContextAsTable" /> 
     </div>
-  </xsl:template>
+  </xsl:template> 
 
   <xsl:template match="*[local-name() = 'SpeechCorpusContext']">
     <div id="tabs-7">
