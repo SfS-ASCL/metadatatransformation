@@ -38,6 +38,7 @@
   <xsl:include href="xsl/ToolContext.xsl"/>
   <xsl:include href="xsl/SpeechCorpusContext.xsl"/>
   <xsl:include href="xsl/TextCorpusContext.xsl"/>
+  <xsl:include href="xsl/CourseProfileSpecific.xsl"/>
 
   <xsl:output method="html" indent="yes"/>
 
@@ -481,48 +482,10 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
   <xsl:template match="*[local-name() = 'CourseProfileSpecific']">
     <div id="tabs-7">
-      <p>
-        <table>
-          <thead>
-            <tr>
-              <th>
-                <h3>Course information</h3>
-              </th>
-              <th/>
-            </tr>
-          </thead>
-          <tr>
-            <td>
-              <b>Course Targeted at: </b>
-            </td>
-            <td>
-              <ul>
-                <xsl:apply-templates select="*[local-name() = 'CourseTargetedAt']"/>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>First held: </b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'FirstHeldAt']"/>
-              <xsl:value-of select="./*[local-name() = 'FirstHeldOn']"/>
-            </td>
-          </tr>
-        </table>
-      </p>
+      <h3>Course Information</h3>
+      <xsl:call-template name="CourseProfileSpecificAsTable" /> 
     </div>
-
   </xsl:template>
-  <xsl:template match="*[local-name() = 'CourseTargetedAt']">
-    <li>
-      <xsl:value-of select="."/>
-    </li>
-
-  </xsl:template>
- 
-
 
   <xsl:template match="*[local-name() = 'IsPartOfList']">
   
