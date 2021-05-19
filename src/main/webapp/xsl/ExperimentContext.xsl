@@ -304,7 +304,6 @@
 
     <details>
       <summary>Results</summary>
-      <!-- TODO: this selection doesn't appear to work right -->
       <xsl:apply-templates select="./*[local-name() = 'Results']/*[local-name() = 'Descriptions']"/>
     </details>
 
@@ -331,7 +330,7 @@
     </dl>
   </xsl:template>
 
-  <xsl:template name="MethodAsDefList" match="./*[local-name() = 'Method']">
+  <xsl:template name="MethodAsDefList" match="*[local-name() = 'Method']">
     <dl>
       <dt>
         Experiment type:
