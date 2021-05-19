@@ -13,15 +13,13 @@
     <xsl:for-each select="*[local-name() = 'Description']">
       <xsl:choose>
         <xsl:when test="@xml:lang='en'">
-	  <p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
+	  <p lang="en"><xsl:value-of select="."/></p>
         </xsl:when>
         <xsl:when test="@xml:lang='de'">
-	  <p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
+	  <p lang="de"><xsl:value-of select="."/> </p>
         </xsl:when>	
         <xsl:otherwise>
-          <p>
-            <xsl:value-of select="."/>
-          </p>
+          <p><xsl:value-of select="."/></p>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:for-each>
