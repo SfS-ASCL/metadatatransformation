@@ -11,17 +11,20 @@
   <!-- This is called from many different templates: -->
   <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
     <xsl:for-each select="*[local-name() = 'Description']">
-      <xsl:if test="@xml:lang='en'">
-	<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
-      </xsl:if>
-      <xsl:if test="@xml:lang='de'">
-	<p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
-      </xsl:if>	
-      
-      
+      <xsl:choose>
+        <xsl:when test="@xml:lang='en'">
+	  <p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
+        </xsl:when>
+        <xsl:when test="@xml:lang='de'">
+	  <p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
+        </xsl:when>	
+        <xsl:otherwise>
+          <p>
+            <xsl:value-of select="."/>
+          </p>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:for-each>
-    <!-- 	<xsl:value-of
-	 select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
   </xsl:template>
 
   <!-- This is called from the resource-specific templates: -->
