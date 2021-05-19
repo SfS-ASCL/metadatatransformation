@@ -414,6 +414,8 @@
                     select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit']"
                     />
               </xsl:if>
+              <xsl:apply-templates
+                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Descriptions']" />
             </td>
           </tr>
           <tr>
