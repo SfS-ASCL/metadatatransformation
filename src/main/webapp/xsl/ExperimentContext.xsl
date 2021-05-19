@@ -297,6 +297,7 @@
   <!-- New approach starts here: -->
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']">
     <xsl:call-template name="ExperimentInfoAsDefList"/>
+    <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
     <details>
       <summary>Methods</summary>
       <xsl:call-template name="MethodAsDefList"/>
