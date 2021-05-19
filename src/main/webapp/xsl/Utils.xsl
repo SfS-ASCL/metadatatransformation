@@ -11,17 +11,14 @@
   <!-- This is called from many different templates: -->
   <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
     <xsl:for-each select="*[local-name() = 'Description']">
-      <xsl:choose>
-        <xsl:when test="@xml:lang='en'">
-	  <p lang="en"><xsl:value-of select="."/></p>
-        </xsl:when>
-        <xsl:when test="@xml:lang='de'">
-	  <p lang="de"><xsl:value-of select="."/> </p>
-        </xsl:when>	
-        <xsl:otherwise>
-          <p><xsl:value-of select="."/></p>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:element name="p">
+        <xsl:if test="@xml:lang != ''" >
+          <xsl:attribute name="lang">
+            <xsl:value-of select="@xml:lang" />
+          </xsl:attribute>
+        </xsl:if>
+        <xsl:value-of select="."/>
+      </xsl:element>
     </xsl:for-each>
   </xsl:template>
 
