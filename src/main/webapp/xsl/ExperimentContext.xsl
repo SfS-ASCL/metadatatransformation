@@ -298,6 +298,11 @@
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']">
     <xsl:call-template name="ExperimentInfoAsDefList"/>
     <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
+    <!-- TODO: move this to main.css once finished -->
+    <style>                     
+      dt { font-weight: bold; }
+      dd { padding-left: 1em; }
+    </style>
     <details>
       <summary>Methods</summary>
       <xsl:call-template name="MethodAsDefList"/>
