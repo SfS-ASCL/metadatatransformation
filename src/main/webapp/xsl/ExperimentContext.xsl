@@ -492,4 +492,45 @@
     </ul>
   </xsl:template>
 
+  <xsl:template name="SexDistributionAsTable" match="*[local-name() = 'SexDistribution']">
+    <table>
+      <tbody>
+        <xsl:for-each select="./*[local-name() = 'SexDistributionInfo']">
+          <tr>
+            <td><xsl:value-of select="./*[local-name() = 'ParticipantSex']"/></td>
+            <td><xsl:value-of select="./*[local-name() = 'Size']"/></td>
+          </tr>
+        </xsl:for-each>
+      </tbody>
+    </table>
+  </xsl:template>
+  
+  <xsl:template name="AgeDistributionAsTable" match="*[local-name() = 'AgeDistribution']">
+    <table>
+      <tbody>
+        <xsl:if test="./*[local-name() = 'ParticipantMeanAge']">
+          <tr>
+            <td>Mean age</td>
+            <td>
+              <xsl:value-of select="./*[local-name() = 'ParticipantMeanAge']"/>
+              <xsl:if test="./*[local-name() = 'ParticipantMeanAgeSTD']">
+                (std = <xsl:value-of select="./*[local-name() = 'ParticipantMeanAgeSTD']"/>)
+              </xsl:if>
+            </td>
+          </tr>
+        </xsl:if>
+        <xsl:if test="./*[local-name() = 'ParticipantAgeRange']">
+          <tr>
+            <td>Youngest</td>
+            <td><xsl:value-of select="./*[local-name() = 'ParticipantAgeRange']/*[local-name() = 'Youngest']"/></td>
+          </tr>
+          <tr>
+            <td>Oldest</td>
+            <td><xsl:value-of select="./*[local-name() = 'ParticipantAgeRange']/*[local-name() = 'Oldest']"/></td>
+          </tr>
+        </xsl:if>
+      </tbody>
+    </table>
+  </xsl:template>
+  
 </xsl:stylesheet>
