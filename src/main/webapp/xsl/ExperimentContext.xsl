@@ -316,7 +316,7 @@
 
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']">
     <div class="experiment">
-      <xsl:call-template name="ExperimentInfoAsDefList"/>
+      <xsl:call-template name="ExperimentInfoAsHeading"/>
       <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
       <details>
@@ -354,6 +354,28 @@
     </dl>
   </xsl:template>
 
+  <xsl:template name="ExperimentInfoAsHeading">
+    <xsl:choose>
+      <xsl:when test="./*[local-name() = 'ExperimentTitle']/text()">
+        <h4>
+          Experiment: <xsl:value-of select="./*[local-name() = 'ExperimentTitle']"/>
+          <xsl:if test="./*[local-name() = 'ExperimentName']">
+            (<xsl:value-of select="./*[local-name() = 'ExperimentName']"/>)
+          </xsl:if>
+        </h4>
+      </xsl:when>
+      <xsl:when test="./*[local-name() = 'ExperimentName']/text()">
+        <h4>
+          Experiment: <xsl:value-of select="./*[local-name() = 'ExperimentName']"/>
+        </h4>
+      </xsl:when>
+      <xsl:otherwise>
+        <h4>Experiment <xsl:value-of select="position()"/></h4>
+      </xsl:otherwise>
+      
+    </xsl:choose>
+  </xsl:template>
+  
   <xsl:template name="MethodAsDefList" match="*[local-name() = 'Method']">
     <dl>
       <dt>
