@@ -402,84 +402,73 @@
         Participant(s)
       </dt>
       <dd>
-        <table border="3" cellpadding="10" cellspacing="10">
-          <tr>
-            <td>
-              Anonymization flag:
-            </td>
-            <td>
+        <dl>
+          
+          <dt>
+            Anonymization flag:
+          </dt>
+          <dd>
+            <xsl:value-of
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'AnonymizationFlag']"
+                />
+          </dd>
+          
+          
+          <dt>
+            Sampling method:
+          </dt>
+          <dd>
+            <xsl:value-of
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SamplingMethod']"
+                />
+          </dd>
+          
+          
+          <dt>
+            Sampling size:
+          </dt>
+          <dd>
+            <xsl:value-of
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Size']"/>
+            <xsl:if
+                test="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit'] != ''">
+              <xsl:text> </xsl:text>
               <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'AnonymizationFlag']"
+                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit']"
                   />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Sampling method:
-            </td>
-            <td>
-              <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SamplingMethod']"
-                  />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Sampling size:
-            </td>
-            <td>
-              <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Size']"/>
-              <xsl:if
-                  test="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit'] != ''">
-                <xsl:text> </xsl:text>
-                <xsl:value-of
-                    select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit']"
-                    />
-              </xsl:if>
-              <xsl:apply-templates
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Descriptions']" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Sex distribution:
-            </td>
-            <td>
-              <ul>
-                <xsl:for-each
-                    select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SexDistribution']/*[local-name() = 'SexDistributionInfo']">
-                  <li>
-                    <xsl:value-of select="./*[local-name() = 'ParticipantSex']"
-                                  />:<xsl:value-of select="./*[local-name() = 'Size']"/>
-                  </li>
-                </xsl:for-each>
-              </ul>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Age distribution:
-            </td>
-            <td>
-              <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'ParticipantMeanAge']"
-                  />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Language variety:
-            </td>
-            <td>
-              <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'VarietyName']"
-                  />:<xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'NoParticipants']"
-                  />
-            </td>
-          </tr>
-        </table>
+            </xsl:if>
+            <xsl:apply-templates
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Descriptions']" />
+          </dd>
+          
+          
+          <dt>
+            Sex distribution:
+          </dt>
+          <dd>
+            <xsl:apply-templates select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SexDistribution']"/>
+          </dd>
+          
+          
+          <dt>
+            Age distribution:
+          </dt>
+          <dd>
+            <xsl:apply-templates select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'AgeDistribution']"/>
+          </dd>
+          
+          <dt>
+            Language variety:
+          </dt>
+          <dd>
+            <xsl:value-of
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'VarietyName']"
+                />:<xsl:value-of
+                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'NoParticipants']"
+                />
+          </dd>
+          
+        </dl>
       </dd>
     </dl>
   </xsl:template>
