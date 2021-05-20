@@ -295,28 +295,46 @@
 
 
   <!-- New approach starts here: -->
+  <xsl:template name="ExperimentContextAsSection" match="*[local-name() = 'ExperimentContext']">
+    <section>
+      <!-- TODO: move this to main.css once finished -->
+      <style> 
+        div.experiment { border-top: 1px solid grey; }
+        dt { font-weight: bold; }
+        dd { padding-left: 1em; }
+      </style>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+      <xsl:apply-templates select="./*[local-name() = 'ExperimentalStudy']"/>
+    </section>
+    
+  </xsl:template>
+
+  <xsl:template name="ExperimentalStudySection" match="*[local-name() = 'ExperimentalStudy']">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+    <xsl:apply-templates select="./*[local-name() = 'Experiment']"/>
+  </xsl:template>
+
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']">
-    <xsl:call-template name="ExperimentInfoAsDefList"/>
-    <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
-    <!-- TODO: move this to main.css once finished -->
-    <style>                     
-      dt { font-weight: bold; }
-      dd { padding-left: 1em; }
-    </style>
-    <details>
-      <summary>Methods</summary>
-      <xsl:call-template name="MethodAsDefList"/>
-    </details>
+    <div class="experiment">
+      <xsl:call-template name="ExperimentInfoAsDefList"/>
+      <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
-    <details>
-      <summary>Results</summary>
-      <xsl:apply-templates select="./*[local-name() = 'Results']/*[local-name() = 'Descriptions']"/>
-    </details>
+      <details>
+        <summary>Methods</summary>
+        <xsl:call-template name="MethodAsDefList"/>
+      </details>
 
-    <details>
-      <summary>Materials</summary>
-      <xsl:call-template name="MaterialsAsList"/>
-    </details>
+      <details>
+        <summary>Results</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Results']/*[local-name() = 'Descriptions']"/>
+      </details>
+
+      <details>
+        <summary>Materials</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Materials']/*[local-name() = 'Descriptions']"/> 
+        <xsl:call-template name="MaterialsAsList"/>
+      </details>
+    </div>
   </xsl:template>
  
   <xsl:template name="ExperimentInfoAsDefList">
