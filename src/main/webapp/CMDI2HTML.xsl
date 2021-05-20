@@ -445,7 +445,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   <xsl:template match="*[local-name() = 'ExperimentContext']">
     <section id="tabs-7">
       <h2>Experiment(s)</h2>
-      <xsl:apply-templates select=".//*[local-name() = 'Experiment']"/> 
+      <xsl:call-template name="ExperimentContextAsSection"/> 
     </section>
   </xsl:template>
 
