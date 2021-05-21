@@ -319,24 +319,11 @@
       <xsl:call-template name="ExperimentInfoAsHeading"/>
       <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
-      <details>
-        <summary>Methods</summary>
-        <xsl:call-template name="MethodAsDefList"/>
-      </details>
-
-      <details>
-        <summary>Results</summary>
-        <xsl:apply-templates select="./*[local-name() = 'Results']/*[local-name() = 'Descriptions']"/>
-      </details>
-
-      <details>
-        <summary>Materials</summary>
-        <xsl:apply-templates select="./*[local-name() = 'Materials']/*[local-name() = 'Descriptions']"/> 
-        <xsl:call-template name="MaterialsAsList"/>
-      </details>
+      <xsl:call-template name="MethodDetails"/>
+      <xsl:call-template name="ResultDetails"/>     
     </div>
   </xsl:template>
- 
+  
   <xsl:template name="ExperimentInfoAsDefList">
     <dl>
       <dt>Name</dt>
@@ -372,39 +359,50 @@
       <xsl:otherwise>
         <h4>Experiment <xsl:value-of select="position()"/></h4>
       </xsl:otherwise>
-      
     </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="ResultDetails">
+    <details>
+      <summary>Results</summary>
+      <xsl:apply-templates select="./*[local-name() = 'Results']/*[local-name() = 'Descriptions']"/>
+    </details>
+  </xsl:template>
+ 
+  <xsl:template name="MethodDetails">
+      <details>
+        <summary>Methods</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Method']"/>
+        <xsl:apply-templates select="./*[local-name() = 'Method']/*[local-name() = 'Participants']"/>
+        <xsl:apply-templates select="./*[local-name() = 'Materials']"/> 
+      </details>
   </xsl:template>
   
   <xsl:template name="MethodAsDefList" match="*[local-name() = 'Method']">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
     <dl>
-      <dt>
-        Experiment type:
-      </dt>
+      <dt>Experiment type</dt>
       <dd>
         <xsl:value-of
-            select="./*[local-name() = 'Method']/*[local-name() = 'Elicitation']//*[local-name() = 'ExperimentType']"
+            select="./*[local-name() = 'Elicitation']//*[local-name() = 'ExperimentType']"
             />
       </dd>
-      <dt>
-        Elicitation instrument:
-      </dt>
+
+      <dt>Elicitation instrument</dt>
       <dd>
         <xsl:value-of
-            select="./*[local-name() = 'Method']/*[local-name() = 'Elicitation']//*[local-name() = 'ElicitationInstrument']"
+            select="./*[local-name() = 'Elicitation']//*[local-name() = 'ElicitationInstrument']"
             />
       </dd>
-      <dt>
-        Elicitation software:
-      </dt>
+
+      <dt>Elicitation software</dt>
       <dd>
         <xsl:value-of
-            select="./*[local-name() = 'Method']/*[local-name() = 'Elicitation']//*[local-name() = 'ElicitationSoftware']"
+            select="./*[local-name() = 'Elicitation']//*[local-name() = 'ElicitationSoftware']"
             />
       </dd>
-      <dt>
-        Variable(s)
-      </dt>
+
+      <dt>Variable(s)</dt>
       <dd>
         <ul>
           <xsl:for-each
@@ -420,98 +418,68 @@
           </xsl:for-each>
         </ul>
       </dd>
-      <dt>
-        Participant(s)
-      </dt>
+
+      <dt>Subject Languages</dt>
       <dd>
-        <dl>
-          
-          <dt>
-            Anonymization flag:
-          </dt>
-          <dd>
-            <xsl:value-of
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'AnonymizationFlag']"
-                />
-          </dd>
-          
-          
-          <dt>
-            Sampling method:
-          </dt>
-          <dd>
-            <xsl:value-of
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SamplingMethod']"
-                />
-          </dd>
-          
-          
-          <dt>
-            Sampling size:
-          </dt>
-          <dd>
-            <xsl:value-of
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Size']"/>
-            <xsl:if
-                test="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit'] != ''">
-              <xsl:text> </xsl:text>
-              <xsl:value-of
-                  select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit']"
-                  />
-            </xsl:if>
-            <xsl:apply-templates
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SampleSize']/*[local-name() = 'Descriptions']" />
-          </dd>
-          
-          
-          <dt>
-            Sex distribution:
-          </dt>
-          <dd>
-            <xsl:apply-templates select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'SexDistribution']"/>
-          </dd>
-          
-          
-          <dt>
-            Age distribution:
-          </dt>
-          <dd>
-            <xsl:apply-templates select="./*[local-name() = 'Method']/*[local-name() = 'Participants']/*[local-name() = 'AgeDistribution']"/>
-          </dd>
-          
-          <dt>
-            Language variety:
-          </dt>
-          <dd>
-            <xsl:value-of
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'VarietyName']"
-                />:<xsl:value-of
-                select="./*[local-name() = 'Method']/*[local-name() = 'Participants']//*[local-name() = 'NoParticipants']"
-                />
-          </dd>
-          
-        </dl>
+        <!-- TODO: is this the right place for this? -->
+        <xsl:apply-templates select="../*[local-name() = 'SubjectLanguages']"/> 
       </dd>
+
     </dl>
   </xsl:template>
 
-  <xsl:template name="MaterialsAsList">
-    <ul>
-      <xsl:for-each
-          select="./*[local-name() = 'Materials']/*[local-name() = 'Material']">
-        <li>
-          <xsl:value-of select="./*[local-name() = 'Domain']"/>
-          <xsl:if
-              test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']">
-            <xsl:text>
-	      : 
-	    </xsl:text>
-            <!-- TODO: this selection doesn't appear to work right -->
-            <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
+  <xsl:template name="ParticipantsAsDetails" match="*[local-name() = 'Participants']">
+    <details>
+      <summary>Participant data</summary>
+      <dl>   
+
+        <dt>Anonymization flag</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnonymizationFlag']" />
+        </dd>
+
+        <dt>Sampling method</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'SamplingMethod']" />
+        </dd>
+        
+        <dt>Sample size</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'SampleSize']/*[local-name() = 'Size']"/>
+          <xsl:if test="./*[local-name() = 'SampleSize']/*[local-name() = 'SizeUnit'] != ''">
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="./*[local-name() = 'SizeUnit']" />
           </xsl:if>
-        </li>
-      </xsl:for-each>
-    </ul>
+          <xsl:apply-templates select="./*[local-name() = 'SampleSize']/*[local-name() = 'Descriptions']" />
+        </dd>
+        
+        
+        <dt>Sex distribution</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'SexDistribution']"/>
+        </dd>
+        
+        <dt>Age distribution</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'AgeDistribution']"/>
+        </dd>
+        
+        <dt>Language variety</dt>
+        <dd>
+          <xsl:value-of
+              select=".//*[local-name() = 'VarietyName']"
+              />:<xsl:value-of
+              select=".//*[local-name() = 'NoParticipants']"
+              />
+        </dd>
+
+        <dt>Recruitment</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'ParticipantRecruitment']/*[local-name() = 'Descriptions']"/> 
+        </dd>
+
+      </dl>
+    </details>
   </xsl:template>
 
   <xsl:template name="SexDistributionAsTable" match="*[local-name() = 'SexDistribution']">
@@ -555,4 +523,33 @@
     </table>
   </xsl:template>
   
+  <xsl:template name="MaterialsAsDetails" match="*[local-name() = 'Materials']">
+    <details>
+      <summary>Materials</summary>
+      <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
+      <ul>
+        <xsl:for-each select="./*[local-name() = 'Material']">
+          <li>
+            <xsl:value-of select="./*[local-name() = 'Domain']"/>
+            <xsl:if
+                test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']">
+              <xsl:text>
+	        : 
+	      </xsl:text>
+              
+              <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
+            </xsl:if>
+          </li>
+        </xsl:for-each>
+      </ul>
+    </details>
+  </xsl:template>
+
+  <xsl:template name="SubjectLanguagesAsList" match="*[local-name() = 'SubjectLanguages']">
+    <ul>
+        <xsl:for-each select=".//*[local-name() = 'LanguageName']">
+          <li><xsl:value-of select="."/></li>
+        </xsl:for-each>
+    </ul>
+  </xsl:template>
 </xsl:stylesheet>
