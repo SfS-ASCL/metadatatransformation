@@ -90,7 +90,8 @@
         <th>
           <h4>
             <!-- Get the list of creators, last name followed by initial, comma separated -->
-            Dataset by <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/."> <xsl:choose>
+            <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
+              <xsl:choose>
                 <xsl:when test="position() = last()">
                   <xsl:value-of select="*[local-name() = 'lastName']"/>
                   <xsl:text> </xsl:text>
@@ -109,7 +110,8 @@
                   <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
                   <xsl:text>., </xsl:text>
                 </xsl:otherwise>
-              </xsl:choose> </xsl:for-each>
+              </xsl:choose>
+            </xsl:for-each>
             <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
               <xsl:text> (</xsl:text>
            <!--
@@ -136,11 +138,14 @@
                     <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
                   </xsl:otherwise>
                 </xsl:choose>
-              </xsl:when> <xsl:otherwise>
+                <xsl:text>. </xsl:text>
+              </xsl:when>
+              <xsl:otherwise>
                 <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
               </xsl:otherwise>
             </xsl:choose>
-            <br/><br/> Persistent identifier: <xsl:element name="a">
+            Dataset in Tübingen Archive of Language Resources. 
+            <br/>Persistent identifier: <xsl:element name="a">
               <xsl:attribute name="href">
                 <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
               </xsl:attribute>
