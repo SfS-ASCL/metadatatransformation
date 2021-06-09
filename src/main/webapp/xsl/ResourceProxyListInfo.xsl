@@ -102,20 +102,23 @@
   </xsl:template>
 
   <xsl:template name="InDatasetCitation">
-    <!-- Provides an example of citing an individual item in the
-         collection, using the first ResourceRef element in the document
+    <!-- Provides an example citation of an individual item in the
+         collection, using the second ResourceRef element in the document.
+         (We use the second because the first might be the landing page and have the same 
+         PID as the data set itself.
     -->
     <cite>
       <xsl:call-template name="CreatorsAsCommaSeparatedText" />
       <xsl:call-template name="CreationDatesAsText" />
-      <xsl:value-of select="substring-after(//*[local-name() = 'ResourceRef'][1], '@')" />
+      <xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" />
+      <xsl:text>. </xsl:text>
       In: <xsl:call-template name="TitleAsEm" />
       Data set in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
         <xsl:attribute name="href">
-          <xsl:value-of select="//*[local-name() = 'ResourceRef'][1]"/>
+          <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
         </xsl:attribute>
-        <xsl:value-of select="//*[local-name() = 'ResourceRef'][1]"/>
+        <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
       </xsl:element>
     </cite>
   </xsl:template>
