@@ -86,62 +86,11 @@
   </xsl:template>
 
   <xsl:template name="DatasetCitation">
+    <!-- Provides a citation for the whole dataset -->
     <cite>
-      <!-- Get the list of creators, last name followed by initial, comma separated -->
-      <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
-        <xsl:choose>
-          <xsl:when test="position() = last()">
-            <xsl:value-of select="*[local-name() = 'lastName']"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-            <xsl:text>.</xsl:text>
-          </xsl:when>
-          <xsl:when test="position() = last() - 1">
-            <xsl:value-of select="*[local-name() = 'lastName']"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-            <xsl:text>. &amp; </xsl:text>
-          </xsl:when>
-          <xsl:otherwise>
-            <xsl:value-of select="*[local-name() = 'lastName']"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-            <xsl:text>., </xsl:text>
-          </xsl:otherwise>
-        </xsl:choose>
-      </xsl:for-each>
-      <!-- This line accesses the value in the PublicationDate element, and assumes the last 4 characters in this element refer to the year -->
-      <xsl:text> (</xsl:text>
-      <!--
-          <xsl:analyze-string select="//*[local-name() = 'PublicationDate']" regex="([1-2][0-9][0-9][0-9])">
-          <xsl:matching-substring>
-          <xsl:value-of select="regex-group(1)"/>
-          </xsl:matching-substring>
-          </xsl:analyze-string> -->
-      <xsl:value-of select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
-      <xsl:if test="//*[local-name() = 'LastUpdate'] !=''">
-	<xsl:text> - </xsl:text>
-	<xsl:value-of select="substring-before(//*[local-name() = 'LastUpdate'], '-')"/>
-      </xsl:if>            
-      <xsl:text>): </xsl:text>
-      <xsl:choose>
-        <xsl:when test="//*[local-name() = 'ResourceTitle']">
-          <xsl:choose>
-            <!-- If the title is available in English, display it -->
-            <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang = 'en'">
-              <xsl:value-of select="//*[local-name() = 'ResourceTitle'][@xml:lang = 'en']"/>
-            </xsl:when>
-            <!-- If not, display the title in available language (might still be English but not specified as such) -->
-            <xsl:otherwise>
-              <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:text>. </xsl:text>
-        </xsl:when>
-        <xsl:otherwise>
-          <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
-        </xsl:otherwise>
-      </xsl:choose>
+      <xsl:call-template name="CreatorsAsCommaSeparatedText" />
+      <xsl:call-template name="CreationDatesAsText" />
+      <xsl:call-template name="TitleAsEm" />
       Dataset in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
       <xsl:attribute name="href">
