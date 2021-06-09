@@ -1,14 +1,9 @@
 /** @jsx React.DOM */
 
 var transformer = "CMDI2HTML";
-const queryString = window.location.search;
-console.log("TEST" + queryString);
-console.log(queryString.split("/:=(.+)?/, 2"));
-queryInput = queryString;
-
+const queryInput = window.location.search; //link of the website
 
 if (queryInput.startsWith("?input=") && queryInput.includes("http")){
-	console.log("array correct");
 	var Container = React.createClass({displayName: 'Container',
 		getInitialState: function() {
 			return {status:"info", msg:"", files: {}};
@@ -27,7 +22,7 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 					that.setState( {status:"danger", msg: this.xhr.response, files: {}});
 				}
 			};
-			this.setState( {ok:true, msg:"Uploading, please wait...", files: {}});
+			this.setState( {ok:true, msg:"Transforming, please wait...", files: {}});
 			up.addUrl(event);
 		},
 		render: function() {
@@ -59,7 +54,6 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 		}
 	});
 }else{
-	console.log("array false");
 	var Container = React.createClass({displayName: 'Container',
 		getInitialState: function() {
 			return {status:"info", msg:"", files: {}};
@@ -116,10 +110,7 @@ var TransformList = React.createClass({
 	displayName: 'TransformerList',
 	handleChange: function(event) {
 		var value = event.target.value;
-		console.log(value, " was selected");
 		transformer = value;
-		console.log("TRANSFORMER", transformer)
-
 	},
 	render: function () {
 		return (
@@ -147,7 +138,7 @@ var SelectBox = React.createClass({displayName: 'SelectBox',
 	render: function(){
 	return(
 		React.DOM.div({className:"SelectBox"},
-			React.DOM.button({onClick:this.addUrl}, "Select"))
+			React.DOM.button({className: "btn btn-primary", onClick:this.addUrl, style:{marginTop:"1em"}}, "Select"))
 	)
 	}});
 
