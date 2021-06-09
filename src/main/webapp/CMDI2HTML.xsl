@@ -405,8 +405,10 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </div>
     <div id="tabs-10">
       <h3>Citation</h3>
-      <p>To cite <em>the dataset itself</em>, please use the following:</p>
-      <xsl:call-template name="CitationAsTable"/>
+      <p>Please cite the dataset itself as follows:</p>
+      <p>
+        <xsl:call-template name="DatasetCitation"/>
+      </p>
     </div>
   </xsl:template>
 
