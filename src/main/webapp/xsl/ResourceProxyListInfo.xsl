@@ -91,7 +91,7 @@
       <xsl:call-template name="CreatorsAsCommaSeparatedText" />
       <xsl:call-template name="CreationDatesAsText" />
       <xsl:call-template name="TitleAsEm" />
-      Dataset in Tübingen Archive of Language Resources. 
+      Data set in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
       <xsl:attribute name="href">
         <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
@@ -110,7 +110,7 @@
       <xsl:call-template name="CreationDatesAsText" />
       <xsl:value-of select="substring-after(//*[local-name() = 'ResourceRef'][1], '@')" />
       In: <xsl:call-template name="TitleAsEm" />
-      Dataset in Tübingen Archive of Language Resources. 
+      Data set in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
         <xsl:attribute name="href">
           <xsl:value-of select="//*[local-name() = 'ResourceRef'][1]"/>

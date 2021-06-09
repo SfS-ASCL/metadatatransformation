@@ -308,7 +308,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-9">About...</a>
             </li>
             <li>
-              <a href="#tabs-10">Cite dataset as</a>
+              <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
 
@@ -405,17 +405,17 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </div>
     <div id="tabs-10">
       <h3>Citation</h3>
-      <p>Please cite the dataset itself as follows:</p>
+      <p>Please cite the data set itself as follows:</p>
       <p>
         <xsl:call-template name="DatasetCitation"/>
       </p>
-      <p>
-        Individual items in the dataset may be cited using their
-        persistent identifiers (see Data Files tab). For example:
-      </p>
-      <p>
-        <xsl:call-template name="InDatasetCitation"/>
-      </p>
+        <p>
+          Individual items in the data set may be cited using their
+          persistent identifiers (see Data Files). For example:
+        </p>
+        <p>
+          <xsl:call-template name="InDatasetCitation"/>
+        </p>  
     </div>
   </xsl:template>
 
