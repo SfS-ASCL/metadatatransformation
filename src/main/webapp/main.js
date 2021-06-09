@@ -13,7 +13,7 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 		getInitialState: function() {
 			return {status:"info", msg:"", files: {}};
 		},
-		upload: function(event) {
+		addCUrl: function(event) {
 			console.log(transformer)
 			var that = this;
 			var up = new Downloader("rest/multi/" + transformer);
@@ -28,7 +28,7 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 				}
 			};
 			this.setState( {ok:true, msg:"Uploading, please wait...", files: {}});
-			up.upload(event);
+			up.addUrl(event);
 		},
 		render: function() {
 			return (
@@ -40,7 +40,7 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 								React.DOM.p(null, "This web service allows you to convert various metadata formats"),
 								React.DOM.hr(null),
 								TransformList(),
-								SelectBox(),
+								SelectBox({addUrl:this.addCUrl}),
 								StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
 								DownloadBox({files: this.state.files}),
 								React.DOM.hr(null),
@@ -138,32 +138,16 @@ var TransformList = React.createClass({
 });
 
 var SelectBox = React.createClass({displayName: 'SelectBox',
-	onSuccess: function() {
-		if (this.xhr.status === 200) {
-			var json = JSON.parse(this.xhr.response);
-			console.log("upload success, ret ok", json, this);
-			that.setState( {status:"success", msg:"Success", files: json});
-		} else {
-			console.log("upload success, ret not ok", this);
-			that.setState( {status:"danger", msg: this.xhr.response, files: {}});
-		}
+	propTypes: {
+		addUrl: React.PropTypes.func.isRequired
 	},
-	test: function(event){
-		console.log("TEST");
-		url = "rest/multi/" + transformer;
-		//var parameters = JSON.stringify({"url":queryInput[1]});
-		var xhr = new XMLHttpRequest();
-		xhr.open('post', url, true);
-		// xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-
-		var fd = new FormData();
-		fd.append("url", queryInput.substring(7));
-		xhr.send(fd);
+	addUrl: function (event){
+		this.props.addUrl(event);
 	},
 	render: function(){
 	return(
 		React.DOM.div({className:"SelectBox"},
-			React.DOM.button({onClick:this.test}, "Select"))
+			React.DOM.button({onClick:this.addUrl}, "Select"))
 	)
 	}});
 
@@ -239,6 +223,22 @@ function Downloader(url){
 	var that = this;
 	that.url = url;
 
+	this.addUrl = function(){
+		//send Rest call of form FormData: {url: input_url}, instead of files
+		url = "rest/multi/" + transformer;
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function (){
+		if (xhr.readyState == 4) {
+			if (that.onSuccess)
+				that.onSuccess();
+			}
+		};
+		xhr.open('post', url, true);
+		var fd = new FormData();
+		fd.append("url", queryInput.substring(7));
+		xhr.send(fd);
+		that.xhr = xhr;
+	}
 
 }
 function Uploader(url) {
