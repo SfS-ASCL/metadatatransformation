@@ -409,6 +409,13 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <p>
         <xsl:call-template name="DatasetCitation"/>
       </p>
+      <p>
+        Individual items in the dataset may be cited using their
+        persistent identifiers (see Data Files tab). For example:
+      </p>
+      <p>
+        <xsl:call-template name="InDatasetCitation"/>
+      </p>
     </div>
   </xsl:template>
 
