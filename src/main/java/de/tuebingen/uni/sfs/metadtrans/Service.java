@@ -1,10 +1,7 @@
 package de.tuebingen.uni.sfs.metadtrans;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
+import java.net.URL;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +20,16 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xquery.XQException;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.w3c.dom.Document;
 
 /**
  *
@@ -76,17 +78,43 @@ public class Service {
 	}
 
 	public static List<FileEntry> extractFiles(HttpServletRequest request) throws Exception {
+		System.out.println("ITEM1" + request.getParameter("url"));
 		List<FileEntry> files = new ArrayList<>();
+		System.out.println("ITEM1");
 		if (ServletFileUpload.isMultipartContent(request)) {
+			System.out.println("ITEM2");
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			for (Object item : upload.parseRequest(request)) {
+				System.out.println("OBject item" + item);
 				if (item instanceof FileItem) {
 					FileItem fi = (FileItem) item;
+					System.out.println("ITEM");
+					System.out.println(request.getSession() + ":" + fi);
 					if (!fi.isFormField()) { // it's a file
+						System.out.println(request.getSession() + ":" + fi.getName());
 						File f = SessionTmpDir.newNamedFile(request.getSession(), fi.getName());
 						fi.write(f);
 						files.add(new FileEntry(fi.getName(), f));
+					}else{
+						if(fi.getFieldName().equals("url"))
+						{
+							System.out.println(fi.getString());
+							DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+							DocumentBuilder docBuilder = dbf.newDocumentBuilder();
+
+							URL url = new URL(fi.getString());
+							File f = SessionTmpDir.newNamedFile(request.getSession(), "download_file");
+							InputStream inputStream = url.openStream();
+							try(OutputStream outputStream = new FileOutputStream(f)){
+								IOUtils.copy(inputStream, outputStream);
+							} catch (FileNotFoundException e) {
+								// handle exception here
+							} catch (IOException e) {
+								// handle exception here
+							}
+							files.add(new FileEntry("download_file", f));
+						}
 					}
 				}
 			}
@@ -103,7 +131,7 @@ public class Service {
 			if (!ServletFileUpload.isMultipartContent(request)) {
 				return Response.status(400).entity("Multipart content expected, and this is not").build();
 			}
-
+			System.out.println("PARAMS" + request.getParameter("url"));
 			List<FileEntry> files = extractFiles(request);
 			Map<String, String> results = new HashMap<>();
 			if (files.isEmpty()) {

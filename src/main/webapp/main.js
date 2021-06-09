@@ -1,55 +1,116 @@
 /** @jsx React.DOM */
 
 var transformer = "CMDI2HTML";
-var Container = React.createClass({displayName: 'Container',
-	getInitialState: function() {
-		return {status:"info", msg:"", files: {}};
-	},
-	upload: function(event) {
-		console.log(transformer)
-		var that = this;
-		var up = new Uploader("rest/multi/" + transformer);
-		up.onSuccess = function() {
-			if (this.xhr.status === 200) {
-				var json = JSON.parse(this.xhr.response);
-				console.log("upload success, ret ok", json, this);
-				that.setState( {status:"success", msg:"Success", files: json});
-			} else {
-				console.log("upload success, ret not ok", this);
-				that.setState( {status:"danger", msg: this.xhr.response, files: {}});
-			}
-		};
-		this.setState( {ok:true, msg:"Uploading, please wait...", files: {}});
-		up.upload(event);
-	},
-	render: function() {
-		return (
-			React.DOM.div({className: "container"},
-				React.DOM.div({className: "row clearfix"},
-					React.DOM.div({className: "col-md-12 column"},
-						React.DOM.div({className: "jumbotron"},
-							React.DOM.h2(null, "Metadata Transformer"),
-							React.DOM.p(null, "This web service allows you to convert various metadata formats"),
-							React.DOM.hr(null),
-							TransformList(),
-							FileUploadBox({onUpload: this.upload}),
-							StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
-							DownloadBox({files: this.state.files}),
-							React.DOM.hr(null),
-							React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
-							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
-							React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
-							React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
-							React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
-							React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
-							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
-							React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+const queryString = window.location.search;
+console.log("TEST" + queryString);
+console.log(queryString.split("/:=(.+)?/, 2"));
+queryInput = queryString;
+
+
+if (queryInput.startsWith("?input=") && queryInput.includes("http")){
+	console.log("array correct");
+	var Container = React.createClass({displayName: 'Container',
+		getInitialState: function() {
+			return {status:"info", msg:"", files: {}};
+		},
+		upload: function(event) {
+			console.log(transformer)
+			var that = this;
+			var up = new Downloader("rest/multi/" + transformer);
+			up.onSuccess = function() {
+				if (this.xhr.status === 200) {
+					var json = JSON.parse(this.xhr.response);
+					console.log("upload success, ret ok", json, this);
+					that.setState( {status:"success", msg:"Success", files: json});
+				} else {
+					console.log("upload success, ret not ok", this);
+					that.setState( {status:"danger", msg: this.xhr.response, files: {}});
+				}
+			};
+			this.setState( {ok:true, msg:"Uploading, please wait...", files: {}});
+			up.upload(event);
+		},
+		render: function() {
+			return (
+				React.DOM.div({className: "container"},
+					React.DOM.div({className: "row clearfix"},
+						React.DOM.div({className: "col-md-12 column"},
+							React.DOM.div({className: "jumbotron"},
+								React.DOM.h2(null, "Metadata Transformer"),
+								React.DOM.p(null, "This web service allows you to convert various metadata formats"),
+								React.DOM.hr(null),
+								TransformList(),
+								SelectBox(),
+								StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
+								DownloadBox({files: this.state.files}),
+								React.DOM.hr(null),
+								React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
+								React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
+								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
+								React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+							)
 						)
 					)
-				)
-			));
-	}
-});
+				));
+		}
+	});
+}else{
+	console.log("array false");
+	var Container = React.createClass({displayName: 'Container',
+		getInitialState: function() {
+			return {status:"info", msg:"", files: {}};
+		},
+		upload: function(event) {
+			console.log(transformer)
+			var that = this;
+			var up = new Uploader("rest/multi/" + transformer);
+			up.onSuccess = function() {
+				if (this.xhr.status === 200) {
+					var json = JSON.parse(this.xhr.response);
+					console.log("upload success, ret ok", json, this);
+					that.setState( {status:"success", msg:"Success", files: json});
+				} else {
+					console.log("upload success, ret not ok", this);
+					that.setState( {status:"danger", msg: this.xhr.response, files: {}});
+				}
+			};
+			this.setState( {ok:true, msg:"Uploading, please wait...", files: {}});
+			up.upload(event);
+		},
+		render: function() {
+			return (
+				React.DOM.div({className: "container"},
+					React.DOM.div({className: "row clearfix"},
+						React.DOM.div({className: "col-md-12 column"},
+							React.DOM.div({className: "jumbotron"},
+								React.DOM.h2(null, "Metadata Transformer"),
+								React.DOM.p(null, "This web service allows you to convert various metadata formats"),
+								React.DOM.hr(null),
+								TransformList(),
+								FileUploadBox({onUpload: this.upload}),
+								StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
+								DownloadBox({files: this.state.files}),
+								React.DOM.hr(null),
+								React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
+								React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
+								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
+								React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
+								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+							)
+						)
+					)
+				));
+		}
+	});
+}
+
 
 var TransformList = React.createClass({
 	displayName: 'TransformerList',
@@ -76,7 +137,35 @@ var TransformList = React.createClass({
 	}
 });
 
+var SelectBox = React.createClass({displayName: 'SelectBox',
+	onSuccess: function() {
+		if (this.xhr.status === 200) {
+			var json = JSON.parse(this.xhr.response);
+			console.log("upload success, ret ok", json, this);
+			that.setState( {status:"success", msg:"Success", files: json});
+		} else {
+			console.log("upload success, ret not ok", this);
+			that.setState( {status:"danger", msg: this.xhr.response, files: {}});
+		}
+	},
+	test: function(event){
+		console.log("TEST");
+		url = "rest/multi/" + transformer;
+		//var parameters = JSON.stringify({"url":queryInput[1]});
+		var xhr = new XMLHttpRequest();
+		xhr.open('post', url, true);
+		// xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
 
+		var fd = new FormData();
+		fd.append("url", queryInput.substring(7));
+		xhr.send(fd);
+	},
+	render: function(){
+	return(
+		React.DOM.div({className:"SelectBox"},
+			React.DOM.button({onClick:this.test}, "Select"))
+	)
+	}});
 
 var FileUploadBox = React.createClass({displayName: 'FileUploadBox',
 	propTypes: {
@@ -146,7 +235,12 @@ var DownloadBox = React.createClass({displayName: 'DownloadBox',
 React.renderComponent(Container(null), document.getElementById('main'));
 
 ///////////////////////////////////////////////////////////////////////////////
+function Downloader(url){
+	var that = this;
+	that.url = url;
 
+
+}
 function Uploader(url) {
 	var that = this;
 	that.url = url;
