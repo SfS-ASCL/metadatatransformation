@@ -392,4 +392,136 @@
     </table>
   </xsl:template>
 
+  <xsl:template name="CitationExamples">
+    <!-- Provides the contents of the "Cite data set" tab -->
+    <p>Please cite the data set itself as follows:</p>
+    <p class="bib-entry">
+      <xsl:call-template name="DatasetCitation"/>
+    </p>
+    <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
+      <p>
+        Individual items in the data set may be cited using their
+        persistent identifiers (see Data Files). For example, cite
+        the file
+        <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" /></code>
+        as follows:
+      </p>
+      <p class="bib-entry">
+        <xsl:call-template name="InDatasetCitation"/>
+      </p>  
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="DatasetCitation">
+    <!-- Provides a citation for the whole dataset -->
+      <xsl:call-template name="CreatorsAsCommaSeparatedText" />
+      <xsl:call-template name="CreationDatesAsText" />
+      <xsl:call-template name="TitleAsCite" />
+      Data set in Tübingen Archive of Language Resources. 
+      <br/>Persistent identifier: <xsl:element name="a">
+      <xsl:attribute name="href">
+        <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+      </xsl:attribute>
+      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="InDatasetCitation">
+    <!-- Provides an example citation of an individual item in the
+         collection, using the second ResourceRef element in the document.
+         (We use the second because the first might be the landing page and have the same 
+         PID as the data set itself.
+    -->
+      <xsl:call-template name="CreatorsAsCommaSeparatedText" />
+      <xsl:call-template name="CreationDatesAsText" />
+      <xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" />
+      <xsl:text>. </xsl:text>
+      In: <xsl:call-template name="TitleAsCite" />
+      Data set in Tübingen Archive of Language Resources. 
+      <br/>Persistent identifier: <xsl:element name="a">
+        <xsl:attribute name="href">
+          <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
+        </xsl:attribute>
+        <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
+      </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="CreatorsAsCommaSeparatedText">
+    <!-- Get the list of creators, last name followed by initial, comma separated -->
+    <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
+      <xsl:choose>
+        <!-- when ID is available, markup the creator's name as an author -->
+        <!-- See: https://html.spec.whatwg.org/multipage/links.html#link-type-author -->
+        <xsl:when
+            test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
+          <xsl:element name="a">
+            <xsl:attribute name="author">
+              <xsl:value-of select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']" />
+            </xsl:attribute>
+            <xsl:value-of select="*[local-name() = 'lastName']"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+          </xsl:element>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="*[local-name() = 'lastName']"/>
+          <xsl:text> </xsl:text>
+          <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:choose>
+        <xsl:when test="position() = last()">
+          <xsl:text>.</xsl:text>
+        </xsl:when>
+        <xsl:when test="position() = last() - 1">
+          <xsl:text>. &amp; </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:text>., </xsl:text>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:template>
+
+  <xsl:template name="CreationDatesAsText">
+      <!-- Provides publication date and last update like (YYYY): or (YYYY-YYYY): --> 
+      <!-- Assumes the first 4 characters in PublicationDate and LastUpdate refer to the year -->
+      <xsl:text> (</xsl:text>
+      <xsl:value-of select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
+      <xsl:if test="//*[local-name() = 'LastUpdate'] !=''">
+	<xsl:text> - </xsl:text>
+	<xsl:value-of select="substring-before(//*[local-name() = 'LastUpdate'], '-')"/>
+      </xsl:if>            
+      <xsl:text>): </xsl:text>
+
+  </xsl:template>
+
+  <xsl:template name="TitleAsCite">
+    <cite>
+      <xsl:choose>
+        <xsl:when test="//*[local-name() = 'ResourceTitle']">
+          <xsl:choose>
+            <!-- If the title is available in English, display it -->
+            <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang = 'en'">
+              <xsl:value-of select="//*[local-name() = 'ResourceTitle'][@xml:lang = 'en']"/>
+            </xsl:when>
+            <!-- If not, display the title in available language (might still be English but not specified as such) -->
+            <xsl:otherwise>
+              <xsl:value-of select="//*[local-name() = 'ResourceTitle']"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:if test="//*[local-name() = 'Version']/text()">
+        <xsl:text>, version </xsl:text>
+        <xsl:value-of select="//*[local-name() = 'Version']/text()" />
+      </xsl:if>
+    </cite>
+    <xsl:text>. </xsl:text>
+  </xsl:template>
+
 </xsl:stylesheet>
