@@ -483,7 +483,7 @@
 
   <xsl:template name="CreationDatesAsText">
       <!-- Provides publication date and last update like (YYYY): or (YYYY-YYYY): --> 
-      <!-- Assumes the last 4 characters in PublicationDate and LastUpdate refer to the year -->
+      <!-- Assumes the first 4 characters in PublicationDate and LastUpdate refer to the year -->
       <xsl:text> (</xsl:text>
       <xsl:value-of select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
       <xsl:if test="//*[local-name() = 'LastUpdate'] !=''">
