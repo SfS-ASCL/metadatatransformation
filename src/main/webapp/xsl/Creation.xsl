@@ -513,6 +513,10 @@
           <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
         </xsl:otherwise>
       </xsl:choose>
+      <xsl:if test="//*[local-name() = 'Version']/text()">
+        <xsl:text>, version </xsl:text>
+        <xsl:value-of select="//*[local-name() = 'Version']/text()" />
+      </xsl:if>
     </cite>
     <xsl:text>. </xsl:text>
   </xsl:template>
