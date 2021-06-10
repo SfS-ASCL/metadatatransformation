@@ -404,7 +404,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <xsl:call-template name="CreationAsTable" />
     </div>
     <div id="tabs-10">
-      <h3>Citation</h3>
+      <h3>Citation Information</h3>
       <xsl:call-template name="CitationExamples" />
     </div>
   </xsl:template>
