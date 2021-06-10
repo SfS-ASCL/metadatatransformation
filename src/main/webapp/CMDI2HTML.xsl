@@ -405,19 +405,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </div>
     <div id="tabs-10">
       <h3>Citation</h3>
-      <p>Please cite the data set itself as follows:</p>
-      <p>
-        <xsl:call-template name="DatasetCitation"/>
-      </p>
-      <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
-        <p>
-          Individual items in the data set may be cited using their
-          persistent identifiers (see Data Files). For example:
-        </p>
-        <p>
-          <xsl:call-template name="InDatasetCitation"/>
-        </p>  
-      </xsl:if>
+      <xsl:call-template name="CitationExamples" />
     </div>
   </xsl:template>
 
