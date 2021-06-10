@@ -123,22 +123,34 @@
     <!-- Get the list of creators, last name followed by initial, comma separated -->
     <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">
       <xsl:choose>
-        <xsl:when test="position() = last()">
-          <xsl:value-of select="*[local-name() = 'lastName']"/>
-          <xsl:text> </xsl:text>
-          <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-          <xsl:text>.</xsl:text>
-        </xsl:when>
-        <xsl:when test="position() = last() - 1">
-          <xsl:value-of select="*[local-name() = 'lastName']"/>
-          <xsl:text> </xsl:text>
-          <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
-          <xsl:text>. &amp; </xsl:text>
+        <!-- when ID is available, markup the creator's name as an author -->
+        <!-- See: https://html.spec.whatwg.org/multipage/links.html#link-type-author -->
+        <xsl:when
+            test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
+          <xsl:element name="a">
+            <xsl:attribute name="author">
+              <xsl:value-of select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']" />
+            </xsl:attribute>
+            <xsl:value-of select="*[local-name() = 'lastName']"/>
+            <xsl:text> </xsl:text>
+            <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+          </xsl:element>
         </xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="*[local-name() = 'lastName']"/>
           <xsl:text> </xsl:text>
           <xsl:value-of select="substring(*[local-name() = 'firstName'], 1, 1)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+
+      <xsl:choose>
+        <xsl:when test="position() = last()">
+          <xsl:text>.</xsl:text>
+        </xsl:when>
+        <xsl:when test="position() = last() - 1">
+          <xsl:text>. &amp; </xsl:text>
+        </xsl:when>
+        <xsl:otherwise>
           <xsl:text>., </xsl:text>
         </xsl:otherwise>
       </xsl:choose>
