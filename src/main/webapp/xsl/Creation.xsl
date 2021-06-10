@@ -395,7 +395,7 @@
   <xsl:template name="CitationExamples">
     <!-- Provides the contents of the "Cite data set" tab -->
     <p>Please cite the data set itself as follows:</p>
-    <p>
+    <p class="bib-entry">
       <xsl:call-template name="DatasetCitation"/>
     </p>
     <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
@@ -406,7 +406,7 @@
         <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" /></code>
         as follows:
       </p>
-      <p>
+      <p class="bib-entry">
         <xsl:call-template name="InDatasetCitation"/>
       </p>  
     </xsl:if>
