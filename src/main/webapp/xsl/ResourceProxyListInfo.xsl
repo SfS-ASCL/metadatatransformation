@@ -87,10 +87,9 @@
 
   <xsl:template name="DatasetCitation">
     <!-- Provides a citation for the whole dataset -->
-    <cite>
       <xsl:call-template name="CreatorsAsCommaSeparatedText" />
       <xsl:call-template name="CreationDatesAsText" />
-      <xsl:call-template name="TitleAsEm" />
+      <xsl:call-template name="TitleAsCite" />
       Data set in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
       <xsl:attribute name="href">
@@ -98,7 +97,6 @@
       </xsl:attribute>
       <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
     </xsl:element>
-    </cite>
   </xsl:template>
 
   <xsl:template name="InDatasetCitation">
@@ -107,12 +105,11 @@
          (We use the second because the first might be the landing page and have the same 
          PID as the data set itself.
     -->
-    <cite>
       <xsl:call-template name="CreatorsAsCommaSeparatedText" />
       <xsl:call-template name="CreationDatesAsText" />
       <xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" />
       <xsl:text>. </xsl:text>
-      In: <xsl:call-template name="TitleAsEm" />
+      In: <xsl:call-template name="TitleAsCite" />
       Data set in Tübingen Archive of Language Resources. 
       <br/>Persistent identifier: <xsl:element name="a">
         <xsl:attribute name="href">
@@ -120,7 +117,6 @@
         </xsl:attribute>
         <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
       </xsl:element>
-    </cite>
   </xsl:template>
 
   <xsl:template name="CreatorsAsCommaSeparatedText">
@@ -162,8 +158,8 @@
 
   </xsl:template>
 
-  <xsl:template name="TitleAsEm">
-    <em>
+  <xsl:template name="TitleAsCite">
+    <cite>
       <xsl:choose>
         <xsl:when test="//*[local-name() = 'ResourceTitle']">
           <xsl:choose>
@@ -181,7 +177,7 @@
           <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
         </xsl:otherwise>
       </xsl:choose>
-    </em>
+    </cite>
     <xsl:text>. </xsl:text>
   </xsl:template>
 
