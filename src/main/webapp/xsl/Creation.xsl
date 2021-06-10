@@ -401,7 +401,10 @@
     <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
       <p>
         Individual items in the data set may be cited using their
-        persistent identifiers (see Data Files). For example:
+        persistent identifiers (see Data Files). For example, cite
+        the file
+        <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" /></code>
+        as follows:
       </p>
       <p>
         <xsl:call-template name="InDatasetCitation"/>
