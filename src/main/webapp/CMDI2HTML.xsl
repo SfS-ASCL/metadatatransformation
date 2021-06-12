@@ -318,20 +318,23 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
         <footer class="site-footer h-card">
           <data class="u-url" href="/"/>
-
+          
           <div class="wrapper">
 
             <h2 class="footer-heading">TALAR - Tübingen Archive of Language Resources</h2>
 
             <div class="footer-col-wrapper">
               <div class="footer-col footer-col-1">
-                <ul class="contact-list">
-                  <li class="p-name">TALAR - Tübingen Archive of Language Resources</li>
-                  <li>
-                    <a class="u-email" href="mailto:clarin-repository@sfs.uni-tuebingen.de"
-                      >clarin-repository@sfs.uni-tuebingen.de</a>
-                  </li>
-                </ul>
+                <address>
+                  <p class="p-name">
+                    Seminar für Sprachwissenschaft<br/>
+                    SFB 833<br/>
+                    Wilhelmstrasse 19<br/>
+                    D-72074 Tübingen<br/>
+                    Tel. 07071 29-77151<br/>
+                    <a class="u-email" href="mailto:clarin-repository@sfs.uni-tuebingen.de">clarin-repository@sfs.uni-tuebingen.de</a>
+                  </p>
+                </address>
               </div>
               <div class="footer-col footer-col-1">
                 <ul class="social-media-list">
