@@ -39,30 +39,38 @@
         </tr>
       </tbody>
     </table>
-    <!-- TODO: don't generate this section if there are none -->
-    <p>This data set contains the following subordinate data objects: </p>
-    <ul>
-      <xsl:for-each select="./*">
-        <xsl:choose>
-          <xsl:when test="./*[local-name() = 'ResourceType'] = 'Metadata' and not(contains(normalize-space(./*[local-name() = 'ResourceRef']),normalize-space(//*[local-name() = 'MdSelfLink'])))">
-            <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
-            <li>
-              <xsl:element name="a">
-                <xsl:attribute name="href">
-                  <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                </xsl:attribute>
-                <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-              </xsl:element>
-              <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
-                <xsl:text> </xsl:text> (<xsl:value-of
-                select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
-                
-              </xsl:if>
-            </li>
-          </xsl:when>
-        </xsl:choose>
-      </xsl:for-each>
-    </ul>
+
+    <h3>Subordinate data objects</h3>
+    <xsl:choose>
+      <xsl:when test="count(./*[local-name() = 'ResourceType' and text() = 'Metadata']) > 0">
+        <!-- TODO: is this the right condition? -->
+        <p>This data set contains the following subordinate data objects:</p>
+        <ul>
+          <xsl:for-each select="./*">
+            <xsl:choose>
+              <xsl:when test="./*[local-name() = 'ResourceType'] = 'Metadata' and not(contains(normalize-space(./*[local-name() = 'ResourceRef']),normalize-space(//*[local-name() = 'MdSelfLink'])))">
+                <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
+                <li>
+                  <xsl:element name="a">
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+                  </xsl:element>
+                  <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
+                    <xsl:text> </xsl:text> (<xsl:value-of
+                    select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
+                  </xsl:if>
+                </li>
+              </xsl:when>
+            </xsl:choose>
+          </xsl:for-each>
+        </ul>
+      </xsl:when>
+      <xsl:otherwise>
+        <p>This data set contains no subordinate data objects.</p>
+      </xsl:otherwise>
+    </xsl:choose>
 
     <h3>Data streams</h3>
     <xsl:choose>
