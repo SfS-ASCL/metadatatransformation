@@ -100,60 +100,63 @@
   </xsl:template>
 
   <xsl:template name="ResourceProxyAsDetails" match="*[local-name() = 'ResourceProxy']">
-    <!-- Renders each ResourceProxy as a <details> element -->
+    <!-- Renders each ResourceProxy with ResourceType 'Resource' as a <details> element -->
 
-    <!-- id holds the current ResourceProxy's id=... attribute value: -->
-    <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
-    <!-- infoNode holds the corresponding ResourceProxyInfo node,
-         i.e., the one whose ref=... value matches the current ResourceProxy's id=... value: -->
-    <xsl:variable name="infoNode" select="//*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref' and .=$id]]"/>
+    <xsl:if test="./*[local-name() = 'ResourceType']/text() = 'Resource'">
 
-    <details>
-      <summary>
-        <xsl:element name="a">
-          <xsl:attribute name="href">
-            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-          </xsl:attribute>
-          <xsl:value-of select="normalize-space($infoNode/*[local-name()='ResProxFileName'])"/>
-        </xsl:element>
-        <xsl:text> </xsl:text>
-        (<xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>,
-         <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>)
-      </summary>
+      <!-- id holds the current ResourceProxy's id=... attribute value: -->
+      <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
+      <!-- infoNode holds the corresponding ResourceProxyInfo node,
+           i.e., the one whose ref=... value matches the current ResourceProxy's id=... value: -->
+      <xsl:variable name="infoNode" select="//*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref' and .=$id]]"/>
 
-      <dl>
-        <!-- TODO: display ResourceType here? or is it basically always just "Resource"? -->
-        <xsl:if test="$infoNode/*[local-name() = 'ResProxItemName']/text()">
-          <dt>Item name</dt>
-          <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxItemName']/text()"/></dd>
-        </xsl:if>
-        <xsl:if test="$infoNode/*[local-name() = 'ResProxFileName']/text()">
-          <dt>Original file name</dt>
-          <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxFileName']/text()"/></dd>
-        </xsl:if>
-
-        <dt>Persistent identifier</dt>
-        <dd>
+      <details>
+        <summary>
           <xsl:element name="a">
             <xsl:attribute name="href">
               <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
             </xsl:attribute>
-            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+            <xsl:value-of select="normalize-space($infoNode/*[local-name()='ResProxFileName'])"/>
           </xsl:element>
-        </dd>
+          <xsl:text> </xsl:text>
+          (<xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>,
+          <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>)
+        </summary>
 
-        <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
-          <dt>MIME Type</dt>
-          <dd><xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/></dd>
-        </xsl:if>
-        <dt>File size</dt>
-        <dd>
-          <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
-        </dd>
+        <dl>
+          <!-- TODO: display ResourceType here? or is it basically always just "Resource"? -->
+          <xsl:if test="$infoNode/*[local-name() = 'ResProxItemName']/text()">
+            <dt>Item name</dt>
+            <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxItemName']/text()"/></dd>
+          </xsl:if>
+          <xsl:if test="$infoNode/*[local-name() = 'ResProxFileName']/text()">
+            <dt>Original file name</dt>
+            <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxFileName']/text()"/></dd>
+          </xsl:if>
 
-        <xsl:apply-templates select="$infoNode/*[local-name() = 'Checksums']"/>
-      </dl>
-    </details>
+          <dt>Persistent identifier</dt>
+          <dd>
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+              </xsl:attribute>
+              <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+            </xsl:element>
+          </dd>
+
+          <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
+            <dt>MIME Type</dt>
+            <dd><xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/></dd>
+          </xsl:if>
+          <dt>File size</dt>
+          <dd>
+            <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
+          </dd>
+
+          <xsl:apply-templates select="$infoNode/*[local-name() = 'Checksums']"/>
+        </dl>
+      </details>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template name="SizeAsHumanText" match="*[local-name() = 'SizeInfo']">
