@@ -37,29 +37,6 @@
             </xsl:for-each>
           </td>
         </tr>
-        <tr>
-          <td><b>Package files for this dataset: </b></td>
-          <td>
-            <xsl:if test="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
-              <ul>
-                <xsl:for-each select="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
-                  
-                  
-                  <li>
-                   <!-- <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                      </xsl:attribute>
-                      <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                    </xsl:element> -->
-                  </li>
-                  
-                  
-                </xsl:for-each>
-              </ul>
-            </xsl:if>
-          </td>
-        </tr>
       </tbody>
     </table>
     <!-- TODO: don't generate this section if there are none -->
