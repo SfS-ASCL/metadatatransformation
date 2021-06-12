@@ -7,6 +7,7 @@
   <xsl:output method="html" indent="yes"/>
   <!-- TODO: cleanup. Get rid of outer table, split individual
        sections into their own templates. -->
+
   <xsl:template name="ResourceProxyListSection" match="//*[local-name() = 'ResourceProxyList']">
     <table>
       <tbody> 
@@ -37,7 +38,7 @@
           </td>
         </tr>
         <tr>
-          <td><b>Packaged files for this dataset: </b></td>
+          <td><b>Package files for this dataset: </b></td>
           <td>
             <xsl:if test="./*[local-name() = 'ResourceType']/@mimetype = 'application/zip'">
               <ul>
@@ -85,48 +86,114 @@
         </xsl:choose>
       </xsl:for-each>
     </ul>
-    <!-- TODO: don't generate this if there are none -->
-    <p>This data set contains the following data streams: </p>
-    <ul>
-      <xsl:for-each select="./*">
-        <xsl:choose>
-          <xsl:when test="./*[local-name() = 'ResourceType'] = 'Resource'">
-            <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
-            <li>
-              <xsl:element name="a">
-                <xsl:attribute name="href">
-                  <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                </xsl:attribute>
-                <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-              </xsl:element>
-              <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
-                <xsl:text> </xsl:text> (<xsl:value-of
-                select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
-                <xsl:for-each select="//*[local-name() = 'ResourceProxyInfo']">
-                  <xsl:if test="./@*[local-name() = 'ref'] = $id"> - <xsl:variable name="size"
-                  select="number(./*[local-name() = 'SizeInfo']/*[local-name() = 'TotalSize']/*[local-name() = 'Size'])"/>
-                  <xsl:choose>
-                    <xsl:when test="$size &lt; 1024">
-                    <xsl:value-of select="$size"/> B </xsl:when>
-                    <xsl:when test="$size &lt; 1024*1024">
-                    <xsl:value-of select="format-number($size div 1024, '#.#')"/> KB </xsl:when>
-                    <xsl:when test="$size &lt; 1024*1024*1024">
-                      <xsl:value-of select="format-number($size div (1024*1024), '#.#')"/>
-                    MB </xsl:when>
-                    <xsl:when test="$size &lt; 1024*1024*1024*1024">
-                      <xsl:value-of select="format-number($size div (1024*1024*1024), '#.#')"/>
-                    GB </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:value-of select="format-number($size div (1024*1024*1024*1024), '#.#')"/>
-                    TB </xsl:otherwise>
-                  </xsl:choose>
-                  </xsl:if>
-                </xsl:for-each>
-              </xsl:if>
-            </li>
-          </xsl:when>
-        </xsl:choose>
-      </xsl:for-each>
-    </ul>
+
+    <h3>Data streams</h3>
+    <xsl:choose>
+      <xsl:when test="count(./*[local-name()='ResourceProxy']) > 0" >
+        <p>This data set contains the following data streams: </p>
+        <xsl:apply-templates select="./*[local-name()='ResourceProxy']" />
+      </xsl:when>
+      <xsl:otherwise>
+        <p>There are no data streams in this data set.</p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
+
+  <xsl:template name="ResourceProxyAsDetails" match="*[local-name() = 'ResourceProxy']">
+    <!-- Renders each ResourceProxy as a <details> element -->
+
+    <!-- id holds the current ResourceProxy's id=... attribute value: -->
+    <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
+    <!-- infoNode holds the corresponding ResourceProxyInfo node,
+         i.e., the one whose ref=... value matches the current ResourceProxy's id=... value: -->
+    <xsl:variable name="infoNode" select="//*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref' and .=$id]]"/>
+
+    <details>
+      <summary>
+        <xsl:element name="a">
+          <xsl:attribute name="href">
+            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+          </xsl:attribute>
+          <xsl:value-of select="normalize-space($infoNode/*[local-name()='ResProxFileName'])"/>
+        </xsl:element>
+        <xsl:text> </xsl:text>
+        (<xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>,
+         <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>)
+      </summary>
+
+      <dl>
+        <!-- TODO: display ResourceType here? or is it basically always just "Resource"? -->
+        <xsl:if test="$infoNode/*[local-name() = 'ResProxItemName']/text()">
+          <dt>Item name</dt>
+          <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxItemName']/text()"/></dd>
+        </xsl:if>
+        <xsl:if test="$infoNode/*[local-name() = 'ResProxFileName']/text()">
+          <dt>Original file name</dt>
+          <dd><xsl:value-of select="$infoNode/*[local-name() = 'ResProxFileName']/text()"/></dd>
+        </xsl:if>
+
+        <dt>Persistent identifier</dt>
+        <dd>
+          <xsl:element name="a">
+            <xsl:attribute name="href">
+              <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+            </xsl:attribute>
+            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+          </xsl:element>
+        </dd>
+
+        <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
+          <dt>MIME Type</dt>
+          <dd><xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/></dd>
+        </xsl:if>
+        <dt>File size</dt>
+        <dd>
+          <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
+        </dd>
+
+        <xsl:apply-templates select="$infoNode/*[local-name() = 'Checksums']"/>
+      </dl>
+    </details>
+  </xsl:template>
+
+  <xsl:template name="SizeAsHumanText" match="*[local-name() = 'SizeInfo']">
+    <!-- returns value of SizeInfo node with units of KB, MB, etc. -->
+    <!-- TODO: check SizeUnit. For now we just assume unit is bytes... -->
+    <xsl:variable name="size"
+                  select="number(./*[local-name() = 'TotalSize']/*[local-name() = 'Size'])"/>
+    <xsl:choose>
+      <xsl:when test="$size &lt; 1024">
+      <xsl:value-of select="$size"/> B</xsl:when>
+      <xsl:when test="$size &lt; 1024*1024">
+      <xsl:value-of select="format-number($size div 1024, '#.#')"/> KB</xsl:when>
+      <xsl:when test="$size &lt; 1024*1024*1024">
+        <xsl:value-of select="format-number($size div (1024*1024), '#.#')"/>
+        MB</xsl:when>
+      <xsl:when test="$size &lt; 1024*1024*1024*1024">
+        <xsl:value-of select="format-number($size div (1024*1024*1024), '#.#')"/>
+        GB</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="format-number($size div (1024*1024*1024*1024), '#.#')"/>
+        TB</xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="ChecksumsAsDefinitions" match="*[local-name() = 'Checksums']">
+    <!-- Returns checksum values as dt/dd pairs. The outer <dl> is
+         *not* supplied, so these can be inserted into an existing
+         definition list -->
+    <xsl:if test="./*[local-name() = 'md5']/text()">
+      <dt>MD5</dt>
+      <dd><xsl:value-of select="./*[local-name() = 'md5']"/></dd>
+    </xsl:if>
+    <xsl:if test="./*[local-name() = 'sha1']/text()">
+      <dt>SHA1</dt>
+      <dd><xsl:value-of select="./*[local-name() = 'sha1']"/></dd>
+    </xsl:if>
+    <xsl:if test="./*[local-name() = 'sha256']/text()">
+      <dt>SHA256</dt>
+      <dd><xsl:value-of select="./*[local-name() = 'sha256']"/></dd>
+    </xsl:if>
+  </xsl:template>
+ 
 </xsl:stylesheet>

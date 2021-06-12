@@ -31,7 +31,6 @@
   <xsl:include href="xsl/Documentations.xsl"/>
   <xsl:include href="xsl/Access.xsl"/>
   <xsl:include href="xsl/ResourceProxyList.xsl"/>
-  <xsl:include href="xsl/ResourceProxyListInfo.xsl"/>
 
   <xsl:include href="xsl/LexicalResourceContext.xsl"/>
   <xsl:include href="xsl/ExperimentContext.xsl"/>
@@ -262,7 +261,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     	    });
 	  </script>
         
-
+      <main>
         <h1 style="margin-left:15px;">
           <b>Resource: <xsl:value-of
               select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b>
@@ -306,15 +305,14 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-8">Data files</a>
             </li>
             <li>
-              <a href="#tabs-9">About...</a>
-            </li>
-            <li>
               <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
 
-          <xsl:apply-templates/>
         </nav>
+        
+        <xsl:apply-templates/>
+      </main>
 
         <footer class="site-footer h-card">
           <data class="u-url" href="/"/>
@@ -435,18 +433,6 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </section>
   </xsl:template>
 
-
-  <xsl:template match="*[local-name() = 'ResourceProxyListInfo']">
-    <!-- ignore content, generate About instead, still to do, especially enhancing! -->
-
-    <section id="tabs-9">
-      <h2>About</h2>
-      <p> This digital object contains: </p>
-      <xsl:call-template name="ChecksumsAsTable" /> 
-      <xsl:call-template name="AboutChecksumsTable" /> 
-    </section>
-      
-  </xsl:template>
 
   <!-- Resource type specific templates -->
 
