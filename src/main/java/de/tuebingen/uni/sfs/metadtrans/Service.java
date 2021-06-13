@@ -9,13 +9,7 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,6 +42,7 @@ public class Service {
 	@Path("multi/{sessiondir}/{id}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	public Response getFile(@PathParam("sessiondir") String sessiondir, @PathParam("id") String id) throws IOException {
+		System.out.println("Console call");
 		final File dir = SessionTmpDir.getSessionDir(request.getSession()).getParentFile();
 		final File f = new File(dir, sessiondir + File.separator + id);
 		if (!f.exists()) {
@@ -154,9 +149,18 @@ public class Service {
 	}
 
 	@POST
-	@Path("/{converter}")
-	public Response postDirect(InputStream is, @PathParam("converter") String converter) throws IOException, Exception {
-		System.out.println(converter);
+	@Path("/{converter}/")
+	public Response postDirect(InputStream is, @PathParam("converter") String converter,
+							   @DefaultValue("none") @QueryParam("input") String inputURL) throws IOException, Exception {
+
+		// if an ?input was given, set InputStream is to the given URL
+		if (!inputURL.equals("none"))
+		{
+			URL url = new URL(inputURL);
+			//File f = SessionTmpDir.newNamedFile(request.getSession(), "download_file");
+			is = url.openStream();
+
+		}
 		File fmeta = File.createTempFile("cmdi2html-", ".xml");
 		fmeta.delete(); // needed by Files.copy
 		Files.copy(is, fmeta.toPath());
