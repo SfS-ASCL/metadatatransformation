@@ -297,12 +297,6 @@
   <!-- New approach starts here: -->
   <xsl:template name="ExperimentContextAsSection" match="*[local-name() = 'ExperimentContext']">
     <section>
-      <!-- TODO: move this to main.css once finished -->
-      <style> 
-        div.experiment { border-top: 1px solid grey; }
-        dt { font-weight: bold; }
-        dd { padding-left: 1em; }
-      </style>
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
       <xsl:apply-templates select="./*[local-name() = 'ExperimentalStudy']"/>
     </section>
