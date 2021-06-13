@@ -31,7 +31,6 @@
   <xsl:include href="xsl/Documentations.xsl"/>
   <xsl:include href="xsl/Access.xsl"/>
   <xsl:include href="xsl/ResourceProxyList.xsl"/>
-  <xsl:include href="xsl/ResourceProxyListInfo.xsl"/>
 
   <xsl:include href="xsl/LexicalResourceContext.xsl"/>
   <xsl:include href="xsl/ExperimentContext.xsl"/>
@@ -262,12 +261,13 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     	    });
 	  </script>
         
+      <main>
         <h1 style="margin-left:15px;">
           <b>Resource: <xsl:value-of
               select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b>
         </h1>
 
-        <div id="tabs">
+        <nav id="tabs">
           <ul>
             <li>
               <a href="#tabs-1">General Info</a>
@@ -305,31 +305,33 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-8">Data files</a>
             </li>
             <li>
-              <a href="#tabs-9">About...</a>
-            </li>
-            <li>
               <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
-
           <xsl:apply-templates/>
-        </div>
+        </nav>
+
+      </main>
+
         <footer class="site-footer h-card">
           <data class="u-url" href="/"/>
-
+          
           <div class="wrapper">
 
             <h2 class="footer-heading">TALAR - Tübingen Archive of Language Resources</h2>
 
             <div class="footer-col-wrapper">
               <div class="footer-col footer-col-1">
-                <ul class="contact-list">
-                  <li class="p-name">TALAR - Tübingen Archive of Language Resources</li>
-                  <li>
-                    <a class="u-email" href="mailto:clarin-repository@sfs.uni-tuebingen.de"
-                      >clarin-repository@sfs.uni-tuebingen.de</a>
-                  </li>
-                </ul>
+                <address>
+                  <p class="p-name">
+                    Seminar für Sprachwissenschaft<br/>
+                    SFB 833<br/>
+                    Wilhelmstrasse 19<br/>
+                    D-72074 Tübingen<br/>
+                    Tel. 07071 29-77151<br/>
+                    <a class="u-email" href="mailto:clarin-repository@sfs.uni-tuebingen.de">clarin-repository@sfs.uni-tuebingen.de</a>
+                  </p>
+                </address>
               </div>
               <div class="footer-col footer-col-1">
                 <ul class="social-media-list">
@@ -378,113 +380,101 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'GeneralInfo']">
-    <div id="tabs-1">
-      <h3>General Information</h3>
+    <section id="tabs-1">
+      <h2>General Information</h2>
       <xsl:call-template name="GeneralInfoAsTable" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Project']">
-    <div id="tabs-2">
-      <h3>Project</h3>
+    <section id="tabs-2">
+      <h2>Project</h2>
       <xsl:call-template name="ProjectAsTable" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Publications']">
-    <div id="tabs-3">
-      <h3>Publications</h3>
+    <section id="tabs-3">
+      <h2>Publications</h2>
       <xsl:call-template name="PublicationsAsTable" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Creation']">
-    <div id="tabs-4">
-      <h3>Creation</h3>
+    <section id="tabs-4">
+      <h2>Creation</h2>
       <xsl:call-template name="CreationAsTable" />
-    </div>
-    <div id="tabs-10">
-      <h3>Citation Information</h3>
+    </section>
+    <section id="tabs-10">
+      <h2>Citation Information</h2>
       <xsl:call-template name="CitationExamples" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Documentations']">
-    <div id="tabs-5">
-      <h3>Documentation</h3>
+    <section id="tabs-5">
+      <h2>Documentation</h2>
       <xsl:call-template name="DocumentationsAsTable" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Access']">
-    <div id="tabs-6">
-      <h3>Access</h3>
+    <section id="tabs-6">
+      <h2>Access</h2>
       <xsl:call-template name="AccessAsTable" />
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="//*[local-name() = 'ResourceProxyList']">
-    <div id="tabs-8">
-      <h3>Data Files</h3>
+    <section id="tabs-8">
+      <h2>Data Files</h2>
       <xsl:call-template name="ResourceProxyListSection" /> 
-    </div>
+    </section>
   </xsl:template>
 
-
-  <xsl:template match="*[local-name() = 'ResourceProxyListInfo']">
-    <!-- ignore content, generate About instead, still to do, especially enhancing! -->
-
-    <div id="tabs-9">
-      <h3>About</h3>
-      <p> This digital object contains: </p>
-      <xsl:call-template name="ChecksumsAsTable" /> 
-      <xsl:call-template name="AboutChecksumsTable" /> 
-    </div>
-      
-  </xsl:template>
 
   <!-- Resource type specific templates -->
 
   <xsl:template match="*[local-name() = 'LexicalResourceContext']">
-    <div id="tabs-7">
-      <h3>Lexical Resource</h3>
+    <section id="tabs-7">
+      <h2>Lexical Resource</h2>
       <xsl:call-template name="LexicalResourceContextAsTable" /> 
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ExperimentContext']">
-    <div id="tabs-7">
-      <h3>Experiment(s)</h3>
+    <section id="tabs-7">
+      <h2>Experiment(s)</h2>
       <xsl:call-template name="ExperimentContextAsTable" /> 
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ToolContext']">
-    <div id="tabs-7">
-      <h3>Tool(s)</h3>
+    <section id="tabs-7">
+      <h2>Tool(s)</h2>
       <xsl:call-template name="ToolContextAsTable" /> 
-    </div>
+    </section>
   </xsl:template> 
 
   <xsl:template match="*[local-name() = 'SpeechCorpusContext']">
-    <div id="tabs-7">
-      <h3>Speech Corpus</h3>
+    <section id="tabs-7">
+      <h2>Speech Corpus</h2>
       <xsl:call-template name="SpeechCorpusContextAsTable" /> 
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
-    <div id="tabs-7">
-      <h3>Text Corpus</h3>
+    <section id="tabs-7">
+      <h2>Text Corpus</h2>
       <xsl:call-template name="TextCorpusContextAsTable" /> 
-    </div>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'CourseProfileSpecific']">
-    <div id="tabs-7">
-      <h3>Course Information</h3>
+    <section id="tabs-7">
+      <h2>Course Information</h2>
       <xsl:call-template name="CourseProfileSpecificAsTable" /> 
-    </div>
+    </section>
   </xsl:template>
 
 </xsl:stylesheet>
