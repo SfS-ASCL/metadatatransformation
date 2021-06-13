@@ -5,40 +5,30 @@
   exclude-result-prefixes="xs xd functx">
 
   <xsl:output method="html" indent="yes"/>
-  <!-- TODO: cleanup. Get rid of outer table, split individual
-       sections into their own templates. -->
 
   <xsl:template name="ResourceProxyListSection" match="//*[local-name() = 'ResourceProxyList']">
-    <table>
-      <tbody> 
-        <tr>
-          <td><b>Persistent Identifier (PID) of this digital object: </b></td>
-          <td>
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-              </xsl:attribute>
-              <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-            </xsl:element>
-          </td>
-        </tr>
-        <tr>
-          <td><b>Resource landing page: </b></td>
-          <td>
-            <xsl:for-each select="./*">
-              <xsl:if test="./*[local-name() = 'ResourceType'] = 'LandingPage'">
-                <xsl:element name="a">
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                  </xsl:attribute>
-                  <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                </xsl:element>
-              </xsl:if>
-            </xsl:for-each>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+
+    <p>Persistent Identifier (PID) of this digital object:
+    <xsl:element name="a">
+      <xsl:attribute name="href">
+        <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+      </xsl:attribute>
+      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+    </xsl:element>
+    </p>
+
+    <p>Resource landing page:
+    <xsl:for-each select="./*">
+      <xsl:if test="./*[local-name() = 'ResourceType'] = 'LandingPage'">
+        <xsl:element name="a">
+          <xsl:attribute name="href">
+            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+          </xsl:attribute>
+          <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
+        </xsl:element>
+      </xsl:if>
+    </xsl:for-each>
+    </p>
 
     <h3>Subordinate data objects</h3>
     <xsl:choose>
