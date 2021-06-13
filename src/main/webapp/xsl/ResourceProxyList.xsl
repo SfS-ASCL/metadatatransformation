@@ -183,5 +183,15 @@
       <dd><xsl:value-of select="./*[local-name() = 'sha256']"/></dd>
     </xsl:if>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'ResourceProxyListInfo']">
+    <!-- suppress default template -->
+    <!-- ResourceProxyInfo nodes are rendered by the templates for the
+         corresponding ResourceProxy node (see above). But because
+         they're not in the same part of the document tree, the rules
+         for default templates end up being applied to them and
+         dumping the text of the checksums, etc. directly into the
+         page unless we suppress them. -->
+  </xsl:template>
  
 </xsl:stylesheet>
