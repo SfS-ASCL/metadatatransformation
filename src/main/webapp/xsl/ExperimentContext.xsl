@@ -453,11 +453,9 @@
         
         <dt>Language variety</dt>
         <dd>
-          <xsl:value-of
-              select=".//*[local-name() = 'VarietyName']"
-              />:<xsl:value-of
-              select=".//*[local-name() = 'NoParticipants']"
-              />
+          <xsl:value-of select=".//*[local-name() = 'VarietyName']" />
+          <xsl:text>: </xsl:text>
+          <xsl:value-of select=".//*[local-name() = 'NoParticipants']" />
         </dd>
 
         <dt>Recruitment</dt>
