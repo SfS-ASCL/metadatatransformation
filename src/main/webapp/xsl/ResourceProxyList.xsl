@@ -7,6 +7,8 @@
   <xsl:output method="html" indent="yes"/>
 
   <xsl:template name="ResourceProxyListSection" match="//*[local-name() = 'ResourceProxyList']">
+    <!-- TODO: the language here is really esoteric. Can we change
+         "data object" to "resource", "data stream" to "file", etc.?  -->
 
     <p>Persistent Identifier (PID) of this digital object:
     <xsl:element name="a">
@@ -129,6 +131,8 @@
           </dd>
 
           <xsl:apply-templates select="$infoNode/*[local-name() = 'Checksums']"/>
+          <!-- TODO: other info potentially in $infoNode:-->
+          <!-- LanguageScripts? LanguagesScriptGrp? Descriptions?-->
         </dl>
       </details>
     </xsl:if>
