@@ -308,10 +308,9 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
-
+          <xsl:apply-templates/>
         </nav>
-        
-        <xsl:apply-templates/>
+
       </main>
 
         <footer class="site-footer h-card">
