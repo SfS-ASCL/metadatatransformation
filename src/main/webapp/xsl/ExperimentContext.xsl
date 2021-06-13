@@ -79,14 +79,9 @@
                       select="./*[local-name() = 'Materials']/*[local-name() = 'Material']">
                     <li>
                       <xsl:value-of select="./*[local-name() = 'Domain']"/>
-                      <xsl:if
-                          test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description'] != ''">
-                        <xsl:text>
-			  : 
-			</xsl:text>
+                      <xsl:if test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description'] != ''">
+                        <xsl:text>: </xsl:text>
                         <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
-                        <!-- <xsl:value-of
-			     select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']" /> -->
                       </xsl:if>
                     </li>
                   </xsl:for-each>
@@ -525,12 +520,8 @@
         <xsl:for-each select="./*[local-name() = 'Material']">
           <li>
             <xsl:value-of select="./*[local-name() = 'Domain']"/>
-            <xsl:if
-                test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']">
-              <xsl:text>
-	        : 
-	      </xsl:text>
-              
+            <xsl:if test="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']">
+              <xsl:text>: </xsl:text>
               <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
             </xsl:if>
           </li>
