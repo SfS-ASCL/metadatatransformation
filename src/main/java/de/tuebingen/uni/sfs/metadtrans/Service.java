@@ -150,6 +150,22 @@ public class Service {
 
 	@POST
 	@Path("/{converter}/")
+	public Response postDirect(InputStream is, @PathParam("converter") String converter) throws IOException, Exception {
+		File fmeta = File.createTempFile("cmdi2html-", ".xml");
+		fmeta.delete(); // needed by Files.copy
+		Files.copy(is, fmeta.toPath());
+		final File fdc = CMDICast.castFile(fmeta, converter);
+		StreamingOutput stream = new StreamingOutput() {
+			@Override
+			public void write(OutputStream output) throws IOException, WebApplicationException {
+				Files.copy(fdc.toPath(), output);
+			}
+		};
+		return Response.ok(stream, "text/html").build();
+	}
+
+	@GET
+	@Path("/{converter}/")
 	public Response postDirect(InputStream is, @PathParam("converter") String converter,
 							   @DefaultValue("none") @QueryParam("input") String inputURL) throws IOException, Exception {
 
