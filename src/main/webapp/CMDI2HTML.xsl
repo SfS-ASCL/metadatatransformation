@@ -206,14 +206,14 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
         </title>
 
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+        <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
 
-        <link rel="stylesheet" type="text/css"
-          href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
+        <!-- <link rel="stylesheet" type="text/css" -->
+        <!--   href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/> -->
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/>
+        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/> -->
 
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/>
+        <!-- <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/> -->
         <xsl:call-template name="JSONLD"/>
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
       </head>
@@ -308,9 +308,10 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
-          <xsl:apply-templates/>
         </nav>
-
+        <article class="tabs">
+          <xsl:apply-templates/>
+        </article>
       </main>
 
         <footer class="site-footer h-card">
