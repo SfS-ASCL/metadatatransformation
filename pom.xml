@@ -169,6 +169,15 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+				<includes>
+					<include>**/*.xsl</include>
+					<include>**/*.xquery</include>
+				</includes>
+			</resource>
+		</resources>
 	</build>
 
 </project>
