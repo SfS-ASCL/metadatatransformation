@@ -262,53 +262,54 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	  </script>
         
       <main>
-        <h1 style="margin-left:15px;">
-          <b>Resource: <xsl:value-of
-              select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b>
+        <h1>
+          Resource:
+          <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/>
         </h1>
 
         <nav id="tabs">
           <ul>
             <li>
-              <a href="#tabs-1">General Info</a>
+              <a href="#general-info">General Info</a>
             </li>
             <xsl:if test="//*[local-name() = 'Project']">
               <li>
-                <a href="#tabs-2">Project</a>
+                <a href="#project">Project</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Publications']">
               <li>
-                <a href="#tabs-3">Publications</a>
+                <a href="#publications">Publications</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Creation']">
               <li>
-                <a href="#tabs-4">Creation</a>
+                <a href="#creation">Creation</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Documentations']">
               <li>
-                <a href="#tabs-5">Documentation</a>
+                <a href="#documentation">Documentation</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Access']">
               <li>
-                <a href="#tabs-6">Access</a>
+                <a href="#access">Access</a>
               </li>
             </xsl:if>
             <!--      <xsl:if test="not(contains(//*:Components/*/local-name(), 'DcmiTerms'))"><li><a href="#tabs-7">Resource-specific information</a></li></xsl:if> -->
             <li>
-              <a href="#tabs-7">Resource-specific information</a>
+              <a href="#resource-specific">Resource-specific information</a>
             </li>
             <li>
-              <a href="#tabs-8">Data files</a>
+              <a href="#data-files">Data files</a>
             </li>
             <li>
-              <a href="#tabs-10">Cite data set</a>
+              <a href="#citation">Cite data set</a>
             </li>
           </ul>
         </nav>
+
         <article class="tabs">
           <xsl:apply-templates/>
         </article>
@@ -381,53 +382,53 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'GeneralInfo']">
-    <section id="tabs-1">
+    <section id="general-info">
       <h2>General Information</h2>
       <xsl:call-template name="GeneralInfoAsTable" />
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Project']">
-    <section id="tabs-2">
+    <section id="project">
       <h2>Project</h2>
       <xsl:call-template name="ProjectAsTable" />
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Publications']">
-    <section id="tabs-3">
+    <section id="publications">
       <h2>Publications</h2>
       <xsl:call-template name="PublicationsAsTable" />
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Creation']">
-    <section id="tabs-4">
+    <section id="creation">
       <h2>Creation</h2>
       <xsl:call-template name="CreationAsTable" />
     </section>
-    <section id="tabs-10">
+    <section id="citation">
       <h2>Citation Information</h2>
       <xsl:call-template name="CitationExamples" />
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Documentations']">
-    <section id="tabs-5">
+    <section id="documentation">
       <h2>Documentation</h2>
       <xsl:call-template name="DocumentationsAsTable" />
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Access']">
-    <section id="tabs-6">
+    <section id="access">
       <h2>Access</h2>
       <xsl:call-template name="AccessAsTable" />
     </section>
   </xsl:template>
 
   <xsl:template match="//*[local-name() = 'ResourceProxyList']">
-    <section id="tabs-8">
+    <section id="data-files">
       <h2>Data Files</h2>
       <xsl:call-template name="ResourceProxyListSection" /> 
     </section>
@@ -437,42 +438,42 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   <!-- Resource type specific templates -->
 
   <xsl:template match="*[local-name() = 'LexicalResourceContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Lexical Resource</h2>
       <xsl:call-template name="LexicalResourceContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ExperimentContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Experiment(s)</h2>
       <xsl:call-template name="ExperimentContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ToolContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Tool(s)</h2>
       <xsl:call-template name="ToolContextAsTable" /> 
     </section>
   </xsl:template> 
 
   <xsl:template match="*[local-name() = 'SpeechCorpusContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Speech Corpus</h2>
       <xsl:call-template name="SpeechCorpusContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Text Corpus</h2>
       <xsl:call-template name="TextCorpusContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'CourseProfileSpecific']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Course Information</h2>
       <xsl:call-template name="CourseProfileSpecificAsTable" /> 
     </section>
