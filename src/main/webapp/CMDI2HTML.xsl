@@ -216,6 +216,43 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <!-- <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/> -->
         <xsl:call-template name="JSONLD"/>
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
+        <style>
+article.tabs {
+  display: block;
+}
+
+nav#tabs {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+nav#tabs ul {
+  padding: 0;
+  background: white;
+}
+
+nav#tabs ul li {
+  display: inline-block;
+  margin-left: 1em;
+}
+
+article.tabs section {
+  display: none;
+}
+
+article.tabs section:last-child, /* turn on the last tab when no other selected */
+article.tabs section:target {
+  display: block;
+  position: relative;
+  top: 2em;
+}
+article.tabs section:target ~ section:last-child { /* turn off when another tab is :target */
+  display: none;
+}
+
+        </style>
       </head>
 
 
