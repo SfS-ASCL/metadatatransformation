@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:cmd="http://www.clarin.eu/cmd/"
-  exclude-result-prefixes="xs xd functx">
+  exclude-result-prefixes="">
 
   <!-- TODO: split out Annotation, Source, and Derivations into detail sections-->
   <xsl:output method="html" indent="yes"/>
