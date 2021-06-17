@@ -348,7 +348,20 @@ article.tabs section:target ~ section:last-child { /* turn off when another tab 
         </nav>
 
         <article class="tabs">
-          <xsl:apply-templates/>
+          <xsl:call-template name="GeneralInfoSection" />
+          <xsl:call-template name="ProjectSection" />
+          <xsl:call-template name="PublicationsSection" />
+          <xsl:call-template name="CreationSection" />
+          <xsl:call-template name="DocumentationSection" />
+          <xsl:call-template name="AccessSection" />
+          <xsl:apply-templates select="//*[local-name() = 'LexicalResourceContext' or
+                                           local-name() = 'ExperimentContext' or
+                                           local-name() = 'ToolContext' or
+                                           local-name() = 'SpeechCorpusContext' or
+                                           local-name() = 'TextCorpusContext' or
+                                           local-name() = 'CourseProfileSpecific'] " />
+          <xsl:call-template name="DataFilesSection" />
+          <xsl:call-template name="CitationSection" />
         </article>
       </main>
 
@@ -418,59 +431,61 @@ article.tabs section:target ~ section:last-child { /* turn off when another tab 
     </html>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'GeneralInfo']">
+  <xsl:template name="GeneralInfoSection">
     <section id="general-info">
       <h2>General Information</h2>
-      <xsl:call-template name="GeneralInfoAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'GeneralInfo']"/>
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Project']">
+  <xsl:template name="ProjectSection">
     <section id="project">
       <h2>Project</h2>
-      <xsl:call-template name="ProjectAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Project']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Publications']">
+  <xsl:template name="PublicationsSection">
     <section id="publications">
       <h2>Publications</h2>
-      <xsl:call-template name="PublicationsAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Publications']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Creation']">
+  <xsl:template name="CreationSection">
     <section id="creation">
       <h2>Creation</h2>
-      <xsl:call-template name="CreationAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Creation']"/>
     </section>
+  </xsl:template>
+
+  <xsl:template name="CitationSection">
     <section id="citation">
       <h2>Citation Information</h2>
       <xsl:call-template name="CitationExamples" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Documentations']">
+  <xsl:template name="DocumentationSection">
     <section id="documentation">
       <h2>Documentation</h2>
-      <xsl:call-template name="DocumentationsAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Documentations']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Access']">
+  <xsl:template name="AccessSection">
     <section id="access">
       <h2>Access</h2>
-      <xsl:call-template name="AccessAsTable" />
+      <xsl:apply-templates  select="//*[local-name() = 'Access']"/>
     </section>
   </xsl:template>
 
-  <xsl:template match="//*[local-name() = 'ResourceProxyList']">
+  <xsl:template name="DataFilesSection">
     <section id="data-files">
       <h2>Data Files</h2>
-      <xsl:call-template name="ResourceProxyListSection" /> 
+      <xsl:apply-templates select="//*[local-name() = 'ResourceProxyList']"/> 
     </section>
   </xsl:template>
-
 
   <!-- Resource type specific templates -->
 
