@@ -40,13 +40,13 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 								DownloadBox({files: this.state.files}),
 								React.DOM.hr(null),
 								React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
-								React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
-								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
-								React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+								React.DOM.pre(null, "$ curl -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc/?input=URL"),
+								React.DOM.pre(null, "$ curl -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC/?input=URL")
 							)
 						)
 					)
