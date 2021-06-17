@@ -308,7 +308,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
               <a href="#tabs-9">About...</a>
             </li>
             <li>
-              <a href="#tabs-10">Cite dataset as</a>
+              <a href="#tabs-10">Cite data set</a>
             </li>
           </ul>
 
@@ -404,9 +404,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <xsl:call-template name="CreationAsTable" />
     </div>
     <div id="tabs-10">
-      <h3>Citation</h3>
-      <p>To cite <em>the dataset itself</em>, please use the following:</p>
-      <xsl:call-template name="CitationAsTable"/>
+      <h3>Citation Information</h3>
+      <xsl:call-template name="CitationExamples" />
     </div>
   </xsl:template>
 
