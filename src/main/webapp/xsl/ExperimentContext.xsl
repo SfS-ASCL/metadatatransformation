@@ -304,13 +304,13 @@
   </xsl:template>
 
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']">
-    <div class="experiment">
+    <section class="experiment">
       <xsl:call-template name="ExperimentInfoAsHeading"/>
       <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
       <xsl:call-template name="MethodDetails"/>
       <xsl:call-template name="ResultDetails"/>     
-    </div>
+    </section>
   </xsl:template>
   
   <xsl:template name="ExperimentInfoAsDefList">
