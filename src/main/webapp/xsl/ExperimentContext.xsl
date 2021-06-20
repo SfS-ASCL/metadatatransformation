@@ -308,6 +308,7 @@
       <xsl:call-template name="ExperimentInfoAsHeading"/>
       <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
+      <xsl:apply-templates select="./*[local-name() = 'Hypotheses']" mode="details" />
       <xsl:call-template name="MethodDetails"/>
       <xsl:call-template name="ResultDetails"/>     
     </section>
@@ -347,6 +348,28 @@
         </xsl:otherwise>
       </xsl:choose>
     </h3>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Hypotheses']" mode="details">
+    <details>
+      <summary>Hypotheses</summary>
+      <xsl:choose>
+        <xsl:when test=".//*[local-name() = 'Description' and text()]">
+          <ol>
+            <xsl:apply-templates select="./*[local-name() = 'Hypothesis']" mode="list-item" />
+          </ol>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>No hypothesis information is available for this experiment.</p>
+        </xsl:otherwise>
+      </xsl:choose>
+    </details>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Hypothesis']" mode="list-item">
+    <li>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+    </li>
   </xsl:template>
 
   <xsl:template name="ResultDetails">
