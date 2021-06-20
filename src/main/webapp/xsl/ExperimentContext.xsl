@@ -155,21 +155,23 @@
               mode="comma-separated-text" />
         </dd>
 
-        <dt>Variable(s)</dt>
+        <dt>Variables</dt>
         <dd>
-          <ul>
-            <xsl:for-each
-                select="./*[local-name() = 'Elicitation']/*[local-name() = 'Variables']/*[local-name() = 'Variable']">
-              <li>
-                <xsl:value-of select="./*[local-name() = 'VariableName']"/>
-                <xsl:if test="./*[local-name() = 'VariableType'] != ''">
-                  <xsl:text> (</xsl:text>
-                  <xsl:value-of select="./*[local-name() = 'VariableType']"/>
-                  <xsl:text>)</xsl:text>
-                </xsl:if>
-              </li>
-            </xsl:for-each>
-          </ul>
+          <xsl:if test="./*[local-name() = 'Elicitation']/*[local-name() = 'Variables']/*[local-name() = 'Variable']">
+            <ul>
+              <xsl:for-each
+                  select="./*[local-name() = 'Elicitation']/*[local-name() = 'Variables']/*[local-name() = 'Variable']">
+                <li>
+                  <xsl:value-of select="./*[local-name() = 'VariableName']"/>
+                  <xsl:if test="./*[local-name() = 'VariableType'] != ''">
+                    <xsl:text> (</xsl:text>
+                    <xsl:value-of select="./*[local-name() = 'VariableType']"/>
+                    <xsl:text>)</xsl:text>
+                  </xsl:if>
+                </li>
+              </xsl:for-each>
+            </ul>
+          </xsl:if>
         </dd>
 
         <dt>Participant data</dt>
@@ -224,9 +226,11 @@
         
         <dt>Language varieties</dt>
         <dd>
-          <ul>
-            <xsl:apply-templates select="./*[local-name() = 'LanguageVariety']/*[local-name() = 'VarietyGrp']" mode="list-item"/>
-          </ul>
+          <xsl:if test="./*[local-name() = 'LanguageVariety']/*[local-name() = 'VarietyGrp']"> 
+            <ul>
+              <xsl:apply-templates select="./*[local-name() = 'LanguageVariety']/*[local-name() = 'VarietyGrp']" mode="list-item"/>
+            </ul>
+          </xsl:if>
         </dd>
 
         <dt>Participant profession</dt>
