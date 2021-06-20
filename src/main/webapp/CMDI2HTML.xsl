@@ -206,16 +206,63 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
         </title>
 
-        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/>
+        <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
 
-        <link rel="stylesheet" type="text/css"
-          href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
+        <link rel="stylesheet" type="text/css" href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
 
-        <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/>
+        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/> -->
 
-        <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/>
+        <!-- <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/> -->
         <xsl:call-template name="JSONLD"/>
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
+        <style>
+/* TODO: migrate these definitions into the main.css file once completed */
+          
+nav#toc {
+  padding: 0;
+  display: block;
+}
+
+nav#toc ul {
+  padding: 0;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0; /* reset from main.css... */
+}
+
+nav#toc ul li {
+  display: inline-block;
+  border: 1px solid #e8e8e8;
+  border-radius: 0.2em;
+  padding: 0.5em;
+
+}
+
+article.tabs {
+  display: block;
+}
+
+article.tabs section {
+  display: none;
+}
+
+/* turn on the :target tab, or the last tab as default when no other selected. */
+article.tabs section:target, 
+article.tabs section:last-child
+{
+  display: block;
+}
+
+/* turn off default tab when another tab is :target.
+The default tab must appear last in the HTML, rather than first, because CSS
+has no analogous way to select the first when it has a following :target sibling. */
+article.tabs section:target ~ section:last-child { 
+  display: none;
+}
+
+        </style>
       </head>
 
 
@@ -252,65 +299,73 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
             </nav>
           </div>
         </header>
-        <script>
-    	    $(function() {
-    	    $( "#tabs" ).tabs({
-            event: "mouseover"
-    	    //event: "click"
-    	    });
-    	    });
-	  </script>
-        
+       
       <main>
-        <h1 style="margin-left:15px;">
-          <b>Resource: <xsl:value-of
-              select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/></b>
+        <h1>
+          Resource:
+          <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/>
         </h1>
 
-        <nav id="tabs">
+        <nav id="toc">
           <ul>
             <li>
-              <a href="#tabs-1">General Info</a>
+              <a href="#general-info">General Info</a>
             </li>
             <xsl:if test="//*[local-name() = 'Project']">
               <li>
-                <a href="#tabs-2">Project</a>
+                <a href="#project">Project</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Publications']">
               <li>
-                <a href="#tabs-3">Publications</a>
+                <a href="#publications">Publications</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Creation']">
               <li>
-                <a href="#tabs-4">Creation</a>
+                <a href="#creation">Creation</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Documentations']">
               <li>
-                <a href="#tabs-5">Documentation</a>
+                <a href="#documentation">Documentation</a>
               </li>
             </xsl:if>
             <xsl:if test="//*[local-name() = 'Access']">
               <li>
-                <a href="#tabs-6">Access</a>
+                <a href="#access">Access</a>
               </li>
             </xsl:if>
             <!--      <xsl:if test="not(contains(//*:Components/*/local-name(), 'DcmiTerms'))"><li><a href="#tabs-7">Resource-specific information</a></li></xsl:if> -->
             <li>
-              <a href="#tabs-7">Resource-specific information</a>
+              <a href="#resource-specific">Resource-specific information</a>
             </li>
             <li>
-              <a href="#tabs-8">Data files</a>
+              <a href="#data-files">Data files</a>
             </li>
             <li>
-              <a href="#tabs-10">Cite data set</a>
+              <a href="#citation">Cite data set</a>
             </li>
           </ul>
-          <xsl:apply-templates/>
         </nav>
 
+        <article class="tabs">
+          <xsl:call-template name="ProjectSection" />
+          <xsl:call-template name="PublicationsSection" />
+          <xsl:call-template name="CreationSection" />
+          <xsl:call-template name="DocumentationSection" />
+          <xsl:call-template name="AccessSection" />
+          <xsl:apply-templates select="//*[local-name() = 'LexicalResourceContext' or
+                                           local-name() = 'ExperimentContext' or
+                                           local-name() = 'ToolContext' or
+                                           local-name() = 'SpeechCorpusContext' or
+                                           local-name() = 'TextCorpusContext' or
+                                           local-name() = 'CourseProfileSpecific'] " />
+          <xsl:call-template name="DataFilesSection" />
+          <xsl:call-template name="CitationSection" />
+          <!-- General info is rendered *last* in the HTML so it can be displayed by default; see CSS.  -->
+          <xsl:call-template name="GeneralInfoSection" />
+        </article>
       </main>
 
         <footer class="site-footer h-card">
@@ -379,99 +434,101 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     </html>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'GeneralInfo']">
-    <section id="tabs-1">
+  <xsl:template name="GeneralInfoSection">
+    <section id="general-info">
       <h2>General Information</h2>
-      <xsl:call-template name="GeneralInfoAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'GeneralInfo']"/>
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Project']">
-    <section id="tabs-2">
+  <xsl:template name="ProjectSection">
+    <section id="project">
       <h2>Project</h2>
-      <xsl:call-template name="ProjectAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Project']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Publications']">
-    <section id="tabs-3">
+  <xsl:template name="PublicationsSection">
+    <section id="publications">
       <h2>Publications</h2>
-      <xsl:call-template name="PublicationsAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Publications']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Creation']">
-    <section id="tabs-4">
+  <xsl:template name="CreationSection">
+    <section id="creation">
       <h2>Creation</h2>
-      <xsl:call-template name="CreationAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Creation']"/>
     </section>
-    <section id="tabs-10">
+  </xsl:template>
+
+  <xsl:template name="CitationSection">
+    <section id="citation">
       <h2>Citation Information</h2>
       <xsl:call-template name="CitationExamples" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Documentations']">
-    <section id="tabs-5">
+  <xsl:template name="DocumentationSection">
+    <section id="documentation">
       <h2>Documentation</h2>
-      <xsl:call-template name="DocumentationsAsTable" />
+      <xsl:apply-templates select="//*[local-name() = 'Documentations']" />
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Access']">
-    <section id="tabs-6">
+  <xsl:template name="AccessSection">
+    <section id="access">
       <h2>Access</h2>
-      <xsl:call-template name="AccessAsTable" />
+      <xsl:apply-templates  select="//*[local-name() = 'Access']"/>
     </section>
   </xsl:template>
 
-  <xsl:template match="//*[local-name() = 'ResourceProxyList']">
-    <section id="tabs-8">
+  <xsl:template name="DataFilesSection">
+    <section id="data-files">
       <h2>Data Files</h2>
-      <xsl:call-template name="ResourceProxyListSection" /> 
+      <xsl:apply-templates select="//*[local-name() = 'ResourceProxyList']"/> 
     </section>
   </xsl:template>
-
 
   <!-- Resource type specific templates -->
 
   <xsl:template match="*[local-name() = 'LexicalResourceContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Lexical Resource</h2>
       <xsl:call-template name="LexicalResourceContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ExperimentContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Experiment(s)</h2>
       <xsl:call-template name="ExperimentContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'ToolContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Tool(s)</h2>
       <xsl:call-template name="ToolContextAsTable" /> 
     </section>
   </xsl:template> 
 
   <xsl:template match="*[local-name() = 'SpeechCorpusContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Speech Corpus</h2>
       <xsl:call-template name="SpeechCorpusContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Text Corpus</h2>
       <xsl:call-template name="TextCorpusContextAsTable" /> 
     </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'CourseProfileSpecific']">
-    <section id="tabs-7">
+    <section id="resource-specific">
       <h2>Course Information</h2>
       <xsl:call-template name="CourseProfileSpecificAsTable" /> 
     </section>
