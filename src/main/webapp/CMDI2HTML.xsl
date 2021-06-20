@@ -269,6 +269,17 @@ blockquote {
   letter-spacing: normal;
   font-style: normal;
 }
+
+details {
+  margin-left: 1em;
+}
+
+dt {
+  font-weight: bold;
+}
+dd {
+  margin-left: 1em;
+}
         </style>
       </head>
 
