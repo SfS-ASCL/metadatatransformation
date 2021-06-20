@@ -32,6 +32,19 @@
     </xsl:if>
   </xsl:template>
 
+  <!-- Turns any node whose text() value is a URL into a link to that URL -->
+  <!-- The value of the link-text param, if supplied, will be used for
+       the link text; by default, the URL itself is used. -->
+  <xsl:template match="*" mode="link-to-url">
+    <xsl:param name="link-text" select="./text()"/>
+    <xsl:element name="a">
+      <xsl:attribute name="href">
+        <xsl:value-of select="./text()"/>
+      </xsl:attribute>
+      <xsl:value-of select="$link-text"/>
+    </xsl:element>
+  </xsl:template>
+
   <!-- This is called from the resource-specific templates: -->
   <xsl:template name="TypeSpecificSizeInfoAsDefList"
                 match="*[local-name() ='TypeSpecificSizeInfo']">
