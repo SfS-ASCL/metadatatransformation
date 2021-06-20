@@ -203,7 +203,8 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
   <xsl:template name="mainProcessing">
     <html>
       <head>
-        <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+        <title>
+          <xsl:value-of select="//*[local-name() = 'ResourceName']"/> - Resource 
         </title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
