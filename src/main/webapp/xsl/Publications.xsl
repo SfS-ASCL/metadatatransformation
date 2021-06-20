@@ -41,23 +41,23 @@
   <xsl:template match="*[local-name() = 'Author']" mode="name-with-link-and-comma">
     <xsl:variable name="authorUrl"
                   select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id']"/>
+    <xsl:variable name="authorName">
+      <xsl:value-of select="./*[local-name() = 'firstName']"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'lastName']"/>
+    </xsl:variable>
+
     <xsl:choose>
       <xsl:when test="$authorUrl != ''">
         <xsl:apply-templates select="$authorUrl" mode="link-to-url">
-          <xsl:with-param name="link-text">
-            <xsl:value-of select="./*[local-name() = 'firstName']"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="./*[local-name() = 'lastName']"/>
-          </xsl:with-param>
+          <xsl:with-param name="link-text" select="$authorName"/>
         </xsl:apply-templates>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:value-of select="./*[local-name() = 'firstName']"/>
-        <xsl:text> </xsl:text>
-        <xsl:value-of select="./*[local-name() = 'lastName']"/>
+        <xsl:value-of select="$authorName"/>
       </xsl:otherwise>
     </xsl:choose>
-    <xsl:if test="position() != last()">, </xsl:if>
+    <xsl:if test="position() != last() and $authorName != ' '">, </xsl:if>
   </xsl:template>
 
 </xsl:stylesheet>
