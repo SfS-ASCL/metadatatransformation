@@ -216,18 +216,28 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:call-template name="JSONLD"/>
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
         <style>
+/* TODO: migrate these definitions into the main.css file once completed */
+          
 nav#toc {
+  padding: 0;
   display: block;
 }
 
 nav#toc ul {
   padding: 0;
-  background: white;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0; /* reset from main.css... */
 }
 
 nav#toc ul li {
   display: inline-block;
-  margin-left: 1em;
+  border: 1px solid #e8e8e8;
+  border-radius: 0.2em;
+  padding: 0.5em;
+
 }
 
 article.tabs {
