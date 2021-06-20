@@ -24,6 +24,7 @@
   <xsl:template name="ExperimentSection" match="*[local-name() = 'Experiment']" mode="section">
     <section class="experiment">
       <xsl:call-template name="ExperimentInfoAsHeading"/>
+      <!-- TODO: ExperimentalParadigm? -->
       <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
 
       <xsl:apply-templates select="./*[local-name() = 'Hypotheses']" mode="details" />
@@ -32,6 +33,7 @@
       <xsl:apply-templates select="./*[local-name() = 'Materials']" mode="details"/> 
       <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/> 
       <xsl:apply-templates select="./*[local-name() = 'AnalysisToolInfo']" mode="details"/> 
+      <!-- TODO: ExperimentalQuality? TypeSpecificSizeInfo? -->
     </section>
   </xsl:template>
   
