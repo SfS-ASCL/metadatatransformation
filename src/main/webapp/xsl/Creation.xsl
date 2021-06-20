@@ -2,7 +2,7 @@
 <xsl:stylesheet version="2.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:cmd="http://www.clarin.eu/cmd/"
-  exclude-result-prefixes="xs xd functx">
+  exclude-result-prefixes="">
 
   <!-- TODO: split out Annotation, Source, and Derivations into detail sections-->
   <xsl:output method="html" indent="yes"/>
@@ -395,9 +395,9 @@
   <xsl:template name="CitationExamples">
     <!-- Provides the contents of the "Cite data set" tab -->
     <p>Please cite the data set itself as follows:</p>
-    <p class="bib-entry">
+    <blockquote>
       <xsl:call-template name="DatasetCitation"/>
-    </p>
+    </blockquote>
     <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
       <p>
         Individual items in the data set may be cited using their
@@ -406,9 +406,9 @@
         <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" /></code>
         as follows:
       </p>
-      <p class="bib-entry">
+      <blockquote>
         <xsl:call-template name="InDatasetCitation"/>
-      </p>  
+      </blockquote>  
     </xsl:if>
   </xsl:template>
 
