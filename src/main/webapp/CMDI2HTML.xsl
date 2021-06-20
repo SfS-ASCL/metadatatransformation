@@ -283,6 +283,10 @@ dt:after {
 dd {
   margin-left: 1em;
 }
+
+address {
+  font-style: normal;
+}
         </style>
       </head>
 

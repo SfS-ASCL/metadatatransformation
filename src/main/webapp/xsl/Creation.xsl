@@ -23,31 +23,33 @@
             <b>Creator(s): </b>
           </td>
           <td>
-            <xsl:for-each select="./*[local-name() = 'Creators']/*[local-name() = 'Person']">
-              <xsl:choose>
-                <xsl:when
-                    test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
-                  <xsl:element name="a">
-                    <xsl:attribute name="href">
-                      <xsl:value-of
-                          select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                          />
-                    </xsl:attribute>
+            <address>
+              <xsl:for-each select="./*[local-name() = 'Creators']/*[local-name() = 'Person']">
+                <xsl:choose>
+                  <xsl:when
+                      test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
+                    <xsl:element name="a">
+                      <xsl:attribute name="href">
+                        <xsl:value-of
+                            select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
+                            />
+                      </xsl:attribute>
+                      <xsl:value-of select="./*[local-name() = 'firstName']"/>
+                      <xsl:text> </xsl:text>
+                      <xsl:value-of select="./*[local-name() = 'lastName']"/>
+                    </xsl:element>
+                  </xsl:when>
+                  <xsl:otherwise>
                     <xsl:value-of select="./*[local-name() = 'firstName']"/>
                     <xsl:text> </xsl:text>
                     <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                  </xsl:element>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                  <xsl:text> </xsl:text>
-                  <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                </xsl:otherwise>
-              </xsl:choose>
-              <xsl:if test="./*[local-name() = 'role'] != ''"> (<xsl:value-of
-              select="./*[local-name() = 'role']"/>) </xsl:if>
-              <xsl:if test="position() != last()">, </xsl:if>
-            </xsl:for-each>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="./*[local-name() = 'role'] != ''"> (<xsl:value-of
+                select="./*[local-name() = 'role']"/>) </xsl:if>
+                <xsl:if test="position() != last()">, </xsl:if>
+              </xsl:for-each>
+            </address>
           </td>
         </tr>
         <xsl:for-each select="./*[local-name() = 'CreationToolInfo']">
