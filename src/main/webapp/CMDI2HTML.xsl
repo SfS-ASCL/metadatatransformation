@@ -246,13 +246,13 @@ article.tabs {
   display: block;
 }
 
-article.tabs section {
+article.tabs > section {
   display: none;
 }
 
 /* turn on the :target tab, or the last tab as default when no other selected. */
-article.tabs section:target, 
-article.tabs section:last-child
+article.tabs > section:target, 
+article.tabs > section:last-child
 {
   display: block;
 }
