@@ -289,15 +289,7 @@ article.tabs section:target ~ section:last-child {
             </nav>
           </div>
         </header>
-        <script>
-    	    $(function() {
-    	    $( "#tabs" ).tabs({
-            event: "mouseover"
-    	    //event: "click"
-    	    });
-    	    });
-	  </script>
-        
+       
       <main>
         <h1>
           Resource:
