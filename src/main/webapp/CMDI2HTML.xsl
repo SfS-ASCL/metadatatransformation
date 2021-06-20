@@ -246,13 +246,13 @@ article.tabs {
   display: block;
 }
 
-article.tabs section {
+article.tabs > section {
   display: none;
 }
 
 /* turn on the :target tab, or the last tab as default when no other selected. */
-article.tabs section:target, 
-article.tabs section:last-child
+article.tabs > section:target, 
+article.tabs > section:last-child
 {
   display: block;
 }
@@ -523,7 +523,7 @@ dd {
   <xsl:template match="*[local-name() = 'ExperimentContext']">
     <section id="resource-specific">
       <h2>Experiment(s)</h2>
-      <xsl:call-template name="ExperimentContextAsTable" /> 
+      <xsl:call-template name="ExperimentContextAsSection"/> 
     </section>
   </xsl:template>
 

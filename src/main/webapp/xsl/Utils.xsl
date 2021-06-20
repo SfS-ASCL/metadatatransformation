@@ -11,17 +11,25 @@
   <!-- This is called from many different templates: -->
   <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
     <xsl:for-each select="*[local-name() = 'Description']">
-      <xsl:if test="@xml:lang='en'">
-	<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
-      </xsl:if>
-      <xsl:if test="@xml:lang='de'">
-	<p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
-      </xsl:if>	
-      
-      
+      <xsl:element name="p">
+        <xsl:if test="@xml:lang != ''" >
+          <xsl:attribute name="lang">
+            <xsl:value-of select="@xml:lang" />
+          </xsl:attribute>
+        </xsl:if>
+        <xsl:value-of select="."/>
+      </xsl:element>
     </xsl:for-each>
-    <!-- 	<xsl:value-of
-	 select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
+  </xsl:template>
+
+  <!-- Turns a node collection of nodes with text values into comma-separated text -->
+  <xsl:template match="*" mode="comma-separated-text">
+    <xsl:if test="text()">
+      <xsl:value-of select="text()"/>
+      <xsl:if test="position() != last()">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
+    </xsl:if>
   </xsl:template>
 
   <!-- This is called from the resource-specific templates: -->
