@@ -264,6 +264,11 @@ article.tabs section:target ~ section:last-child {
   display: none;
 }
 
+blockquote {
+  /* TODO: reset these in main.css */
+  letter-spacing: normal;
+  font-style: normal;
+}
         </style>
       </head>
 
