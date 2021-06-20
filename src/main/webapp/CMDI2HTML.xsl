@@ -277,6 +277,9 @@ details {
 dt {
   font-weight: bold;
 }
+dt:after {
+  content: ":";
+}
 dd {
   margin-left: 1em;
 }
