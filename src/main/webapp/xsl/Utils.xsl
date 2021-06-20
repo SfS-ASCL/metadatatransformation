@@ -22,6 +22,16 @@
     </xsl:for-each>
   </xsl:template>
 
+  <!-- Turns a node collection of nodes with text values into comma-separated text -->
+  <xsl:template match="*" mode="comma-separated-text">
+    <xsl:if test="text()">
+      <xsl:value-of select="text()"/>
+      <xsl:if test="position() != last()">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
+    </xsl:if>
+  </xsl:template>
+
   <!-- This is called from the resource-specific templates: -->
   <xsl:template name="TypeSpecificSizeInfoAsDefList"
                 match="*[local-name() ='TypeSpecificSizeInfo']">
