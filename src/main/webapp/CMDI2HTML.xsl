@@ -205,6 +205,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
       <head>
         <title>Resource: <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
         </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
         <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
 
