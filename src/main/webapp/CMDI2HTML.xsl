@@ -217,38 +217,39 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:call-template name="JSONLD"/>
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
         <style>
-article.tabs {
+nav#toc {
   display: block;
 }
 
-nav#tabs {
-  display: block;
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-nav#tabs ul {
+nav#toc ul {
   padding: 0;
   background: white;
 }
 
-nav#tabs ul li {
+nav#toc ul li {
   display: inline-block;
   margin-left: 1em;
+}
+
+article.tabs {
+  display: block;
 }
 
 article.tabs section {
   display: none;
 }
 
-article.tabs section:last-child, /* turn on the last tab when no other selected */
-article.tabs section:target {
+/* turn on the :target tab, or the last tab as default when no other selected. */
+article.tabs section:target, 
+article.tabs section:last-child
+{
   display: block;
-  position: relative;
-  top: 2em;
 }
-article.tabs section:target ~ section:last-child { /* turn off when another tab is :target */
+
+/* turn off default tab when another tab is :target.
+The default tab must appear last in the HTML, rather than first, because CSS
+has no analogous way to select the first when it has a following :target sibling. */
+article.tabs section:target ~ section:last-child { 
   display: none;
 }
 
@@ -304,7 +305,7 @@ article.tabs section:target ~ section:last-child { /* turn off when another tab 
           <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/>
         </h1>
 
-        <nav id="tabs">
+        <nav id="toc">
           <ul>
             <li>
               <a href="#general-info">General Info</a>
@@ -348,7 +349,6 @@ article.tabs section:target ~ section:last-child { /* turn off when another tab 
         </nav>
 
         <article class="tabs">
-          <xsl:call-template name="GeneralInfoSection" />
           <xsl:call-template name="ProjectSection" />
           <xsl:call-template name="PublicationsSection" />
           <xsl:call-template name="CreationSection" />
@@ -362,6 +362,8 @@ article.tabs section:target ~ section:last-child { /* turn off when another tab 
                                            local-name() = 'CourseProfileSpecific'] " />
           <xsl:call-template name="DataFilesSection" />
           <xsl:call-template name="CitationSection" />
+          <!-- General info is rendered *last* in the HTML so it can be displayed by default; see CSS.  -->
+          <xsl:call-template name="GeneralInfoSection" />
         </article>
       </main>
 
