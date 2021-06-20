@@ -31,6 +31,7 @@
       <xsl:apply-templates select="./*[local-name() = 'Results']" mode="details" />
       <xsl:apply-templates select="./*[local-name() = 'Materials']" mode="details"/> 
       <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/> 
+      <xsl:apply-templates select="./*[local-name() = 'AnalysisToolInfo']" mode="details"/> 
     </section>
   </xsl:template>
   
@@ -339,4 +340,44 @@
       </ul>
     </details>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'AnalysisToolInfo']" mode="details">
+    <details>
+      <summary>Analysis Tool</summary>
+
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/> 
+
+      <dl>
+
+        <dt>Name</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnalysisTool']" />
+        </dd>
+
+        <dt>Type</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'ToolType']" />
+        </dd>
+
+        <dt>Version</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Version']" />
+        </dd>
+
+        <dt>Link</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'Url' and text()]">
+            <xsl:element name="a">
+              <xsl:attribute name="href">
+                <xsl:value-of select="./*[local-name() = 'Url']" />
+              </xsl:attribute>
+              <xsl:value-of select="./*[local-name() = 'Url']" />
+            </xsl:element>
+          </xsl:if>
+        </dd>
+      </dl>
+
+    </details>
+  </xsl:template>
+
 </xsl:stylesheet>
