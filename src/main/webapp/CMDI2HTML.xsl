@@ -208,8 +208,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 
         <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
 
-        <!-- <link rel="stylesheet" type="text/css" -->
-        <!--   href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/> -->
+        <link rel="stylesheet" type="text/css" href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
 
         <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/> -->
 
