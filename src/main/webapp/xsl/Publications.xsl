@@ -63,7 +63,7 @@
       <!-- following punctuation in the list: -->
       <xsl:choose>
         <xsl:when test="position() = last() - 1">
-          <xsl:text>, and </xsl:text>
+          <xsl:text> and </xsl:text>
         </xsl:when>
         <xsl:when test="last() > position()">
           <xsl:text>, </xsl:text>
