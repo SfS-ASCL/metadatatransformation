@@ -219,7 +219,12 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
         <style>
 /* TODO: migrate these definitions into the main.css file once completed */
-          
+body {          
+  max-width: 1200px;
+  margin: 0 auto 0 auto;
+  padding: 0 0.2em 0 0.2em;
+}
+  
 nav#toc {
   padding: 0;
   display: block;
@@ -239,7 +244,7 @@ nav#toc ul li {
   border: 1px solid #e8e8e8;
   border-radius: 0.2em;
   padding: 0.5em;
-
+  margin-bottom: 0.5em;
 }
 
 article.tabs {
