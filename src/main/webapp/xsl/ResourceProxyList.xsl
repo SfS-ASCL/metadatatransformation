@@ -11,23 +11,13 @@
          "data object" to "resource", "data stream" to "file", etc.?  -->
 
     <p>Persistent Identifier (PID) of this resource:
-    <xsl:element name="a">
-      <xsl:attribute name="href">
-        <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-      </xsl:attribute>
-      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-    </xsl:element>
+       <xsl:apply-templates select="//*[local-name() = 'MdSelfLink']" mode="link-to-url"/>
     </p>
 
     <p>Landing page for this resource:
     <xsl:for-each select="./*">
       <xsl:if test="./*[local-name() = 'ResourceType'] = 'LandingPage'">
-        <xsl:element name="a">
-          <xsl:attribute name="href">
-            <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-          </xsl:attribute>
-          <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-        </xsl:element>
+        <xsl:apply-templates select="./*[local-name() = 'ResourceRef']" mode="link-to-url"/>
       </xsl:if>
     </xsl:for-each>
     </p>
@@ -43,12 +33,7 @@
               <xsl:when test="./*[local-name() = 'ResourceType'] = 'Metadata' and not(contains(normalize-space(./*[local-name() = 'ResourceRef']),normalize-space(//*[local-name() = 'MdSelfLink'])))">
                 <xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
                 <li>
-                  <xsl:element name="a">
-                    <xsl:attribute name="href">
-                      <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                    </xsl:attribute>
-                    <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-                  </xsl:element>
+                  <xsl:apply-templates select="./*[local-name() = 'ResourceRef']" mode="link-to-url"/>
                   <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
                     <xsl:text> </xsl:text> (<xsl:value-of
                     select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>)
@@ -89,12 +74,11 @@
 
       <details>
         <summary>
-          <xsl:element name="a">
-            <xsl:attribute name="href">
-              <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-            </xsl:attribute>
-            <xsl:value-of select="normalize-space($infoNode/*[local-name()='ResProxFileName'])"/>
-          </xsl:element>
+
+          <xsl:apply-templates select="./*[local-name() = 'ResourceRef']" mode="link-to-url">
+            <xsl:with-param name="link-text"
+                            select="normalize-space($infoNode/*[local-name()='ResProxFileName'])"/>
+          </xsl:apply-templates>
           <xsl:text> </xsl:text>
           (<xsl:value-of select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>,
           <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>)
@@ -113,12 +97,7 @@
 
           <dt>Persistent identifier</dt>
           <dd>
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-              </xsl:attribute>
-              <xsl:value-of select="./*[local-name() = 'ResourceRef']"/>
-            </xsl:element>
+            <xsl:apply-templates select="./*[local-name() = 'ResourceRef']" mode="link-to-url"/>
           </dd>
 
           <xsl:if test="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']">
