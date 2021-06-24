@@ -10,7 +10,7 @@
     <!-- TODO: the language here is really esoteric. Can we change
          "data object" to "resource", "data stream" to "file", etc.?  -->
 
-    <p>Persistent Identifier (PID) of this digital object:
+    <p>Persistent Identifier (PID) of this resource:
     <xsl:element name="a">
       <xsl:attribute name="href">
         <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
@@ -19,7 +19,7 @@
     </xsl:element>
     </p>
 
-    <p>Resource landing page:
+    <p>Landing page for this resource:
     <xsl:for-each select="./*">
       <xsl:if test="./*[local-name() = 'ResourceType'] = 'LandingPage'">
         <xsl:element name="a">
@@ -32,11 +32,11 @@
     </xsl:for-each>
     </p>
 
-    <h3>Subordinate data objects</h3>
+    <h3>Subordinate resources</h3>
     <xsl:choose>
       <xsl:when test="count(./*[local-name() = 'ResourceType' and text() = 'Metadata']) > 0">
         <!-- TODO: is this the right condition? -->
-        <p>This data set contains the following subordinate data objects:</p>
+        <p>This data set contains the following subordinate resources:</p>
         <ul>
           <xsl:for-each select="./*">
             <xsl:choose>
@@ -60,18 +60,18 @@
         </ul>
       </xsl:when>
       <xsl:otherwise>
-        <p>This data set contains no subordinate data objects.</p>
+        <p>This data set contains no subordinate resources.</p>
       </xsl:otherwise>
     </xsl:choose>
 
-    <h3>Data streams</h3>
+    <h3>Files</h3>
     <xsl:choose>
       <xsl:when test="count(./*[local-name()='ResourceProxy']) > 0" >
-        <p>This data set contains the following data streams: </p>
+        <p>This data set contains the following files: </p>
         <xsl:apply-templates select="./*[local-name()='ResourceProxy']" />
       </xsl:when>
       <xsl:otherwise>
-        <p>There are no data streams in this data set.</p>
+        <p>There are no files in this data set.</p>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
