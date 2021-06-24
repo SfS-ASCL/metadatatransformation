@@ -369,12 +369,7 @@
         <dt>Link</dt>
         <dd>
           <xsl:if test="./*[local-name() = 'Url' and text()]">
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="./*[local-name() = 'Url']" />
-              </xsl:attribute>
-              <xsl:value-of select="./*[local-name() = 'Url']" />
-            </xsl:element>
+            <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url"/>
           </xsl:if>
         </dd>
       </dl>
