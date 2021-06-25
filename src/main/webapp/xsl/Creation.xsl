@@ -420,12 +420,8 @@
       <xsl:call-template name="CreationDatesAsText" />
       <xsl:call-template name="TitleAsCite" />
       Data set in Tübingen Archive of Language Resources. 
-      <br/>Persistent identifier: <xsl:element name="a">
-      <xsl:attribute name="href">
-        <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-      </xsl:attribute>
-      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
-    </xsl:element>
+      <br/>Persistent identifier:
+      <xsl:apply-templates select="//*[local-name() = 'MdSelfLink']" mode="link-to-url" />
   </xsl:template>
 
   <xsl:template name="InDatasetCitation">
@@ -440,12 +436,8 @@
       <xsl:text>. </xsl:text>
       In: <xsl:call-template name="TitleAsCite" />
       Data set in Tübingen Archive of Language Resources. 
-      <br/>Persistent identifier: <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
-        </xsl:attribute>
-        <xsl:value-of select="(//*[local-name() = 'ResourceRef'])[2]"/>
-      </xsl:element>
+      <br/>Persistent identifier:
+      <xsl:apply-templates select="(//*[local-name() = 'ResourceRef'])[2]" mode="link-to-url" />
   </xsl:template>
 
   <xsl:template name="CreatorsAsCommaSeparatedText">
@@ -496,7 +488,6 @@
 	<xsl:value-of select="substring-before(//*[local-name() = 'LastUpdate'], '-')"/>
       </xsl:if>            
       <xsl:text>): </xsl:text>
-
   </xsl:template>
 
   <xsl:template name="TitleAsCite">
