@@ -293,6 +293,14 @@ address {
   font-style: normal;
 }
 
+header {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #e8e8e8;
+  min-height: 55.95px;
+}
+
 footer {
   display: flex;
   font-size: small;
@@ -306,37 +314,31 @@ footer {
 
 
       <body>
-        <header class="site-header" role="banner">
-          <div class="wrapper">
-            <a class="site-title" rel="author" href="https://talar.sfb833.uni-tuebingen.de/"
-              style="margin-bottom:15px;">TALAR - Tübingen Archive of Language Resources</a>
-            <nav class="site-nav">
-              <label for="nav-trigger">
-                <span class="menu-icon">
-                  <svg viewBox="0 0 18 15" width="18px" height="15px">
-                    <path
+        <header>
+          <a class="site-title" rel="author" href="https://talar.sfb833.uni-tuebingen.de/">
+             TALAR - Tübingen Archive of Language Resources
+          </a>
+          <nav class="site-nav">
+            <!-- TODO: looks like this is supposed to collapse to a hamburger menu but it isn't working -->
+            <!-- There's at least a checkbox or so missing... -->
+            <label for="nav-trigger">
+              <span class="menu-icon">
+                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                  <path
                       d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"
-                    />
-                  </svg>
-                </span>
-              </label>
+                      />
+                </svg>
+              </span>
+            </label>
 
-              <div class="trigger" style="margin-bottom:15px;">
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/about/">About</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/contact/"
-                  >Contact</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/archival/">Data
-                  Management</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/help/">Help</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/privacy_html/"
-                  >Privacy</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/stats/"
-                  >Statistics</a>
-                <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/technology/"
-                  >Technology</a>
-              </div>
-            </nav>
-          </div>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/about/">About</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/contact/">Contact</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/archival/">Data Management</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/help/">Help</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/privacy_html/">Privacy</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/stats/">Statistics</a>
+              <a class="page-link" href="https://talar.sfb833.uni-tuebingen.de/technology/">Technology</a>
+          </nav>
         </header>
        
         <main>
