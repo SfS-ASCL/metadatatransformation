@@ -249,6 +249,7 @@ nav#toc ul li {
 
 article.tabs {
   display: block;
+  min-height: 50vh;
 }
 
 article.tabs > section {
