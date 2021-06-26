@@ -234,7 +234,7 @@ nav#toc ul {
   padding: 0;
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   margin: 0; /* reset from main.css... */
 }
@@ -245,6 +245,7 @@ nav#toc ul li {
   border-radius: 0.2em;
   padding: 0.5em;
   margin-bottom: 0.5em;
+  margin-right: 0.2em;
 }
 
 article.tabs {
