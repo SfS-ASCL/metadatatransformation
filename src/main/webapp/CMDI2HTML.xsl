@@ -339,74 +339,52 @@ footer {
           </div>
         </header>
        
-      <main>
-        <h1>
-          Resource:
-          <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/>
-        </h1>
+        <main>
+          <h1>
+            Resource:
+            <xsl:value-of select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'ResourceName']"/>
+          </h1>
 
-        <nav id="toc">
-          <ul>
-            <li>
-              <a href="#general-info">General Info</a>
-            </li>
-            <xsl:if test="//*[local-name() = 'Project']">
+          <nav id="toc">
+            <ul>
               <li>
-                <a href="#project">Project</a>
+                <a href="#general-info">General Info</a>
               </li>
-            </xsl:if>
-            <xsl:if test="//*[local-name() = 'Publications']">
+              <xsl:if test="//*[local-name() = 'Project']">
+                <li>
+                  <a href="#project">Project</a>
+                </li>
+              </xsl:if>
+              <xsl:if test="//*[local-name() = 'Publications']">
+                <li>
+                  <a href="#publications">Publications</a>
+                </li>
+              </xsl:if>
+              <xsl:if test="//*[local-name() = 'Creation']">
+                <li>
+                  <a href="#creation">Creation</a>
+                </li>
+              </xsl:if>
+              <xsl:if test="//*[local-name() = 'Documentations']">
+                <li>
+                  <a href="#documentation">Documentation</a>
+                </li>
+              </xsl:if>
+              <xsl:if test="//*[local-name() = 'Access']">
+                <li>
+                  <a href="#access">Access</a>
+                </li>
+              </xsl:if>
+              <!--      <xsl:if test="not(contains(//*:Components/*/local-name(), 'DcmiTerms'))"><li><a href="#tabs-7">Resource-specific information</a></li></xsl:if> -->
               <li>
-                <a href="#publications">Publications</a>
+                <a href="#resource-specific">Resource-specific information</a>
               </li>
-            </xsl:if>
-            <xsl:if test="//*[local-name() = 'Creation']">
               <li>
-                <a href="#creation">Creation</a>
+                <a href="#data-files">Data files</a>
               </li>
-            </xsl:if>
-            <xsl:if test="//*[local-name() = 'Documentations']">
               <li>
-                <a href="#documentation">Documentation</a>
+                <a href="#citation">Cite data set</a>
               </li>
-            </xsl:if>
-            <xsl:if test="//*[local-name() = 'Access']">
-              <li>
-                <a href="#access">Access</a>
-              </li>
-            </xsl:if>
-            <!--      <xsl:if test="not(contains(//*:Components/*/local-name(), 'DcmiTerms'))"><li><a href="#tabs-7">Resource-specific information</a></li></xsl:if> -->
-            <li>
-              <a href="#resource-specific">Resource-specific information</a>
-            </li>
-            <li>
-              <a href="#data-files">Data files</a>
-            </li>
-            <li>
-              <a href="#citation">Cite data set</a>
-            </li>
-          </ul>
-        </nav>
-
-        <article class="tabs">
-          <xsl:call-template name="ProjectSection" />
-          <xsl:call-template name="PublicationsSection" />
-          <xsl:call-template name="CreationSection" />
-          <xsl:call-template name="DocumentationSection" />
-          <xsl:call-template name="AccessSection" />
-          <xsl:apply-templates select="//*[local-name() = 'LexicalResourceContext' or
-                                           local-name() = 'ExperimentContext' or
-                                           local-name() = 'ToolContext' or
-                                           local-name() = 'SpeechCorpusContext' or
-                                           local-name() = 'TextCorpusContext' or
-                                           local-name() = 'CourseProfileSpecific'] " />
-          <xsl:call-template name="DataFilesSection" />
-          <xsl:call-template name="CitationSection" />
-          <!-- General info is rendered *last* in the HTML so it can be displayed by default; see CSS.  -->
-          <xsl:call-template name="GeneralInfoSection" />
-        </article>
-      </main>
-
             </ul>
           </nav>
 
