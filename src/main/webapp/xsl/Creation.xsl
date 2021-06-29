@@ -15,21 +15,24 @@
     <h3>Creators</h3>
     <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="list" />
 
-    <details>
-      <summary>Source</summary>
-      <!-- TODO -->
-    </details>
+    <h3>Annotation</h3>
+    <!-- TODO -->
 
-    <details>
-      <summary>Annotation</summary>
-      <!-- TODO -->
-    </details>
-    <details>
-      <summary>Creation tools</summary>
-      <ol>
-        <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
-      </ol>
-    </details>
+    <h3>Sources</h3>
+    <xsl:apply-templates select="./*[local-name() = 'Source']" mode="section" />
+
+
+    <h3>Creation tools</h3>
+    <xsl:choose>
+      <xsl:when test="./*[local-name() = 'CreationToolInfo']">
+        <ol>
+          <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
+        </ol>
+      </xsl:when>
+      <xsl:otherwise>
+        <p>No information is available about creation tools for this resource.</p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Creators']" mode="list">
@@ -69,6 +72,128 @@
       <xsl:text>, </xsl:text>
     </xsl:if>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Source']" mode="section">
+    <section>
+      <h4>
+        <xsl:value-of select="./*[local-name() = 'OriginalSource']"/>
+        <xsl:if test="./*[local-name() = 'SourceType'] != ''">
+          <xsl:text> (</xsl:text>
+          <xsl:value-of select="./*[local-name() = 'SourceType']"/>
+          <xsl:text>)</xsl:text>
+        </xsl:if>
+      </h4>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+      <xsl:apply-templates select="./*[local-name() = 'MediaFiles']" mode="details" />
+      <xsl:apply-templates select="./*[local-name() = 'Derivation']" mode="details" />
+    </section>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'MediaFiles']" mode="details">
+      <details>
+        <summary>Media files</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+        <xsl:choose>
+          <xsl:when test="./*[local-name() = 'MediaFile']">
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'MediaFile']" mode="list-item"/>
+            </ol>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>No information about media files is available for this source.</p>
+          </xsl:otherwise>
+        </xsl:choose>
+      </details>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'MediaFile']" mode="list-item">
+    <li>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+
+      <dl>
+        <dt>Catalogue Link</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'CatalogueLink']"/>
+        </dd>
+
+        <dt>Type</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Type']"/>
+        </dd>
+
+        <dt>Format</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Format']"/>
+        </dd>
+
+        <dt>Size</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Size']"/>
+        </dd>
+
+        <dt>Quality</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Quality']"/>
+        </dd>
+
+        <dt>Recording conditions</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'RecordingConditions']"/>
+        </dd>
+
+        <dt>Start position</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']">
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']" />
+          </xsl:if>
+        </dd>
+
+        <dt>End position</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']">
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']" />
+          </xsl:if>
+        </dd>
+      </dl>
+    </li>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Derivation']" mode="details">
+      <details>
+        <summary>Derivation</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+        <dl>
+          <dt>Organisation</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'Organisation']" />
+          </dd>
+ 
+          <dt>Date</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationDate']" />
+          </dd>
+                          
+          <dt>Mode</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationMode']" />
+          </dd>
+ 
+          <dt>Type</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationType']" />
+          </dd>
+ 
+          <dt>Workflow</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationWorkflow']" />
+          </dd>
+          <!-- TODO: tools -->
+        </dl>
+      </details>
+  </xsl:template>
+
 
   <xsl:template name="CitationExamples">
     <!-- Provides the contents of the "Cite data set" tab -->
