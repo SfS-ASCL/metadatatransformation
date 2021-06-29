@@ -299,7 +299,7 @@ header {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  border-bottom: 1px solid #e8e8e8;
+  border-bottom: 3px solid #e8e8e8;
   min-height: 55.95px;
 }
 
