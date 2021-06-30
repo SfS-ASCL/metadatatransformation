@@ -52,11 +52,12 @@
     <li>
       <xsl:value-of select="$fullName" />
       <xsl:if test="./*[local-name() = 'role'] != ''">
-        (<xsl:value-of select="./*[local-name() = 'role']"/>)
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select="./*[local-name() = 'role']"/>
       </xsl:if>
       
       <xsl:if test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
-        Identity records: 
+        <xsl:text>: </xsl:text> 
         <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']"
                              mode="link-with-comma"/>
       </xsl:if>
