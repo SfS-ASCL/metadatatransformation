@@ -15,8 +15,7 @@
     <h3>Creators</h3>
     <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="list" />
 
-    <h3>Annotation</h3>
-    <!-- TODO -->
+    <xsl:apply-templates select="./*[local-name() = 'Annotation']" mode="section" />
 
     <h3>Sources</h3>
     <xsl:apply-templates select="./*[local-name() = 'Source']" mode="section" />
@@ -25,9 +24,9 @@
     <h3>Creation tools</h3>
     <xsl:choose>
       <xsl:when test="./*[local-name() = 'CreationToolInfo']">
-        <ol>
+        <ul>
           <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
-        </ol>
+        </ul>
       </xsl:when>
       <xsl:otherwise>
         <p>No information is available about creation tools for this resource.</p>
@@ -189,11 +188,98 @@
           <dd>
             <xsl:value-of select="./*[local-name() = 'DerivationWorkflow']" />
           </dd>
-          <!-- TODO: tools -->
+
+          <dt>Derivation tools</dt>
+          <dd>
+            <ul>
+              <xsl:apply-templates select="./*[local-name() = 'DerivationToolInfo']"
+                                   mode="list-item" />
+            </ul>
+          </dd>
+
         </dl>
       </details>
   </xsl:template>
 
+  <xsl:template match="*[local-name() = 'Annotation']" mode="section">
+    <section>
+      <h3>Annotation</h3>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+      <dl>
+        <dt>Annotation mode</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationMode']"/>
+        </dd>
+
+        <dt>Annotation standoff</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationStandoff']"/>
+        </dd>
+
+        <dt>Interannotator agreement</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'InterannotatorAgreement']"/>
+        </dd>
+
+        <dt>Annotation format</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationFormat']"/>
+        </dd>
+
+        <dt>Segmentation units</dt>
+        <dd>
+          <xsl:if test=".//*[local-name() = 'SegmentationUnit']">
+            <p>
+              <xsl:apply-templates select=".//*[local-name() = 'SegmentationUnit']" mode="comma-separated-text" />
+            </p>
+          </xsl:if>
+          <xsl:apply-templates select="./*[local-name() = 'SegmentationUnits']/*[local-name() = 'Descriptions']" />
+        </dd>
+        
+        <dt>Annotation types</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'AnnotationTypes']/*[local-name() = 'Descriptions']" />
+          <xsl:if test=".//*[local-name() = 'AnnotationType']">
+            <ul>
+              <xsl:apply-templates select=".//*[local-name() = 'AnnotationType']"
+                                   mode="list-item"/>
+            </ul>
+          </xsl:if>
+        </dd>
+
+        <dt>Annotation tools</dt>
+        <dd>
+          <ul>
+            <xsl:apply-templates select="./*[local-name() = 'AnnotationToolInfo']" mode="list-item" />
+          </ul>
+        </dd>
+
+      </dl>
+    </section>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'AnnotationType']" mode="list-item">
+    <li>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+      <dl>
+        <dt>Levels</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'AnnotationLevelType']" mode="comma-separated-text" />
+        </dd>
+
+        <dt>Modes</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'AnnotationMode']" mode="comma-separated-text" />
+        </dd>
+
+        <dt>Tag sets</dt>
+        <dd>
+          <xsl:apply-templates select=".//*[local-name() = 'Tagset']" mode="comma-separated-text" />
+        </dd>
+
+      </dl>
+    </li>
+  </xsl:template>
 
   <xsl:template name="CitationExamples">
     <!-- Provides the contents of the "Cite data set" tab -->
@@ -322,21 +408,32 @@
   </xsl:template>
 
 
-  <xsl:template match="*[local-name() = 'CreationToolInfo']" mode="list-item">
+  <xsl:template match="*[local-name() = 'CreationToolInfo' or
+                         local-name() = 'AnnotationToolInfo' or
+                         local-name() = 'DerivationToolInfo']" mode="list-item">
+
+    <!-- first child (CreationTool, AnnotationTool, etc.) contains name:-->
+    <xsl:variable name="toolName" select="./*[1]" />
     <li>
       <p>
-        <xsl:value-of select="./*[local-name() = 'CreationTool']" />
+        <xsl:choose>
+          <xsl:when test="./*[local-name() = 'Url']/text()"> 
+            <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
+              <xsl:with-param name="link-text" select="$toolName"/>
+            </xsl:apply-templates>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$toolName"/>
+          </xsl:otherwise>
+        </xsl:choose>
         <xsl:if test="./*[local-name() = 'ToolType']/text()"> 
-          (<xsl:value-of select="normalize-space(./*[local-name() = 'ToolType'])" />)
+          <xsl:text> (</xsl:text>
+            <xsl:value-of select="normalize-space(./*[local-name() = 'ToolType'])" />
+          <xsl:text>)</xsl:text>
         </xsl:if>
         <xsl:if test="./*[local-name() = 'Version']/text()"> 
           <xsl:text>, version </xsl:text>
           <xsl:value-of select="normalize-space(./*[local-name() = 'Version'])" />
-        </xsl:if>
-        <xsl:text>. </xsl:text>
-        
-        <xsl:if test="./*[local-name() = 'Url']/text()"> 
-          Link: <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url" />
         </xsl:if>
       </p>
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
