@@ -12,34 +12,29 @@
     <!-- TODO: topic? This looks more like "keywords" rather than anything that can usefully be printed  -->
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
 
-    <h3>Creators</h3>
-    <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="list" />
-
+    <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="section" />
     <xsl:apply-templates select="./*[local-name() = 'Annotation']" mode="section" />
-
-    <h3>Sources</h3>
-    <xsl:apply-templates select="./*[local-name() = 'Source']" mode="section" />
-
-
-    <h3>Creation tools</h3>
-    <xsl:choose>
-      <xsl:when test="./*[local-name() = 'CreationToolInfo']">
-        <ul>
-          <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
-        </ul>
-      </xsl:when>
-      <xsl:otherwise>
-        <p>No information is available about creation tools for this resource.</p>
-      </xsl:otherwise>
-    </xsl:choose>
+    <xsl:call-template name="SourcesSection"/>
+    <xsl:call-template name="CreationToolsSection"/>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Creators']" mode="list">
-    <address>
-      <ol>
-        <xsl:apply-templates select="./*[local-name() = 'Person']" mode="list-item-with-role" />
-      </ol>
-    </address>
+  <xsl:template match="*[local-name() = 'Creators']" mode="section">
+    <section>
+      <h3>Creators</h3>
+      <xsl:choose>
+        <!-- avoid generating an empty list when there are no last names: -->
+        <xsl:when test="./*[local-name() = 'Person']/*[local-name() = 'lastName']/text()">
+          <address>
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'Person']" mode="list-item-with-role" />
+            </ol>
+          </address>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>No information available about the creators of this resource.</p>
+        </xsl:otherwise>
+      </xsl:choose>
+    </section>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Person']" mode="list-item-with-role">
@@ -73,20 +68,36 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Source']" mode="section">
-    <section>
-      <h4>
-        <xsl:value-of select="./*[local-name() = 'OriginalSource']"/>
+  <xsl:template name="SourcesSection">
+    <!-- we call this by name because there is no <Sources> wrapper element
+         under which <Source> elements are collected, somewhat exceptionally -->
+
+    <xsl:if test="./*[local-name() = 'Source']">
+      <section>
+        <h3>Original Sources</h3>
+        <ol>
+          <xsl:apply-templates select="./*[local-name() = 'Source']" mode="list-item"/>
+        </ol>
+      </section>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Source']" mode="list-item">
+    <li>
+      <p>
+        <cite>
+          <xsl:value-of select="./*[local-name() = 'OriginalSource']"/>
+        </cite>
         <xsl:if test="./*[local-name() = 'SourceType'] != ''">
           <xsl:text> (</xsl:text>
           <xsl:value-of select="./*[local-name() = 'SourceType']"/>
           <xsl:text>)</xsl:text>
         </xsl:if>
-      </h4>
+      </p>
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
       <xsl:apply-templates select="./*[local-name() = 'MediaFiles']" mode="details" />
       <xsl:apply-templates select="./*[local-name() = 'Derivation']" mode="details" />
-    </section>
+    </li>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'MediaFiles']" mode="details">
@@ -395,6 +406,21 @@
     <xsl:text>. </xsl:text>
   </xsl:template>
 
+  <xsl:template name="CreationToolsSection">
+    <section>
+      <h3>Creation tools</h3>
+      <xsl:choose>
+        <xsl:when test="./*[local-name() = 'CreationToolInfo']/*[local-name() = 'CreationTool']/text()">
+          <ul>
+            <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
+          </ul>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>No information available about the tools used to create this resource.</p>
+        </xsl:otherwise>
+      </xsl:choose>
+    </section>
+  </xsl:template>
 
   <xsl:template match="*[local-name() = 'CreationToolInfo' or
                          local-name() = 'AnnotationToolInfo' or
