@@ -239,13 +239,23 @@
         
         <dt>Annotation types</dt>
         <dd>
+          <dl>
+            <dt>Levels</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'AnnotationLevelType']" mode="comma-separated-text" />
+            </dd>
+            
+            <dt>Modes</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'AnnotationMode']" mode="comma-separated-text" />
+            </dd>
+            
+            <dt>Tag sets</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'Tagset']" mode="comma-separated-text" />
+            </dd>
+          </dl>
           <xsl:apply-templates select="./*[local-name() = 'AnnotationTypes']/*[local-name() = 'Descriptions']" />
-          <xsl:if test=".//*[local-name() = 'AnnotationType']">
-            <ul>
-              <xsl:apply-templates select=".//*[local-name() = 'AnnotationType']"
-                                   mode="list-item"/>
-            </ul>
-          </xsl:if>
         </dd>
 
         <dt>Annotation tools</dt>
@@ -257,29 +267,6 @@
 
       </dl>
     </section>
-  </xsl:template>
-
-  <xsl:template match="*[local-name() = 'AnnotationType']" mode="list-item">
-    <li>
-      <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
-      <dl>
-        <dt>Levels</dt>
-        <dd>
-          <xsl:apply-templates select="./*[local-name() = 'AnnotationLevelType']" mode="comma-separated-text" />
-        </dd>
-
-        <dt>Modes</dt>
-        <dd>
-          <xsl:apply-templates select="./*[local-name() = 'AnnotationMode']" mode="comma-separated-text" />
-        </dd>
-
-        <dt>Tag sets</dt>
-        <dd>
-          <xsl:apply-templates select=".//*[local-name() = 'Tagset']" mode="comma-separated-text" />
-        </dd>
-
-      </dl>
-    </li>
   </xsl:template>
 
   <xsl:template name="CitationExamples">
