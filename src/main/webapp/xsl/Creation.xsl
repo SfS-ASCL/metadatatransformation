@@ -75,9 +75,16 @@
     <xsl:if test="./*[local-name() = 'Source']">
       <section>
         <h3>Original Sources</h3>
-        <ol>
-          <xsl:apply-templates select="./*[local-name() = 'Source']" mode="list-item"/>
-        </ol>
+        <xsl:choose>
+          <xsl:when test="./*[local-name() = 'Source']/*[local-name() = 'OriginalSource']/text()">
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'Source']" mode="list-item"/>
+            </ol>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>No information on original sources available for this resource.</p>
+          </xsl:otherwise>
+        </xsl:choose>
       </section>
     </xsl:if>
   </xsl:template>
