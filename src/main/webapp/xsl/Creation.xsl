@@ -44,8 +44,8 @@
       <xsl:value-of select="./*[local-name() = 'lastName']"/>
     </xsl:variable>
 
-    <li>
-      <xsl:value-of select="$fullName" />
+    <li itemscope="" itemtype="https://schema.org/Person">
+      <span itemprop="name"><xsl:value-of select="$fullName" /></span>
       <xsl:if test="./*[local-name() = 'role'] != ''">
         <xsl:text>, </xsl:text>
         <xsl:value-of select="./*[local-name() = 'role']"/>
@@ -62,6 +62,7 @@
   <xsl:template match="*[local-name() = 'AuthoritativeID']" mode="link-with-comma">
     <xsl:apply-templates select="./*[local-name() = 'id']" mode="link-to-url">
       <xsl:with-param name="link-text" select="./*[local-name() = 'issuingAuthority']"/>
+      <xsl:with-param name="same-as" select="true()"/>
     </xsl:apply-templates>
     <xsl:if test="last() > 1 and position() != last()">
       <xsl:text>, </xsl:text>
