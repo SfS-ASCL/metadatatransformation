@@ -453,7 +453,7 @@ footer {
   <xsl:template name="ProjectSection">
     <section id="project">
       <h2>Project</h2>
-      <xsl:apply-templates select="//*[local-name() = 'Project']" />
+      <xsl:apply-templates select="//*[local-name() = 'Project']" mode="def-list"/>
     </section>
   </xsl:template>
 
@@ -481,7 +481,7 @@ footer {
   <xsl:template name="DocumentationSection">
     <section id="documentation">
       <h2>Documentation</h2>
-      <xsl:apply-templates select="//*[local-name() = 'Documentations']" />
+      <xsl:apply-templates select="//*[local-name() = 'Documentations']" mode="list"/>
     </section>
   </xsl:template>
 

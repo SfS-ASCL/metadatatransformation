@@ -1,156 +1,113 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0"
-  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:cmd="http://www.clarin.eu/cmd/"
-  exclude-result-prefixes="">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:cmd="http://www.clarin.eu/cmd/" exclude-result-prefixes="">
 
   <xsl:output method="html" indent="yes"/>
-  <xsl:template name="ProjectAsTable" match="*[local-name() = 'Project']">
-    <table>
-      <!-- TODO: table header? -->
-      <!-- TODO: xml:lang selection for description, other fields  -->
-      <tbody>
-        <tr>
-          <td>
-            <b>Project Name: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'ProjectName']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Project Title: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'ProjectTitle']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Project ID: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'ProjectID']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Url: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Url']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Funder: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Funder']/*[local-name() = 'fundingAgency']"/>
-            <xsl:if
-                test="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber'] != ''">
-              <xsl:text>, with reference: 
+  <xsl:template match="*[local-name() = 'Project']" mode="def-list">
+    <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
+    <dl>
+      <dt>Project Name</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'ProjectName']"/>
+      </dd>
+
+      <dt>Project Title</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'ProjectTitle']"/>
+      </dd>
+
+      <dt>Project ID</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'ProjectID']"/>
+      </dd>
+
+      <dt>Url</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'Url']"/>
+      </dd>
+
+      <dt>Funder</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'Funder']/*[local-name() = 'fundingAgency']"/>
+        <xsl:if test="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber'] != ''">
+          <xsl:text>, with reference: 
 	      </xsl:text>
-            </xsl:if>
-            <xsl:value-of
-                select="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Institution: </b>
-          </td>
-          <td>
-            <xsl:apply-templates select="*[local-name()='Institution']"></xsl:apply-templates>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Cooperations: </b>
-          </td>
-          <td>
-            <!-- omitted Cooperation dept., organisation, url, and descriptions -->
-            <xsl:for-each select="./*[local-name() = 'Cooperation']">
-              <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
-              <xsl:if test="position() != last()">, </xsl:if>
-            </xsl:for-each>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Person(s): </b>
-          </td>
-          <td>
-            <xsl:for-each select="./*[local-name() = 'Person']">
-              <xsl:choose>
-                <xsl:when
-                    test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
-                  <xsl:element name="a">
-                    <xsl:attribute name="href">
-                      <xsl:value-of
-                          select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                          />
-                    </xsl:attribute>
-                    <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                  </xsl:element>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                  <xsl:text> </xsl:text>
-                  <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                </xsl:otherwise>
-              </xsl:choose>
-              <xsl:if test="./*[local-name() = 'Role'] != ''">
-                <xsl:text> (</xsl:text>
-                <xsl:value-of select="./*[local-name() = 'Role']"/>
-                <xsl:text>)</xsl:text>
-              </xsl:if>
-              <xsl:if test="position() != last()">, </xsl:if>
-            </xsl:for-each>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Descriptions: </b>
-          </td>
-          <td>
-            <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
-	    <!-- <xsl:value-of
-		 select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Duration: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'StartYear']"/>
-            <xsl:if test="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear'] != ''">
-              <xsl:text>
+        </xsl:if>
+        <xsl:value-of
+          select="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber']"/>
+      </dd>
+
+      <dt>Institution</dt>
+      <dd>
+        <xsl:apply-templates select="*[local-name() = 'Institution']"/>
+      </dd>
+
+      <dt>Cooperations</dt>
+      <dd>
+        <!-- omitted Cooperation dept., organisation, url, and descriptions -->
+        <xsl:for-each select="./*[local-name() = 'Cooperation']">
+          <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
+          <xsl:if test="position() != last()">, </xsl:if>
+        </xsl:for-each>
+      </dd>
+
+      <dt>Person(s)</dt>
+      <dd>
+        <xsl:for-each select="./*[local-name() = 'Person']">
+          <xsl:choose>
+            <xsl:when
+              test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
+              <xsl:element name="a">
+                <xsl:attribute name="href">
+                  <xsl:value-of
+                    select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"/>
+                </xsl:attribute>
+                <xsl:value-of select="./*[local-name() = 'firstName']"/>
+                <xsl:text> </xsl:text>
+                <xsl:value-of select="./*[local-name() = 'lastName']"/>
+              </xsl:element>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="./*[local-name() = 'firstName']"/>
+              <xsl:text> </xsl:text>
+              <xsl:value-of select="./*[local-name() = 'lastName']"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:if test="./*[local-name() = 'Role'] != ''">
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="./*[local-name() = 'Role']"/>
+            <xsl:text>)</xsl:text>
+          </xsl:if>
+          <xsl:if test="position() != last()">, </xsl:if>
+        </xsl:for-each>
+      </dd>
+
+      <dt>Duration</dt>
+      <dd>
+        <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'StartYear']"/>
+        <xsl:if test="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear'] != ''">
+          <xsl:text>
 
 	        --
 	      </xsl:text>
-            </xsl:if>
-            <xsl:value-of
-                select="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear']"/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        </xsl:if>
+        <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear']"/>
+      </dd>
+
+    </dl>
+
   </xsl:template>
 
-  <xsl:template name="InstitutionAsString"
-                match="*[local-name() = 'Institution']">
+  <xsl:template name="InstitutionAsString" match="*[local-name() = 'Institution']">
     <xsl:if test="*[local-name() = 'Department'] != ''">
       <xsl:value-of select="*[local-name() = 'Department']"/>
     </xsl:if>
 
     <xsl:for-each select="./*[local-name() = 'Organisation']">
-      <xsl:if test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id']">
-        <xsl:for-each select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
+      <xsl:if
+        test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id']">
+        <xsl:for-each
+          select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
           <xsl:if test="./*[local-name() = 'issuingAuthority'] = 'VIAF'">
             <xsl:element name="a">
               <xsl:attribute name="href">
@@ -168,7 +125,7 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="*[local-name()='name']">
+  <xsl:template match="*[local-name() = 'name']">
     <xsl:if test="./@xml:lang">
       <xsl:if test="./@xml:lang = 'nl'"> Dutch: <xsl:value-of select="."/><br/>
       </xsl:if>

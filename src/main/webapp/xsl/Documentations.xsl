@@ -6,39 +6,38 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <xsl:template name="DocumentationsAsTable" match="*[local-name() = 'Documentations']">
-    <table>
-      <tbody>
+  <xsl:template match="*[local-name() = 'Documentations']" mode="list">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+    <ol>
         <xsl:for-each select="./*[local-name() = 'Documentation']">
-          <tr>
-            <table>
-              <tr>
-                <td>
-                  <b>Documentation Type(s): </b>
-                </td>
-                <td>
+          <li>
+            <dl>
+                <dt>
+                  Documentation Type(s)
+                </dt>
+                <dd>
                   <xsl:for-each select="./*[local-name() = 'DocumentationType']">
                     <xsl:value-of select="."/>
                     <xsl:if test="position() != last()">, </xsl:if>
                   </xsl:for-each>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>File Name(s): </b>
-                </td>
-                <td>
+                </dd>
+              
+              
+                <dt>
+                  File Name(s)
+                </dt>
+                <dd>
                   <xsl:for-each select="./*[local-name() = 'FileName']">
                     <xsl:value-of select="."/>
                     <xsl:if test="position() != last()">, </xsl:if>
                   </xsl:for-each>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>URL: </b>
-                </td>
-                <td>
+                </dd>
+              
+              
+                <dt>
+                  URL
+                </dt>
+                <dd>
                   <xsl:for-each select="./*[local-name() = 'Url']">
                     <xsl:element name="a">
                       <xsl:attribute name="href">
@@ -49,37 +48,25 @@
                     <xsl:if test="position() != last()">, </xsl:if>
                   </xsl:for-each>
                   
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Documentation Language(s): </b>
-                </td>
-                <td>
+                </dd>
+              
+              
+                <dt>
+                  Documentation Language(s)
+                </dt>
+                <dd>
                   <!-- omitted ISO639 code -->
                   <xsl:for-each select="./*[local-name() = 'DocumentationLanguages']">
                     <xsl:value-of
                         select="./*[local-name() = 'DocumentationLanguage']/*[local-name() = 'Language']//*[local-name() = 'LanguageName']"/>
                     <xsl:if test="position() != last()">, </xsl:if>
                   </xsl:for-each>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <b>Descriptions(s): </b>
-                </td>
-                <td>
-                  <xsl:for-each select="./*[local-name() = 'Description']">
-                    <xsl:value-of select="."/>
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                </td>
-              </tr>
-            </table>
-          </tr>
+                </dd>
+            </dl>
+          </li>
         </xsl:for-each>
-      </tbody>
-    </table>
+      
+    </ol>
   </xsl:template>
 
 </xsl:stylesheet>
