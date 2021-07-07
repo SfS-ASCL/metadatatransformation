@@ -23,18 +23,16 @@
 
       <dt>Url</dt>
       <dd>
-        <xsl:value-of select="./*[local-name() = 'Url']"/>
+        <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url"/>
       </dd>
 
       <dt>Funder</dt>
       <dd>
         <xsl:value-of select="./*[local-name() = 'Funder']/*[local-name() = 'fundingAgency']"/>
         <xsl:if test="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber'] != ''">
-          <xsl:text>, with reference: 
-	      </xsl:text>
+          <xsl:text>, with reference: </xsl:text>
+          <xsl:value-of select="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber']"/>
         </xsl:if>
-        <xsl:value-of
-          select="./*[local-name() = 'Funder']/*[local-name() = 'fundingReferenceNumber']"/>
       </dd>
 
       <dt>Institution</dt>
@@ -45,12 +43,11 @@
       <dt>Cooperations</dt>
       <dd>
         <!-- omitted Cooperation dept., organisation, url, and descriptions -->
-        <xsl:for-each select="./*[local-name() = 'Cooperation']">
-          <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
-          <xsl:if test="position() != last()">, </xsl:if>
-        </xsl:for-each>
+        <xsl:apply-templates select="./*[local-name() = 'Cooperation']/*[local-name() = 'CooperationPartner']"
+                             mode="comma-separated-text"/>
       </dd>
 
+      <!-- TODO: abstract template that does this for Project, Creators, etc. -->
       <dt>Person(s)</dt>
       <dd>
         <xsl:for-each select="./*[local-name() = 'Person']">
@@ -86,12 +83,9 @@
       <dd>
         <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'StartYear']"/>
         <xsl:if test="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear'] != ''">
-          <xsl:text>
-
-	        --
-	      </xsl:text>
+          <xsl:text> -- </xsl:text>
+          <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear']"/>
         </xsl:if>
-        <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear']"/>
       </dd>
 
     </dl>
