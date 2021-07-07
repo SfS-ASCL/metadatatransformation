@@ -78,6 +78,42 @@
     </dl>	
   </xsl:template>
 
+  <!-- There are many different kinds of *ToolInfo components with the same structure.-->
+  <xsl:template match="*[local-name() = 'CreationToolInfo' or
+                         local-name() = 'AnnotationToolInfo' or
+                         local-name() = 'DeploymentToolInfo' or
+                         local-name() = 'DerivationToolInfo']" mode="list-item">
+
+    <!-- first child (CreationTool, AnnotationTool, etc.) contains name:-->
+    <xsl:variable name="toolName" select="./*[1]/text()" />
+    <xsl:if test="$toolName">
+      <li>
+        <p>
+          <xsl:choose>
+            <xsl:when test="./*[local-name() = 'Url']/text()"> 
+              <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
+                <xsl:with-param name="link-text" select="$toolName"/>
+              </xsl:apply-templates>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$toolName"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:if test="./*[local-name() = 'ToolType']/text()"> 
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="normalize-space(./*[local-name() = 'ToolType'])" />
+            <xsl:text>)</xsl:text>
+          </xsl:if>
+          <xsl:if test="./*[local-name() = 'Version']/text()"> 
+            <xsl:text>, version </xsl:text>
+            <xsl:value-of select="normalize-space(./*[local-name() = 'Version'])" />
+          </xsl:if>
+        </p>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+      </li>
+    </xsl:if>
+  </xsl:template>
+
   <xsl:template name="replace-string">
     <xsl:param name="text"/>
     <xsl:param name="replace"/>
