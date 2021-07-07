@@ -13,9 +13,13 @@
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
 
     <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="section" />
-    <xsl:apply-templates select="./*[local-name() = 'Annotation']" mode="section" />
-    <xsl:call-template name="SourcesSection"/>
-    <xsl:call-template name="CreationToolsSection"/>
+    <section>
+      <h3>Creation process</h3>
+      <xsl:call-template name="SourcesDetails"/>
+      <xsl:apply-templates select="./*[local-name() = 'Annotation']" mode="details" />
+      <xsl:call-template name="CreationToolsSection"/>
+    </section>
+
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Creators']" mode="section">
@@ -69,13 +73,13 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template name="SourcesSection">
+  <xsl:template name="SourcesDetails">
     <!-- we call this by name because there is no <Sources> wrapper element
          under which <Source> elements are collected, somewhat exceptionally -->
 
     <xsl:if test="./*[local-name() = 'Source']">
-      <section>
-        <h3>Original Sources</h3>
+      <details>
+        <summary>Original Sources</summary>
         <xsl:choose>
           <xsl:when test="./*[local-name() = 'Source']/*[local-name() = 'OriginalSource']/text()">
             <ol>
@@ -86,7 +90,7 @@
             <p>No information on original sources available for this resource.</p>
           </xsl:otherwise>
         </xsl:choose>
-      </section>
+      </details>
     </xsl:if>
   </xsl:template>
 
@@ -132,7 +136,7 @@
       <dl>
         <dt>Catalogue Link</dt>
         <dd>
-          <xsl:value-of select="./*[local-name() = 'CatalogueLink']"/>
+          <xsl:apply-templates select="./*[local-name() = 'CatalogueLink']" mode="link-to-url" />
         </dd>
 
         <dt>Type</dt>
@@ -221,9 +225,9 @@
       </details>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Annotation']" mode="section">
-    <section>
-      <h3>Annotation</h3>
+  <xsl:template match="*[local-name() = 'Annotation']" mode="details">
+    <details>
+      <summary>Annotation</summary>
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
       <dl>
         <dt>Annotation mode</dt>
@@ -285,7 +289,7 @@
         </dd>
 
       </dl>
-    </section>
+    </details>
   </xsl:template>
 
   <xsl:template name="CitationExamples">
@@ -415,8 +419,8 @@
   </xsl:template>
 
   <xsl:template name="CreationToolsSection">
-    <section>
-      <h3>Creation tools</h3>
+    <details>
+      <summary>Creation tools</summary>
       <xsl:choose>
         <xsl:when test="./*[local-name() = 'CreationToolInfo']/*[local-name() = 'CreationTool']/text()">
           <ul>
@@ -427,7 +431,7 @@
           <p>No information available about the tools used to create this resource.</p>
         </xsl:otherwise>
       </xsl:choose>
-    </section>
+    </details>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'CreationToolInfo' or
