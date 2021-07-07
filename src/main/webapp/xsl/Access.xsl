@@ -94,9 +94,7 @@
     <xsl:variable name="licenseName" select="./text()"/>
     <xsl:choose>
       <xsl:when test="./@*[local-name() = 'src']">
-        <xsl:apply-templates select="./@*[local-name() = 'src']" mode="link-to-url">
-          <xsl:with-param name="link-text" select="$licenseName"/>
-        </xsl:apply-templates>
+        <xsl:apply-templates select="./@*[local-name() = 'src']" mode="link-to-url"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:value-of select="$licenseName"/>
