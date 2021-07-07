@@ -8,11 +8,16 @@
 
   <xsl:template match="*[local-name() = 'Publications']">
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
-    <xsl:if test=".//*[local-name() = 'PublicationTitle' and text()]">
-      <ol>
-        <xsl:apply-templates select="./*[local-name() = 'Publication']" mode="list-item" />
-      </ol>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test=".//*[local-name() = 'PublicationTitle' and text()]">
+        <ol>
+          <xsl:apply-templates select="./*[local-name() = 'Publication']" mode="list-item" />
+        </ol>
+      </xsl:when>
+      <xsl:otherwise>
+        <p>No information is available about publications related to this resource.</p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Publication']" mode="list-item">
