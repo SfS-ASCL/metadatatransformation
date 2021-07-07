@@ -488,7 +488,8 @@ footer {
   <xsl:template name="AccessSection">
     <section id="access">
       <h2>Access</h2>
-      <xsl:apply-templates  select="//*[local-name() = 'Access']"/>
+      <!-- Only grab the <Access> node which is a direct child of the profile: -->
+      <xsl:apply-templates select="/*/*/*/*[local-name() = 'Access']" mode="deflist"/>
     </section>
   </xsl:template>
 
