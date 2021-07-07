@@ -54,6 +54,21 @@
     </xsl:element>
   </xsl:template>
 
+  <!-- This is a variant of the above that can be applied to attribute
+       nodes to generate a link when the attribute contains the URL,
+       and its parent element's text() contains the link text. e.g.
+       <Licence src="...">CC-BY</Licence> -->
+  <!-- TODO: other attribute names? -->
+  <xsl:template match="@*[local-name() = 'src']" mode="link-to-url">
+    <xsl:param name="link-text" select="../text()"/>
+    <xsl:element name="a">
+      <xsl:attribute name="href">
+        <xsl:value-of select="."/>
+      </xsl:attribute>
+      <xsl:value-of select="$link-text"/>
+    </xsl:element>
+  </xsl:template>
+
   <!-- This is called from the resource-specific templates: -->
   <xsl:template name="TypeSpecificSizeInfoAsDefList"
                 match="*[local-name() ='TypeSpecificSizeInfo']">
