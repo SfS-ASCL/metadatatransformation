@@ -22,19 +22,18 @@
 
   <xsl:template match="*[local-name() = 'Documentation']" mode="list-item">
     <li>
-        <xsl:if test="./*[local-name() = 'DocumentationType']">
-          <xsl:apply-templates select="./*[local-name() = 'DocumentationType']" mode="comma-separated-text"/>
-          <xsl:text> </xsl:text>
-        </xsl:if>
-
-        <xsl:apply-templates select="./[local-name() = 'URL']" mode="link-to-url"/>
+        <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
+          <xsl:with-param name="link-text">
+            <xsl:apply-templates select="./*[local-name() = 'DocumentationType']" mode="comma-separated-text"/>
+          </xsl:with-param>
+        </xsl:apply-templates>
 
         <xsl:if test=".//*[local-name() = 'LanguageName']">
           <br/>
           <xsl:text>In: </xsl:text>
           <xsl:apply-templates select=".//*[local-name() = 'LanguageName']" mode="comma-separated-text"/>
         </xsl:if>
-        <xsl:if test=".//*[local-name() = 'FileName']">
+        <xsl:if test="./*[local-name() = 'FileName']/text()">
           <br/>
           <xsl:text>Files: </xsl:text>
           <xsl:apply-templates select="./*[local-name() = 'FileName']" mode="comma-separated-text"/>
