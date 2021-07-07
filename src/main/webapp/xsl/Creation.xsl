@@ -6,392 +6,290 @@
 
   <!-- TODO: split out Annotation, Source, and Derivations into detail sections-->
   <xsl:output method="html" indent="yes"/>
-  <xsl:template name="CreationAsTable" match="*[local-name() = 'Creation']">
-    <table>
-      <!-- TODO: table header? -->
-      <tbody>
-        <tr>
-          <td>
-            <b>Topic:</b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Topic']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Creator(s): </b>
-          </td>
-          <td>
-            <address>
-              <xsl:for-each select="./*[local-name() = 'Creators']/*[local-name() = 'Person']">
-                <xsl:choose>
-                  <xsl:when
-                      test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
-                    <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:value-of
-                            select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                            />
-                      </xsl:attribute>
-                      <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                      <xsl:text> </xsl:text>
-                      <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                    </xsl:element>
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                    <xsl:text> </xsl:text>
-                    <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                  </xsl:otherwise>
-                </xsl:choose>
-                <xsl:if test="./*[local-name() = 'role'] != ''"> (<xsl:value-of
-                select="./*[local-name() = 'role']"/>) </xsl:if>
-                <xsl:if test="position() != last()">, </xsl:if>
-              </xsl:for-each>
-            </address>
-          </td>
-        </tr>
-        <xsl:for-each select="./*[local-name() = 'CreationToolInfo']">
-          <tr>
-            <td>
-              <b>Creation Tool</b>
-            </td>
-            <td>
-              <xsl:value-of select="./*[local-name() = 'CreationTool']"/>
-              <xsl:if test="./*[local-name() = 'ToolType'] != ''">
-                <xsl:text> (</xsl:text>
-                <xsl:value-of select="./*[local-name() = 'ToolType']"/>
-                <xsl:text>)</xsl:text>
-              </xsl:if>
-            </td>
-          </tr>
-        </xsl:for-each>
-        <xsl:if test="//*[local-name() = 'AnnotationMode']">
-          <tr>
-            <td>
-              <b>Annotation:</b>
-            </td>
-            <td>
-              <table border="3" cellpadding="10" cellspacing="10">
-                <tr>
-                  <td>
-                    <b>Annotation Mode:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'AnnotationMode']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Annotation Standoff:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'AnnotationStandoff']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Interannotator Agreement:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'InterannotatorAgreement']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Annotation Format:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'AnnotationFormat']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Segmentation Units:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'SegmentationUnits']"/>
-                  </td>
-                </tr>
-                <xsl:for-each select=".//*[local-name() = 'AnnotationType']">
-                  <tr>
-                    <td>
-                      <b>Annotation Type:</b>
-                    </td>
-                    <td>
-                      <table>
-                        <tr>
-                          <td>
-                            <b>Annotation Level Type(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'AnnotationLevelType']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Annotation Mode(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'AnnotationMode']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Tagset(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'TagsetInfo']">
-                              <xsl:value-of select="./*[local-name() = 'Tagset']"/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
 
-                        <tr>
-                          <td>
-                            <b>Descriptions(s): </b>
-                          </td>
-                          <td>
-                            <xsl:value-of select=".//*[local-name() = 'Description']"/>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </xsl:for-each>
-                <xsl:for-each select=".//*[local-name() = 'AnnotationToolInfo']">
-                  <tr>
-                    <td>
-                      <b>Annotation Tool Info:</b>
-                    </td>
-                    <td>
-                      <table>
-                        <tr>
-                          <td>
-                            <b>Annotation Tool(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'AnnotationTool']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Tool Type(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'ToolType']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Versions(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'Version']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Url(s): </b>
-                          </td>
-                          <td>
-                            <xsl:for-each select="./*[local-name() = 'Url']">
-                              <xsl:value-of select="."/>
-                              <xsl:if test="position() != last()">, </xsl:if>
-                            </xsl:for-each>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <b>Description(s):</b>
-                          </td>
-                          <td>
-                            <xsl:value-of select=".//*[local-name() = 'Description']"/>
-                          </td>
-                        </tr>
-                      </table>
-                    </td>
-                  </tr>
-                </xsl:for-each>
-                <tr>
-                  <td>
-                    <b>Annotation Descriptions:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'Description']"/>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
+  <!-- The main template for the Creation tab -->
+  <xsl:template match="*[local-name() = 'Creation']">
+    <!-- TODO: topic? This looks more like "keywords" rather than anything that can usefully be printed  -->
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+
+    <xsl:apply-templates select="./*[local-name() = 'Creators']" mode="section" />
+    <section>
+      <h3>Creation process</h3>
+      <xsl:call-template name="SourcesDetails"/>
+      <xsl:apply-templates select="./*[local-name() = 'Annotation']" mode="details" />
+      <xsl:call-template name="CreationToolsSection"/>
+    </section>
+
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Creators']" mode="section">
+    <section>
+      <h3>Creators</h3>
+      <xsl:choose>
+        <!-- avoid generating an empty list when there are no last names: -->
+        <xsl:when test="./*[local-name() = 'Person']/*[local-name() = 'lastName']/text()">
+          <address>
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'Person']" mode="list-item-with-role" />
+            </ol>
+          </address>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>No information available about the creators of this resource.</p>
+        </xsl:otherwise>
+      </xsl:choose>
+    </section>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Person']" mode="list-item-with-role">
+    <xsl:variable name="fullName">
+      <xsl:value-of select="./*[local-name() = 'firstName']"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'lastName']"/>
+    </xsl:variable>
+
+    <li itemscope="" itemtype="https://schema.org/Person">
+      <span itemprop="name"><xsl:value-of select="$fullName" /></span>
+      <xsl:if test="./*[local-name() = 'role'] != ''">
+        <xsl:text>, </xsl:text>
+        <xsl:value-of select="./*[local-name() = 'role']"/>
+      </xsl:if>
+      
+      <xsl:if test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
+        <xsl:text>: </xsl:text> 
+        <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']"
+                             mode="link-with-comma"/>
+      </xsl:if>
+    </li>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'AuthoritativeID']" mode="link-with-comma">
+    <xsl:apply-templates select="./*[local-name() = 'id']" mode="link-to-url">
+      <xsl:with-param name="link-text" select="./*[local-name() = 'issuingAuthority']"/>
+      <xsl:with-param name="same-as" select="true()"/>
+    </xsl:apply-templates>
+    <xsl:if test="last() > 1 and position() != last()">
+      <xsl:text>, </xsl:text>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="SourcesDetails">
+    <!-- we call this by name because there is no <Sources> wrapper element
+         under which <Source> elements are collected, somewhat exceptionally -->
+
+    <xsl:if test="./*[local-name() = 'Source']">
+      <details>
+        <summary>Original Sources</summary>
+        <xsl:choose>
+          <xsl:when test="./*[local-name() = 'Source']/*[local-name() = 'OriginalSource']/text()">
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'Source']" mode="list-item"/>
+            </ol>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>No information on original sources available for this resource.</p>
+          </xsl:otherwise>
+        </xsl:choose>
+      </details>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Source']" mode="list-item">
+    <li>
+      <p>
+        <cite>
+          <xsl:value-of select="./*[local-name() = 'OriginalSource']"/>
+        </cite>
+        <xsl:if test="./*[local-name() = 'SourceType'] != ''">
+          <xsl:text> (</xsl:text>
+          <xsl:value-of select="./*[local-name() = 'SourceType']"/>
+          <xsl:text>)</xsl:text>
         </xsl:if>
-        <xsl:for-each select="./*[local-name() = 'Source']">
-          <tr>
-            <td>
-              <b>Source:</b>
-            </td>
-            <td>
-              <table border="3" cellpadding="10" cellspacing="10">
-                <tr>
-                  <td>
-                    <b>Original Source</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select="./*[local-name() = 'OriginalSource']"/>
-                    <xsl:if test="./*[local-name() = 'SourceType'] != ''">
-                      <xsl:text> (</xsl:text>
-                      <xsl:value-of select="./*[local-name() = 'SourceType']"/>
-                      <xsl:text>)</xsl:text>
-                    </xsl:if>
-                  </td>
-                </tr>
-                <tr>
-                  <xsl:for-each select="./*[local-name() = 'MediaFiles']">
-                    <tr>
-                      <td>
-                        <b>Catalogue Link:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'CatalogueLink']"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Type:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'Type']"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Format:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'Format']"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Size:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'Size']"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Quality:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'Quality']"/>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <b>Description:</b>
-                      </td>
-                      <td>
-                        <xsl:value-of select="./*[local-name() = 'Description']"/>
-                      </td>
-                    </tr>
-                  </xsl:for-each>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <b>Derivation:</b>
-            </td>
-            <td>
-              <table border="3" cellpadding="10" cellspacing="10">
-                <tr>
-                  <td>
-                    <b>Organisation(s)</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select=".//*[local-name() = 'Organisation']">
-                      <xsl:value-of select="."/>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Derivation Date</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select=".//*[local-name() = 'DerivationDate']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Derivation Mode(s)</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select=".//*[local-name() = 'DerivationMode']">
-                      <xsl:value-of select="."/>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Derivation Type(s)</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select=".//*[local-name() = 'DerivationType']">
-                      <xsl:value-of select="."/>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Derivation Workflow(s)</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select=".//*[local-name() = 'DerivationWorkflow']">
-                      <xsl:value-of select="."/>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Derivation Tool Info</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select=".//*[local-name() = 'DerivationToolInfo']">
-                      <xsl:value-of select="."/>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </xsl:for-each>
-      </tbody>
-    </table>
+      </p>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+      <xsl:apply-templates select="./*[local-name() = 'MediaFiles']" mode="details" />
+      <xsl:apply-templates select="./*[local-name() = 'Derivation']" mode="details" />
+    </li>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'MediaFiles']" mode="details">
+      <details>
+        <summary>Media files</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+        <xsl:choose>
+          <xsl:when test="./*[local-name() = 'MediaFile']">
+            <ol>
+              <xsl:apply-templates select="./*[local-name() = 'MediaFile']" mode="list-item"/>
+            </ol>
+          </xsl:when>
+          <xsl:otherwise>
+            <p>No information about media files is available for this source.</p>
+          </xsl:otherwise>
+        </xsl:choose>
+      </details>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'MediaFile']" mode="list-item">
+    <li>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+
+      <dl>
+        <dt>Catalogue Link</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'CatalogueLink']" mode="link-to-url" />
+        </dd>
+
+        <dt>Type</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Type']"/>
+        </dd>
+
+        <dt>Format</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Format']"/>
+        </dd>
+
+        <dt>Size</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Size']"/>
+        </dd>
+
+        <dt>Quality</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Quality']"/>
+        </dd>
+
+        <dt>Recording conditions</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'RecordingConditions']"/>
+        </dd>
+
+        <dt>Start position</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']">
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']" />
+          </xsl:if>
+        </dd>
+
+        <dt>End position</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']">
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
+            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']" />
+          </xsl:if>
+        </dd>
+      </dl>
+    </li>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Derivation']" mode="details">
+      <details>
+        <summary>Derivation</summary>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+        <dl>
+          <dt>Organisation</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'Organisation']" />
+          </dd>
+ 
+          <dt>Date</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationDate']" />
+          </dd>
+                          
+          <dt>Mode</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationMode']" />
+          </dd>
+ 
+          <dt>Type</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationType']" />
+          </dd>
+ 
+          <dt>Workflow</dt>
+          <dd>
+            <xsl:value-of select="./*[local-name() = 'DerivationWorkflow']" />
+          </dd>
+
+          <dt>Derivation tools</dt>
+          <dd>
+            <ul>
+              <xsl:apply-templates select="./*[local-name() = 'DerivationToolInfo']"
+                                   mode="list-item" />
+            </ul>
+          </dd>
+
+        </dl>
+      </details>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Annotation']" mode="details">
+    <details>
+      <summary>Annotation</summary>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+      <dl>
+        <dt>Annotation mode</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationMode']"/>
+        </dd>
+
+        <dt>Annotation standoff</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationStandoff']"/>
+        </dd>
+
+        <dt>Interannotator agreement</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'InterannotatorAgreement']"/>
+        </dd>
+
+        <dt>Annotation format</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'AnnotationFormat']"/>
+        </dd>
+
+        <dt>Segmentation units</dt>
+        <dd>
+          <xsl:if test=".//*[local-name() = 'SegmentationUnit']">
+            <p>
+              <xsl:apply-templates select=".//*[local-name() = 'SegmentationUnit']" mode="comma-separated-text" />
+            </p>
+          </xsl:if>
+          <xsl:apply-templates select="./*[local-name() = 'SegmentationUnits']/*[local-name() = 'Descriptions']" />
+        </dd>
+        
+        <dt>Annotation types</dt>
+        <dd>
+          <dl>
+            <dt>Levels</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'AnnotationLevelType']" mode="comma-separated-text" />
+            </dd>
+            
+            <dt>Modes</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'AnnotationMode']" mode="comma-separated-text" />
+            </dd>
+            
+            <dt>Tag sets</dt>
+            <dd>
+              <xsl:apply-templates select=".//*[local-name() = 'Tagset']" mode="comma-separated-text" />
+            </dd>
+          </dl>
+          <xsl:apply-templates select="./*[local-name() = 'AnnotationTypes']/*[local-name() = 'Descriptions']" />
+        </dd>
+
+        <dt>Annotation tools</dt>
+        <dd>
+          <ul>
+            <xsl:apply-templates select="./*[local-name() = 'AnnotationToolInfo']" mode="list-item" />
+          </ul>
+        </dd>
+
+      </dl>
+    </details>
   </xsl:template>
 
   <xsl:template name="CitationExamples">
@@ -519,5 +417,57 @@
     </cite>
     <xsl:text>. </xsl:text>
   </xsl:template>
+
+  <xsl:template name="CreationToolsSection">
+    <details>
+      <summary>Creation tools</summary>
+      <xsl:choose>
+        <xsl:when test="./*[local-name() = 'CreationToolInfo']/*[local-name() = 'CreationTool']/text()">
+          <ul>
+            <xsl:apply-templates select="./*[local-name() = 'CreationToolInfo']" mode="list-item" />
+          </ul>
+        </xsl:when>
+        <xsl:otherwise>
+          <p>No information available about the tools used to create this resource.</p>
+        </xsl:otherwise>
+      </xsl:choose>
+    </details>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'CreationToolInfo' or
+                         local-name() = 'AnnotationToolInfo' or
+                         local-name() = 'DerivationToolInfo']" mode="list-item">
+
+    <!-- first child (CreationTool, AnnotationTool, etc.) contains name:-->
+    <xsl:variable name="toolName" select="./*[1]/text()" />
+    <xsl:if test="$toolName">
+      <li>
+        <p>
+          <xsl:choose>
+            <xsl:when test="./*[local-name() = 'Url']/text()"> 
+              <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
+                <xsl:with-param name="link-text" select="$toolName"/>
+              </xsl:apply-templates>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$toolName"/>
+            </xsl:otherwise>
+          </xsl:choose>
+          <xsl:if test="./*[local-name() = 'ToolType']/text()"> 
+            <xsl:text> (</xsl:text>
+            <xsl:value-of select="normalize-space(./*[local-name() = 'ToolType'])" />
+            <xsl:text>)</xsl:text>
+          </xsl:if>
+          <xsl:if test="./*[local-name() = 'Version']/text()"> 
+            <xsl:text>, version </xsl:text>
+            <xsl:value-of select="normalize-space(./*[local-name() = 'Version'])" />
+          </xsl:if>
+        </p>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+      </li>
+    </xsl:if>
+  </xsl:template>
+
+ 
 
 </xsl:stylesheet>

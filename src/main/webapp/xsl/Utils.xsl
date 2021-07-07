@@ -37,9 +37,16 @@
   <!-- Turns any node whose text() value is a URL into a link to that URL -->
   <!-- The value of the link-text param, if supplied, will be used for
        the link text; by default, the URL itself is used. -->
+  <!-- If the same-as param is true, the link will have
+       itemprop="sameAs", a way of specifying that the URL points to
+       an identifying resource -->
   <xsl:template match="*" mode="link-to-url">
     <xsl:param name="link-text" select="./text()"/>
+    <xsl:param name="same-as" select="false()"/>
     <xsl:element name="a">
+      <xsl:if test="$same-as">
+        <xsl:attribute name="itemprop">sameAs</xsl:attribute>
+      </xsl:if>
       <xsl:attribute name="href">
         <xsl:value-of select="./text()"/>
       </xsl:attribute>
