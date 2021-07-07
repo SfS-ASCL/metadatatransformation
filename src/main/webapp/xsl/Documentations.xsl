@@ -8,65 +8,38 @@
 
   <xsl:template match="*[local-name() = 'Documentations']" mode="list">
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
-    <ol>
-        <xsl:for-each select="./*[local-name() = 'Documentation']">
-          <li>
-            <dl>
-                <dt>
-                  Documentation Type(s)
-                </dt>
-                <dd>
-                  <xsl:for-each select="./*[local-name() = 'DocumentationType']">
-                    <xsl:value-of select="."/>
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                </dd>
-              
-              
-                <dt>
-                  File Name(s)
-                </dt>
-                <dd>
-                  <xsl:for-each select="./*[local-name() = 'FileName']">
-                    <xsl:value-of select="."/>
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                </dd>
-              
-              
-                <dt>
-                  URL
-                </dt>
-                <dd>
-                  <xsl:for-each select="./*[local-name() = 'Url']">
-                    <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="."/>
-                      </xsl:attribute>
-                      <xsl:value-of select="."/>
-                    </xsl:element>
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                  
-                </dd>
-              
-              
-                <dt>
-                  Documentation Language(s)
-                </dt>
-                <dd>
-                  <!-- omitted ISO639 code -->
-                  <xsl:for-each select="./*[local-name() = 'DocumentationLanguages']">
-                    <xsl:value-of
-                        select="./*[local-name() = 'DocumentationLanguage']/*[local-name() = 'Language']//*[local-name() = 'LanguageName']"/>
-                    <xsl:if test="position() != last()">, </xsl:if>
-                  </xsl:for-each>
-                </dd>
-            </dl>
-          </li>
-        </xsl:for-each>
-      
-    </ol>
+    <xsl:choose>
+      <xsl:when test="./*[local-name() = 'Documentation']/*/text()">
+        <ol>
+          <xsl:apply-templates select="./*[local-name() = 'Documentation']" mode="list-item"/>
+        </ol>
+      </xsl:when>
+      <xsl:otherwise>
+        <p>No information about documentation is available for this resource.</p>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Documentation']" mode="list-item">
+    <li>
+        <xsl:if test="./*[local-name() = 'DocumentationType']">
+          <xsl:apply-templates select="./*[local-name() = 'DocumentationType']" mode="comma-separated-text"/>
+          <xsl:text> </xsl:text>
+        </xsl:if>
+
+        <xsl:apply-templates select="./[local-name() = 'URL']" mode="link-to-url"/>
+
+        <xsl:if test=".//*[local-name() = 'LanguageName']">
+          <br/>
+          <xsl:text>In: </xsl:text>
+          <xsl:apply-templates select=".//*[local-name() = 'LanguageName']" mode="comma-separated-text"/>
+        </xsl:if>
+        <xsl:if test=".//*[local-name() = 'FileName']">
+          <br/>
+          <xsl:text>Files: </xsl:text>
+          <xsl:apply-templates select="./*[local-name() = 'FileName']" mode="comma-separated-text"/>
+        </xsl:if>
+    </li>
   </xsl:template>
 
 </xsl:stylesheet>
