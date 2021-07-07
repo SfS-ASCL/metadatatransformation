@@ -6,7 +6,7 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <xsl:template match="*[local-name() = 'Access']" mode="deflist">
+  <xsl:template match="*[local-name() = 'Access']" mode="def-list">
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
     <dl>
         <dt>Availability</dt>
