@@ -130,57 +130,17 @@
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'MediaFile']" mode="list-item">
-    <li>
-      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
-
-      <dl>
-        <dt>Catalogue Link</dt>
-        <dd>
-          <xsl:apply-templates select="./*[local-name() = 'CatalogueLink']" mode="link-to-url" />
-        </dd>
-
-        <dt>Type</dt>
-        <dd>
+    <xsl:if test="./*[local-name() = 'CatalogueLink' and text()]"> 
+      <li>
+        <xsl:apply-templates select="./*[local-name() = 'CatalogueLink']" mode="link-to-url" /> 
+        <xsl:if test="./*[local-name() = 'Type' and (text() != 'Unknown' or text() != 'Unspecified')]">
+          <xsl:text> (</xsl:text>
           <xsl:value-of select="./*[local-name() = 'Type']"/>
-        </dd>
-
-        <dt>Format</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'Format']"/>
-        </dd>
-
-        <dt>Size</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'Size']"/>
-        </dd>
-
-        <dt>Quality</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'Quality']"/>
-        </dd>
-
-        <dt>Recording conditions</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'RecordingConditions']"/>
-        </dd>
-
-        <dt>Start position</dt>
-        <dd>
-          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']">
-            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
-            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'StartPosition']" />
-          </xsl:if>
-        </dd>
-
-        <dt>End position</dt>
-        <dd>
-          <xsl:if test="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']">
-            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'PositionType']" />
-            <xsl:value-of select="./*[local-name() = 'Position']/*[local-name() = 'EndPosition']" />
-          </xsl:if>
-        </dd>
-      </dl>
-    </li>
+          <xsl:text>)</xsl:text>
+        </xsl:if>
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+      </li>
+    </xsl:if>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Derivation']" mode="details">
