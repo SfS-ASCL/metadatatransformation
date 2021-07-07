@@ -32,7 +32,7 @@
       <xsl:apply-templates select="./*[local-name() = 'Results']" mode="details" />
       <xsl:apply-templates select="./*[local-name() = 'Materials']" mode="details"/> 
       <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/> 
-      <xsl:apply-templates select="./*[local-name() = 'AnalysisToolInfo']" mode="details"/> 
+      <xsl:call-template name="AnalysisToolsAsDetails" /> 
       <!-- TODO: ExperimentalQuality? TypeSpecificSizeInfo? -->
     </section>
   </xsl:template>
@@ -343,37 +343,15 @@
     </details>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'AnalysisToolInfo']" mode="details">
+  <xsl:template name="AnalysisToolsAsDetails">
     <details>
-      <summary>Analysis Tool</summary>
-
-      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/> 
-
-      <dl>
-
-        <dt>Name</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'AnalysisTool']" />
-        </dd>
-
-        <dt>Type</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'ToolType']" />
-        </dd>
-
-        <dt>Version</dt>
-        <dd>
-          <xsl:value-of select="./*[local-name() = 'Version']" />
-        </dd>
-
-        <dt>Link</dt>
-        <dd>
-          <xsl:if test="./*[local-name() = 'Url' and text()]">
-            <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url"/>
-          </xsl:if>
-        </dd>
-      </dl>
-
+      <summary>Analysis Tools</summary>
+      <xsl:if test="./*[local-name() = 'AnalysisToolInfo']">
+        <ul>
+          <xsl:apply-templates select="./*[local-name() = 'AnalysisToolInfo']"
+                               mode="list-item" />
+        </ul>
+      </xsl:if>
     </details>
   </xsl:template>
 

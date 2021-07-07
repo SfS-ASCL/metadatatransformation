@@ -95,6 +95,7 @@
 
   <!-- There are many different kinds of *ToolInfo components with the same structure.-->
   <xsl:template match="*[local-name() = 'CreationToolInfo' or
+                         local-name() = 'AnalysisToolInfo' or
                          local-name() = 'AnnotationToolInfo' or
                          local-name() = 'DeploymentToolInfo' or
                          local-name() = 'DerivationToolInfo']" mode="list-item">
