@@ -6,100 +6,102 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <xsl:template name="AccessAsTable" match="*[local-name() = 'Access']">
-    <table>
-      <!-- TODO: table header? -->
-      <tbody>
-        <!-- assuming single occurrence of sub-node -->
-        <tr>
-          <td>
-            <b>Availability: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Availability']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Distribution Medium: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'DistributionMedium']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Catalogue Link: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'CatalogueLink']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Price: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Price']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Licence: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Licence']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Contact: </b>
-          </td>
-          <td>
-            <xsl:value-of select="./*[local-name() = 'Contact']/*[local-name() = 'firstname']"/>
-            <xsl:text> </xsl:text>
-            <xsl:value-of select="./*[local-name() = 'Contact']/*[local-name() = 'lastname']"/>
-            <xsl:if test="./*[local-name() = 'Contact']/*[local-name() = 'role'] != ''">
-            (<xsl:value-of select="./*[local-name() = 'Contact']/*[local-name() = 'role']"/>) </xsl:if>
-            <xsl:if test="./*[local-name() = 'Contact']/*[local-name() = 'email'] != ''">
-              <xsl:text>, e-mail:</xsl:text>
-              <xsl:value-of select="./*[local-name() = 'Contact']/*[local-name() = 'email']"/>
-            </xsl:if>
-            <xsl:if test="./*[local-name() = 'Contact']/*[local-name() = 'telephoneNumber'] != ''">
-              <xsl:text>, telephone:</xsl:text>
-              <xsl:value-of
-                  select="./*[local-name() = 'Contact']/*[local-name() = 'telephoneNumber']"/>
-            </xsl:if>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Deployment Tool Info: </b>
-          </td>
-          <td>
-            <xsl:value-of
-                select="./*[local-name() = 'DeploymentToolInfo']/*[local-name() = 'DeploymentTool']"/>
-            <xsl:if
-                test="./*[local-name() = 'DeploymentToolInfo']/*[local-name() = 'ToolType'] != ''">
-              (<xsl:value-of
-              select="./*[local-name() = 'DeploymentToolInfo']/*[local-name() = 'ToolType']"/>) </xsl:if>
-              <xsl:if
-                  test="./*[local-name() = 'DeploymentToolInfo']/*[local-name() = 'Version'] != ''"> ,
-              Version: <xsl:value-of
-              select="./*[local-name() = 'DeploymentToolInfo']/*[local-name() = 'Version']"/>.
-              </xsl:if>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Descriptions: </b>
-          </td>
-          <td>
-            <xsl:value-of select=".//*[local-name() = 'Description']"/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <xsl:template match="*[local-name() = 'Access']" mode="deflist">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+    <dl>
+        <dt>Availability</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Availability']"/>
+        </dd>
+        
+        <dt>Distribution Medium</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'DistributionMedium']"/>
+        </dd>
+        
+        <dt>Catalogue Link</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'CatalogueLink']" mode="link-to-url"/>
+        </dd>
+        
+        <dt>Price</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Price']"/>
+        </dd>
+        
+        <dt>Licence</dt>
+        <dd>
+          <xsl:apply-templates select="./*[local-name() = 'Licence']" mode="name-with-link"/>
+        </dd>
+        
+        <dt>Contact</dt>
+        <dd itemscope="" itemtype="https://schema.org/Person">
+          <xsl:apply-templates select="./*[local-name() = 'Contact']" mode="contact-data"/>
+        </dd>
+        
+        <dt>Deployment Tool Info</dt>
+        <dd>
+          <xsl:if test="./*[local-name() = 'DeploymentToolInfo']">
+            <ul>
+              <xsl:apply-templates select="./*[local-name() = 'DeploymentToolInfo']" mode="list-item" />
+            </ul>
+          </xsl:if>
+        </dd>
+    </dl>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Contact']" mode="contact-data">
+    <span itemprop="name">
+      <xsl:value-of select="./*[local-name() = 'firstname']"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'lastname']"/>
+    </span>
+    <xsl:if test="./*[local-name() = 'role'] != ''">
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'role']"/>
+    </xsl:if>
+    <xsl:if test="./*[local-name() = 'email'] != ''">
+      <br/>
+      <xsl:element name="a">
+        <xsl:attribute name="href">mailto:<xsl:value-of select="./*[local-name() = 'email']"/></xsl:attribute>
+        <xsl:attribute name="itemprop">email</xsl:attribute>
+        <xsl:value-of select="./*[local-name() = 'email']"/>
+      </xsl:element>
+    </xsl:if>
+    <xsl:if test="./*[local-name() = 'telephoneNumber'] != ''">
+      <br/>
+      <span itemprop="telephone">
+        <xsl:value-of select="./*[local-name() = 'telephoneNumber']"/>
+      </span>
+    </xsl:if>
+    <xsl:if test="./*[local-name() = 'Address']">
+      <br/>
+      <xsl:apply-templates select="./*[local-name() = 'Address']" mode="address-data"/>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Address']" mode="address-data">
+    <span itemprop="address">
+      <xsl:value-of select="./*[local-name() = 'street']"/>
+      <br/>
+      <xsl:value-of select="./*[local-name() = 'ZIPCode']"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'city']"/>
+    </span>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Licence']" mode="name-with-link">
+    <xsl:variable name="licenseName" select="./text()"/>
+    <xsl:choose>
+      <xsl:when test="./@*[local-name() = 'src']">
+        <xsl:apply-templates select="./@*[local-name() = 'src']" mode="link-to-url">
+          <xsl:with-param name="link-text" select="$licenseName"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$licenseName"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>
