@@ -50,33 +50,11 @@
       <!-- TODO: abstract template that does this for Project, Creators, etc. -->
       <dt>Person(s)</dt>
       <dd>
-        <xsl:for-each select="./*[local-name() = 'Person']">
-          <xsl:choose>
-            <xsl:when
-              test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
-              <xsl:element name="a">
-                <xsl:attribute name="href">
-                  <xsl:value-of
-                    select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"/>
-                </xsl:attribute>
-                <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                <xsl:text> </xsl:text>
-                <xsl:value-of select="./*[local-name() = 'lastName']"/>
-              </xsl:element>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="./*[local-name() = 'firstName']"/>
-              <xsl:text> </xsl:text>
-              <xsl:value-of select="./*[local-name() = 'lastName']"/>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:if test="./*[local-name() = 'Role'] != ''">
-            <xsl:text> (</xsl:text>
-            <xsl:value-of select="./*[local-name() = 'Role']"/>
-            <xsl:text>)</xsl:text>
-          </xsl:if>
-          <xsl:if test="position() != last()">, </xsl:if>
-        </xsl:for-each>
+        <xsl:if test="./*[local-name() = 'Person']">
+          <ul>
+            <xsl:apply-templates select="./*[local-name() = 'Person']" mode="list-item-with-role"/>
+          </ul>
+        </xsl:if>
       </dd>
 
       <dt>Duration</dt>
