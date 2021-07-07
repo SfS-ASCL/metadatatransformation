@@ -64,12 +64,14 @@
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'AuthoritativeID']" mode="link-with-comma">
-    <xsl:apply-templates select="./*[local-name() = 'id']" mode="link-to-url">
-      <xsl:with-param name="link-text" select="./*[local-name() = 'issuingAuthority']"/>
-      <xsl:with-param name="same-as" select="true()"/>
-    </xsl:apply-templates>
-    <xsl:if test="last() > 1 and position() != last()">
-      <xsl:text>, </xsl:text>
+    <xsl:if test="./*[local-name() = 'id']/text()">
+      <xsl:apply-templates select="./*[local-name() = 'id']" mode="link-to-url">
+        <xsl:with-param name="link-text" select="./*[local-name() = 'issuingAuthority']"/>
+        <xsl:with-param name="same-as" select="true()"/>
+      </xsl:apply-templates>
+      <xsl:if test="last() > 1 and position() != last()">
+        <xsl:text>, </xsl:text>
+      </xsl:if>
     </xsl:if>
   </xsl:template>
 
