@@ -282,14 +282,27 @@ details {
   margin-left: 1em;
 }
 
+dl {
+  border: 1px solid #e8e8e8;
+}
 dt {
   font-weight: bold;
+  padding: 0.5em 1em 0.25em 1em;
 }
 dt:after {
   content: ":";
 }
+dt:nth-of-type(even) {
+  background-color: #f7f7f7;
+}
 dd {
-  margin-left: 1em;
+  padding: 0.25em 1em 0.5em 1.5em;
+}
+dd:nth-of-type(even) {
+  background-color: #f7f7f7;
+}
+dd:empty {
+  padding: 0.25em 0 0 0;
 }
 
 address {
