@@ -28,7 +28,7 @@
   <xsl:template match="*" mode="comma-separated-text">
     <xsl:if test="text()">
       <xsl:value-of select="text()"/>
-      <xsl:if test="position() != last()">
+      <xsl:if test="last() > 1 and position() != last()">
         <xsl:text>, </xsl:text>
       </xsl:if>
     </xsl:if>
