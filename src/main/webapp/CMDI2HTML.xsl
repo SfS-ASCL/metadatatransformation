@@ -292,7 +292,7 @@ dl {
 }
 dt {
   font-weight: bold;
-  padding: 0.5em 1em 0.25em 1em;
+  padding: 0.5em 1em 0 1em;
 }
 dt:after {
   content: ":";
@@ -301,13 +301,13 @@ dt:nth-of-type(even) {
   background-color: #f7f7f7;
 }
 dd {
-  padding: 0.25em 1em 0.5em 1.5em;
+  padding: 0 1em 0.5em 1em;
 }
 dd:nth-of-type(even) {
   background-color: #f7f7f7;
 }
 dd:empty {
-  padding: 0.25em 0 0 0;
+  padding: 1em 0 0 0;
 }
 
 address {
