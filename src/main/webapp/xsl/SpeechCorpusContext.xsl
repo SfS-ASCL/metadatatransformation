@@ -9,8 +9,6 @@
   <xsl:template name="SpeechCorpusContextAsSection">
     <!-- Speech corpus -->
     <xsl:apply-templates select="./*[local-name() = 'SpeechCorpus']" mode="def-list"/> 
-    <!-- Multilinguality -->
-    <xsl:apply-templates select="./*[local-name() = 'Multilinguality']" mode="details"/> 
     <!-- Subject languages -->
     <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/> 
     <!-- AnnotationTypes -->
@@ -60,19 +58,17 @@
         <xsl:value-of select="./*[local-name() = 'RecordingPlatformSoftware']" />
       </dd>
 
+      <dt>Multilingual</dt>
+      <dd>
+        <xsl:value-of select="../*[local-name() = 'Multilinguality']/*[local-name() = 'Multilinguality']" />
+      </dd>
+
       <!-- TODO: expand this -->
       <dt>Speech-technical metadata</dt>
       <dd>
         <xsl:value-of select="./*[local-name() = 'SpeechTechnicalMetadata']" />
       </dd>
     </dl>
-  </xsl:template>
-  
-  <xsl:template match="*[local-name() = 'Multilinguality']" mode="details">
-    <details>
-      <summary>Multiple languages</summary>
-      <!-- TODO -->
-    </details>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'AnnotationTypes']" mode="details">
