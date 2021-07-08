@@ -149,6 +149,7 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176127')
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176128')
           or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1548239945774')
+          or contains(/cmde:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1562754657343')
           ">
         <!-- CMDI 1.2 -->
         <xsl:call-template name="mainProcessing"/>
