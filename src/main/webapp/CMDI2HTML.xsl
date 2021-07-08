@@ -225,6 +225,11 @@ body {
   margin: 0 auto 0 auto;
   padding: 0 0.2em 0 0.2em;
 }
+
+nav.site-nav {
+  display: flex;
+  align-items: center;
+}
   
 nav#toc {
   padding: 0;
