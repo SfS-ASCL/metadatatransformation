@@ -356,7 +356,7 @@
   <xsl:template name="TitleAsCite">
     <cite>
       <xsl:choose>
-        <xsl:when test="//*[local-name() = 'ResourceTitle']">
+        <xsl:when test="//*[local-name() = 'ResourceTitle']/text()">
           <xsl:choose>
             <!-- If the title is available in English, display it -->
             <xsl:when test="//*[local-name() = 'ResourceTitle']/@xml:lang = 'en'">
@@ -369,7 +369,7 @@
           </xsl:choose>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+          <xsl:value-of select="//*[local-name() = 'ResourceName']/text()"/>
         </xsl:otherwise>
       </xsl:choose>
       <xsl:if test="//*[local-name() = 'Version']/text()">
