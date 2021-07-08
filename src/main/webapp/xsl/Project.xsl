@@ -46,7 +46,7 @@
       <dd>
         <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'StartYear']"/>
         <xsl:if test="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear'] != ''">
-          <xsl:text> -- </xsl:text>
+          <xsl:text>&#8211;</xsl:text>
           <xsl:value-of select="./*[local-name() = 'Duration']/*[local-name() = 'CompletionYear']"/>
         </xsl:if>
       </dd>
