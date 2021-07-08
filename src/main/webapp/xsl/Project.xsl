@@ -8,9 +8,9 @@
     <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
     <xsl:if test="./*[local-name() = 'Person']">
       <h3>Project members</h3>
-      <ul>
+      <ol>
         <xsl:apply-templates select="./*[local-name() = 'Person']" mode="list-item-with-role"/>
-      </ul>
+      </ol>
     </xsl:if>
 
     <xsl:apply-templates select="./*[local-name() = 'Cooperations']" mode="list"/>
@@ -110,36 +110,42 @@
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Cooperations']" mode="list">
-    <h3>Cooperation</h3>
-    <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
-    <xsl:if test="./*[local-name() = 'Cooperation']">
-      <ul>
+    <xsl:if test="./*[local-name() = 'Cooperation']/*[local-name() = 'CooperationPartner']/text()">
+      <h3>Cooperation</h3>
+      <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
+      <ol>
         <xsl:apply-templates select="./*[local-name() = 'Cooperation']" mode="list-item"/>
-      </ul>
+      </ol>
     </xsl:if>
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'Cooperation']" mode="list-item">
+    <xsl:variable name="partnerName">
+      <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
+        <xsl:if test="./*[local-name() = 'Department']/text()">
+          <xsl:text>, </xsl:text>  
+          <xsl:value-of select="./*[local-name() = 'Department']"/>
+        </xsl:if>
+        <xsl:if test="./*[local-name() = 'Organisation']/text()">
+          <xsl:text>, </xsl:text>  
+          <xsl:value-of select="./*[local-name() = 'Organisation']"/>
+        </xsl:if>
+    </xsl:variable>
+
     <li>
       <p>
         <xsl:choose>
           <xsl:when test="./*[local-name() = 'Url']/text()">
             <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
               <xsl:with-param name="link-text">
-                <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
+                <xsl:value-of select="$partnerName"/>
               </xsl:with-param>
             </xsl:apply-templates>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="./*[local-name() = 'CooperationPartner']"/>
+            <xsl:value-of select="partnerName"/>
           </xsl:otherwise>
         </xsl:choose>
-        <br/>
-        <xsl:if test="./*[local-name() = 'Department']/text()">
-          <xsl:value-of select="./*[local-name() = 'Department']"/>
-          <xsl:text>, </xsl:text>  
-        </xsl:if>
-        <xsl:value-of select="./*[local-name() = 'Organisation']"/>
       </p>
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
     </li>
