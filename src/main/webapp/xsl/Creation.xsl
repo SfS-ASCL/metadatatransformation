@@ -349,7 +349,7 @@
       <xsl:text> (</xsl:text>
       <xsl:value-of select="$startDate"/>
       <xsl:if test="$endDate != ''">
-	<xsl:text> - </xsl:text>
+	<xsl:text>&#8211;</xsl:text>
 	<xsl:value-of select="$endDate"/>
       </xsl:if>            
       <xsl:text>): </xsl:text>
