@@ -55,32 +55,41 @@
 
   </xsl:template>
 
-  <xsl:template name="InstitutionAsString" match="*[local-name() = 'Institution']">
-    <xsl:if test="*[local-name() = 'Department'] != ''">
-      <xsl:value-of select="*[local-name() = 'Department']"/>
-    </xsl:if>
-
+  <xsl:template match="*[local-name() = 'Institution']">
+    <xsl:choose>
+      <xsl:when test="./*[local-name() = 'Url']/text()">
+        <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
+          <xsl:with-param name="link-text" select="./*[local-name() = 'Department']"/>
+        </xsl:apply-templates>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="*[local-name() = 'Department']"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    <br/>
     <xsl:for-each select="./*[local-name() = 'Organisation']">
-      <xsl:if
-        test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id']">
-        <xsl:for-each
-          select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
-          <xsl:if test="./*[local-name() = 'issuingAuthority'] = 'VIAF'">
-            <xsl:element name="a">
-              <xsl:attribute name="href">
-                <xsl:value-of select="./*[local-name() = 'id']"/>
-              </xsl:attribute>
-              <xsl:apply-templates select="../../*[local-name() = 'name']"/>
-            </xsl:element>
-          </xsl:if>
-          <xsl:if test="not(/*[local-name() = 'AuthoritativeIDs'])">
-            <xsl:apply-templates select="*[local-name() = 'name']"/>
-          </xsl:if>
-        </xsl:for-each>
-      </xsl:if>
+      <span itemscope="" itemtype="https://schema.org/Organization">
+        <span itemprop="name">
+          <xsl:value-of select="./*[local-name() = 'name']"/>
+        </span>
+        <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']" mode="link-tags"/>
+      </span>
       <br/>
     </xsl:for-each>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'AuthoritativeIDs']" mode="link-tags">
+      <xsl:apply-templates select="./*[local-name() = 'AuthoritativeID']/*[local-name() = 'id' and text()]"
+                           mode="link-tag"/>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'id']" mode="link-tag">
+    <xsl:element name="link">
+      <xsl:attribute name="itemprop">sameAs</xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of select="./text()"/></xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
 
   <xsl:template match="*[local-name() = 'name']">
     <xsl:if test="./@xml:lang">
