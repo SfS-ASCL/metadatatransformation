@@ -42,6 +42,7 @@
     </li>
   </xsl:template>
 
+  <!-- TODO: merge into CommonComponents -->
   <xsl:template match="*[local-name() = 'Author']" mode="name-with-links-in-list">
     <xsl:variable name="authorName">
       <xsl:value-of select="./*[local-name() = 'firstName']"/>

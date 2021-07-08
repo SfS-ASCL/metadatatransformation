@@ -8,22 +8,6 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <!-- This is called from many different templates: -->
-  <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
-    <xsl:for-each select="*[local-name() = 'Description']">
-      <xsl:if test="./text()">
-        <xsl:element name="p">
-          <xsl:if test="@xml:lang != ''" >
-            <xsl:attribute name="lang">
-              <xsl:value-of select="@xml:lang" />
-            </xsl:attribute>
-          </xsl:if>
-        <xsl:value-of select="."/>
-      </xsl:element>
-      </xsl:if>
-    </xsl:for-each>
-  </xsl:template>
-
   <!-- Turns a node collection of nodes with text values into comma-separated text -->
   <xsl:template match="*" mode="comma-separated-text">
     <xsl:if test="text()">
@@ -40,6 +24,8 @@
   <!-- If the same-as param is true, the link will have
        itemprop="sameAs", a way of specifying that the URL points to
        an identifying resource -->
+  <!-- TODO: support the case where link-text is provided but URL is
+       empty: output link text alone. -->
   <xsl:template match="*" mode="link-to-url">
     <xsl:param name="link-text" select="./text()"/>
     <xsl:param name="same-as" select="false()"/>
@@ -92,59 +78,6 @@
       </dd>
     </dl>	
   </xsl:template>
-
-  <!-- There are many different kinds of *ToolInfo components with the same structure.-->
-  <xsl:template match="*[local-name() = 'CreationToolInfo' or
-                         local-name() = 'AnalysisToolInfo' or
-                         local-name() = 'AnnotationToolInfo' or
-                         local-name() = 'DeploymentToolInfo' or
-                         local-name() = 'DerivationToolInfo']" mode="list-item">
-
-    <!-- first child (CreationTool, AnnotationTool, etc.) contains name:-->
-    <xsl:variable name="toolName" select="./*[1]/text()" />
-    <xsl:if test="$toolName">
-      <li>
-        <p>
-          <xsl:choose>
-            <xsl:when test="./*[local-name() = 'Url']/text()"> 
-              <xsl:apply-templates select="./*[local-name() = 'Url']" mode="link-to-url">
-                <xsl:with-param name="link-text" select="$toolName"/>
-              </xsl:apply-templates>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:value-of select="$toolName"/>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:if test="./*[local-name() = 'ToolType']/text()"> 
-            <xsl:text> (</xsl:text>
-            <xsl:value-of select="normalize-space(./*[local-name() = 'ToolType'])" />
-            <xsl:text>)</xsl:text>
-          </xsl:if>
-          <xsl:if test="./*[local-name() = 'Version']/text()"> 
-            <xsl:text>, version </xsl:text>
-            <xsl:value-of select="normalize-space(./*[local-name() = 'Version'])" />
-          </xsl:if>
-        </p>
-        <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
-      </li>
-    </xsl:if>
-  </xsl:template>
-
-  <!-- Turns an AuthoritativeIDs component into <link ...> tags for
-       each of the contained IDs. Use this to express the relation to
-       these ID URLs without having them show up in the displayed HTML. -->
-  <xsl:template match="*[local-name() = 'AuthoritativeIDs']" mode="link-tags">
-      <xsl:apply-templates select="./*[local-name() = 'AuthoritativeID']/*[local-name() = 'id' and text()]"
-                           mode="link-tag"/>
-  </xsl:template>
-
-  <xsl:template match="*[local-name() = 'id']" mode="link-tag">
-    <xsl:element name="link">
-      <xsl:attribute name="itemprop">sameAs</xsl:attribute>
-      <xsl:attribute name="href"><xsl:value-of select="./text()"/></xsl:attribute>
-    </xsl:element>
-  </xsl:template>
-
 
   <xsl:template name="replace-string">
     <xsl:param name="text"/>

@@ -41,40 +41,6 @@
     </section>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'Person']" mode="list-item-with-role">
-    <xsl:variable name="fullName">
-      <xsl:value-of select="./*[local-name() = 'firstName']"/>
-      <xsl:text> </xsl:text>
-      <xsl:value-of select="./*[local-name() = 'lastName']"/>
-    </xsl:variable>
-
-    <li itemscope="" itemtype="https://schema.org/Person">
-      <span itemprop="name"><xsl:value-of select="$fullName" /></span>
-      <xsl:if test="./*[local-name() = 'role'] != ''">
-        <xsl:text>, </xsl:text>
-        <xsl:value-of select="./*[local-name() = 'role']"/>
-      </xsl:if>
-      
-      <xsl:if test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']">
-        <xsl:text>: </xsl:text> 
-        <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']"
-                             mode="link-with-comma"/>
-      </xsl:if>
-    </li>
-  </xsl:template>
-
-  <xsl:template match="*[local-name() = 'AuthoritativeID']" mode="link-with-comma">
-    <xsl:if test="./*[local-name() = 'id']/text()">
-      <xsl:apply-templates select="./*[local-name() = 'id']" mode="link-to-url">
-        <xsl:with-param name="link-text" select="./*[local-name() = 'issuingAuthority']"/>
-        <xsl:with-param name="same-as" select="true()"/>
-      </xsl:apply-templates>
-      <xsl:if test="last() > 1 and position() != last()">
-        <xsl:text>, </xsl:text>
-      </xsl:if>
-    </xsl:if>
-  </xsl:template>
-
   <xsl:template name="SourcesDetails">
     <!-- we call this by name because there is no <Sources> wrapper element
          under which <Source> elements are collected, somewhat exceptionally -->
@@ -300,6 +266,7 @@
       <xsl:apply-templates select="(//*[local-name() = 'ResourceRef'])[2]" mode="link-to-url" />
   </xsl:template>
 
+  <!-- TODO: move this to CommonComponents and cleanup -->
   <xsl:template name="CreatorsAsCommaSeparatedText">
     <!-- Get the list of creators, last name followed by initial, comma separated -->
     <xsl:for-each select="//*[local-name() = 'Creators']/*[local-name() = 'Person']/.">

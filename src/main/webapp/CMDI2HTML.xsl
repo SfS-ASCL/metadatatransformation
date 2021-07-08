@@ -22,6 +22,7 @@
 
   <!-- Stylesheets with templates used in multiple places:  -->
   <xsl:include href="xsl/Utils.xsl"/>
+  <xsl:include href="xsl/CommonComponents.xsl"/>
 
   <!-- Stylesheets for individual components: -->
   <xsl:include href="xsl/GeneralInfo.xsl"/>
