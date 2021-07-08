@@ -130,6 +130,22 @@
     </xsl:if>
   </xsl:template>
 
+  <!-- Turns an AuthoritativeIDs component into <link ...> tags for
+       each of the contained IDs. Use this to express the relation to
+       these ID URLs without having them show up in the displayed HTML. -->
+  <xsl:template match="*[local-name() = 'AuthoritativeIDs']" mode="link-tags">
+      <xsl:apply-templates select="./*[local-name() = 'AuthoritativeID']/*[local-name() = 'id' and text()]"
+                           mode="link-tag"/>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'id']" mode="link-tag">
+    <xsl:element name="link">
+      <xsl:attribute name="itemprop">sameAs</xsl:attribute>
+      <xsl:attribute name="href"><xsl:value-of select="./text()"/></xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+
   <xsl:template name="replace-string">
     <xsl:param name="text"/>
     <xsl:param name="replace"/>

@@ -78,19 +78,6 @@
     </xsl:for-each>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'AuthoritativeIDs']" mode="link-tags">
-      <xsl:apply-templates select="./*[local-name() = 'AuthoritativeID']/*[local-name() = 'id' and text()]"
-                           mode="link-tag"/>
-  </xsl:template>
-
-  <xsl:template match="*[local-name() = 'id']" mode="link-tag">
-    <xsl:element name="link">
-      <xsl:attribute name="itemprop">sameAs</xsl:attribute>
-      <xsl:attribute name="href"><xsl:value-of select="./text()"/></xsl:attribute>
-    </xsl:element>
-  </xsl:template>
-
-
   <xsl:template match="*[local-name() = 'name']">
     <xsl:if test="./@xml:lang">
       <xsl:if test="./@xml:lang = 'nl'"> Dutch: <xsl:value-of select="."/><br/>
