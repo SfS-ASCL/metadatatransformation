@@ -341,8 +341,10 @@
   <xsl:template name="CreationDatesAsText">
       <!-- Provides publication date and last update like (YYYY): or (YYYY-YYYY): --> 
       <!-- Assumes the first 4 characters in PublicationDate and LastUpdate refer to the year -->
-      <xsl:variable name="startDate" select="substring-before(//*[local-name() = 'PublicationDate'], '-')"/>
-      <xsl:variable name="endDate" select="substring-before(//*[local-name() = 'LastUpdate'], '-')"/>
+      <xsl:variable name="startDate"
+                    select="substring(normalize-space(//*[local-name() = 'PublicationDate']), 0, 5)"/>
+      <xsl:variable name="endDate"
+                    select="substring(normalize-space(//*[local-name() = 'LastUpate']), 0, 5)"/>
 
       <xsl:text> (</xsl:text>
       <xsl:value-of select="$startDate"/>
