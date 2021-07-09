@@ -132,15 +132,46 @@
   <xsl:template match="*[local-name() = 'SubjectLanguages']" mode="details">
     <details>
       <summary>Subject languages</summary>
-      <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
-      <!-- TODO: would it be useful to display more than just language names? e.g. source/target information?-->
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
       <ul>
-        <xsl:for-each select=".//*[local-name() = 'LanguageName']">
-          <li><xsl:value-of select="."/></li>
-        </xsl:for-each>
+        <xsl:apply-templates select="./*[local-name() = 'SubjectLanguage']" mode="list-item"/>
       </ul>
     </details>
   </xsl:template>
 
+  <!-- Turns a <SubjectLanguage> into a list item with details about
+       the languages role and any association description -->
+  <xsl:template match="*[local-name() = 'SubjectLanguage']" mode="list-item">
+    <li>
+      <p>
+        <xsl:value-of select=".//*[local-name() = 'LanguageName']"/>
+        <xsl:apply-templates select="." mode="language-roles"/>
+      </p>
+      <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+    </li>
+  </xsl:template>
+
+  <!-- Turns a <SubjectLanguage> into parenthetical text describing the language's
+       role, e.g. "(Dominant language, Source language)" -->
+  <xsl:template match="*[local-name() = 'SubjectLanguage']" mode="language-roles">
+    <xsl:if test="./*[local-name() = 'DominantLanguage' or
+                      local-name() = 'SourceLanguage' or 
+                      local-name() = 'TargetLanguage']">
+
+      <xsl:text> (</xsl:text>
+      <xsl:for-each select="./*[(local-name() = 'DominantLanguage' or
+                                 local-name() = 'SourceLanguage' or 
+                                 local-name() = 'TargetLanguage') 
+                                and text() = 'true']">
+
+        <xsl:value-of select="concat(substring-before(local-name(), 'Language'),
+                                     ' language')"/>
+        <xsl:if test="last() > position()">
+          <xsl:text>, </xsl:text>
+        </xsl:if>
+      </xsl:for-each>
+      <xsl:text>)</xsl:text>
+    </xsl:if>
+  </xsl:template>
 
 </xsl:stylesheet>

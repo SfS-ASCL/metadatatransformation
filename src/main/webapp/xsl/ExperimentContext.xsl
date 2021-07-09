@@ -330,19 +330,6 @@
     </details>
   </xsl:template>
 
-  <xsl:template match="*[local-name() = 'SubjectLanguages']" mode="details">
-    <details>
-      <summary>Subject languages</summary>
-      <xsl:apply-templates select="*[local-name() = 'Descriptions']"/>
-      <!-- TODO: would it be useful to display more than just language names? e.g. source/target information?-->
-      <ul>
-        <xsl:for-each select=".//*[local-name() = 'LanguageName']">
-          <li><xsl:value-of select="."/></li>
-        </xsl:for-each>
-      </ul>
-    </details>
-  </xsl:template>
-
   <xsl:template name="AnalysisToolsAsDetails">
     <details>
       <summary>Analysis Tools</summary>
