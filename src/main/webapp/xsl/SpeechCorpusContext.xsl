@@ -18,7 +18,6 @@
          and put it behind <details> to keep the basic data uncluttered: -->
     <xsl:apply-templates select="./*[local-name() = 'SpeechCorpus']/*[local-name() = 'SpeechTechnicalMetadata']" mode="details"/> 
 
-    <!-- TODO: TypeSpecificSizeInfo: put in CommonComponents? use also in Experiment -->
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'SpeechCorpus']" mode="def-list">
@@ -36,6 +35,11 @@
       <dt>Number of speakers</dt>
       <dd>
         <xsl:value-of select="./*[local-name() = 'NumberOfSpeakers']" />
+      </dd>
+
+      <dt>Size information</dt>
+      <dd>
+        <xsl:apply-templates select="../*[local-name() = 'TypeSpecificSizeInfo']" mode="list" />
       </dd>
 
       <dt>Recording Environment</dt>
