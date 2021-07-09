@@ -7,13 +7,18 @@
   <xsl:output method="html" indent="yes"/>
 
   <xsl:template name="SpeechCorpusContextAsSection">
-    <!-- Speech corpus -->
+    <!-- TODO: SpeechCorpusContext appears to have no top-level
+         <Descriptions> as other *Context components do...add here in
+         a future version? -->
+
     <xsl:apply-templates select="./*[local-name() = 'SpeechCorpus']" mode="def-list"/> 
-    <!-- Subject languages -->
     <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/> 
-    <!-- AnnotationTypes -->
     <xsl:apply-templates select="./*[local-name() = 'AnnotationTypes']" mode="details"/> 
-    <!-- TypeSpecificSizeInfo: put in CommonComponents? use also in Experiment -->
+    <!-- Even though this is part of SpeechCorpus, we extract it here
+         and put it behind <details> to keep the basic data uncluttered: -->
+    <xsl:apply-templates select="./*[local-name() = 'SpeechCorpus']/*[local-name() = 'SpeechTechnicalMetadata']" mode="details"/> 
+
+    <!-- TODO: TypeSpecificSizeInfo: put in CommonComponents? use also in Experiment -->
   </xsl:template>
 
   <xsl:template match="*[local-name() = 'SpeechCorpus']" mode="def-list">
@@ -63,11 +68,6 @@
         <xsl:value-of select="../*[local-name() = 'Multilinguality']/*[local-name() = 'Multilinguality']" />
       </dd>
 
-      <!-- TODO: expand this -->
-      <dt>Speech-technical metadata</dt>
-      <dd>
-        <xsl:value-of select="./*[local-name() = 'SpeechTechnicalMetadata']" />
-      </dd>
     </dl>
   </xsl:template>
 
@@ -93,6 +93,44 @@
       <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
     </li>
 
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'SpeechTechnicalMetadata']" mode="details">
+    <details>
+      <summary>Technical metadata</summary>
+      <dl>
+        <dt>Sampling frequency</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'SamplingFrequency']" />
+        </dd>
+        
+        <dt>Number of channels</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'NumberOfChannels']" />
+        </dd>
+        
+        <dt>Byte order</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'ByteOrder']" />
+        </dd>
+
+        <dt>Compression</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'Compression']" />
+        </dd>
+
+        <dt>Bit resolution</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'BitResolution']" />
+        </dd>
+
+        <dt>Speech coding</dt>
+        <dd>
+          <xsl:value-of select="./*[local-name() = 'SpeechCoding']" />
+        </dd>
+
+      </dl>
+    </details>
   </xsl:template>
 
 </xsl:stylesheet>
