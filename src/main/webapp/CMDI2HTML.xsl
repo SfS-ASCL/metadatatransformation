@@ -532,7 +532,7 @@ footer {
   <xsl:template match="*[local-name() = 'SpeechCorpusContext']">
     <section id="resource-specific">
       <h2>Speech Corpus</h2>
-      <xsl:call-template name="SpeechCorpusContextAsTable" /> 
+      <xsl:call-template name="SpeechCorpusContextAsSection" /> 
     </section>
   </xsl:template>
 
