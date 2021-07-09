@@ -206,18 +206,16 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
     <html>
       <head>
         <title>
-          <xsl:value-of select="//*[local-name() = 'ResourceName']"/> - Resource 
+          <xsl:value-of select="//*[local-name() = 'ResourceName']"/>
+          - <xsl:value-of select="//*[local-name() = 'ResourceClass']"/>
+          in Tübingen Archive of Language Resources 
         </title>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-        <!-- <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"/> -->
-
         <link rel="stylesheet" type="text/css" href="https://talar.sfb833.uni-tuebingen.de/assets/main.css"/>
 
-        <!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"/> -->
-
-        <!-- <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"/> -->
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <xsl:call-template name="meta-description" />
         <xsl:call-template name="JSONLD"/>
+
 	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
         <style>
 /* TODO: migrate these definitions into the main.css file once completed */
@@ -548,6 +546,16 @@ footer {
       <h2>Course Information</h2>
       <xsl:call-template name="CourseProfileSpecificAsTable" /> 
     </section>
+  </xsl:template>
+
+  <xsl:template name="meta-description">
+    <xsl:element name="meta">
+      <xsl:attribute name="name">description</xsl:attribute>
+      <xsl:attribute name="content">
+        <!-- TODO! This can be important for SEO. Resource class?
+             Genre? profile type? Descriptions? -->
+      </xsl:attribute>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="social-media-links">
