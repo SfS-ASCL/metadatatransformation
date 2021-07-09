@@ -174,4 +174,22 @@
     </xsl:if>
   </xsl:template>
 
+  <!-- Turns a <TypeSpecificSizeInfo> into a list describing the sizes
+       with units. -->
+  <xsl:template match="*[local-name() = 'TypeSpecificSizeInfo']" mode="list">
+    <xsl:if test=".//*[local-name() = 'Size' and text()]">
+      <ul>
+        <xsl:apply-templates select="./*[local-name() = 'TypeSpecificSize']" mode="list-item"/>
+      </ul>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template match="*[local-name() = 'TypeSpecificSize']" mode="list-item">
+    <li>
+      <xsl:value-of select="./*[local-name() = 'Size']" />
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'SizeUnit']" />
+    </li>
+  </xsl:template>
+
 </xsl:stylesheet>
