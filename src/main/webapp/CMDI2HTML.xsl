@@ -509,7 +509,7 @@ footer {
   <xsl:template match="*[local-name() = 'LexicalResourceContext']">
     <section id="resource-specific">
       <h2>Lexical Resource</h2>
-      <xsl:call-template name="LexicalResourceContextAsTable" /> 
+      <xsl:call-template name="LexicalResourceContextAsSection" /> 
     </section>
   </xsl:template>
 
