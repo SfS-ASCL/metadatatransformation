@@ -55,30 +55,6 @@
     </xsl:element>
   </xsl:template>
 
-  <!-- This is called from the resource-specific templates: -->
-  <xsl:template name="TypeSpecificSizeInfoAsDefList"
-                match="*[local-name() ='TypeSpecificSizeInfo']">
-    <dl>
-      <dt>
-	<xsl:variable name="referenceid">
-	  <xsl:value-of select="@*[local-name()='ref']"></xsl:value-of>
-	</xsl:variable>
-	
-	<!-- <xsl:value-of select="../../../*:ResourceProxyListInfo/*:ResourceProxyInfo"/> -->
-	
-	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref']=$referenceid]/*[local-name() = 'ResProxItemName']"/>
-	
-	<!--	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@ref=$referenceid]/*[local-name() = 'ResProxItemName']"></xsl:value-of>
-	-->
-      </dt>
-      <dd>
-	<xsl:for-each select="./*[local-name() = 'TypeSpecificSize']">
-	  <li><xsl:value-of select="*[local-name() = 'Size']"/> <xsl:text> </xsl:text><xsl:value-of select="*[local-name() = 'SizeUnit']"/> </li>
-	</xsl:for-each>
-      </dd>
-    </dl>	
-  </xsl:template>
-
   <xsl:template name="replace-string">
     <xsl:param name="text"/>
     <xsl:param name="replace"/>
