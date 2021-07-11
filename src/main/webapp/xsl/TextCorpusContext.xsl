@@ -6,62 +6,36 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <xsl:template name="TextCorpusContextAsTable" match="*[local-name() = 'TextCorpusContext']">
-    <table>
-      <!-- TODO: table header? -->
-      <tbody>
-        <tr>
-          <td>
-            <b>Corpus Type: </b>
-          </td>
-          <td>
+  <xsl:template name="TextCorpusContextAsSection">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
+    <xsl:apply-templates select="." mode="def-list"/> 
+    <xsl:apply-templates select="./*[local-name() = 'SubjectLanguages']" mode="details"/>
+  </xsl:template>
+  
+  <xsl:template match="*[local-name() = 'TextCorpusContext']" mode="def-list">
+
+      <dl>
+          <dt>Corpus type</dt>
+          <dd>
             <xsl:value-of select="./*[local-name() = 'CorpusType']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Temporal Classification: </b>
-          </td>
-          <td>
+          </dd>
+        
+          <dt>Temporal classification</dt>
+          <dd>
             <xsl:value-of select="./*[local-name() = 'TemporalClassification']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Description(s): </b>
-          </td>
-          <td>
-            <xsl:value-of select=".//*[local-name() = 'Description']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Validation: </b>
-          </td>
-          <td>
-            <xsl:value-of
-                select="./*[local-name() = 'ValidationGrp']//*[local-name() = 'Description']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Subject Language(s): </b>
-          </td>
-          <td>
-            <xsl:value-of
-                select="./*[local-name() = 'SubjectLanguages']//*[local-name() = 'LanguageName']"/>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>Type-specific Size Info: </b>
-          </td>
-          <td>
-            <xsl:value-of
-                select="./*[local-name() = 'TypeSpecificSizeInfo']//*[local-name() = 'Size']"/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+          </dd>
+        
+          <dt>Validation</dt>
+          <dd>
+	    <!-- TODO: validation type? mode? level? -->
+            <xsl:apply-templates select="./*[local-name() = 'ValidationGrp']/*[local-name() = 'Descriptions']"/>
+          </dd>
+
+          <dt>Size information</dt>
+          <dd>
+            <xsl:apply-templates select="./*[local-name() = 'TypeSpecificSizeInfo']" mode="list"/>
+          </dd>
+      </dl>
+    
   </xsl:template>
 </xsl:stylesheet>

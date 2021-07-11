@@ -537,7 +537,7 @@ footer {
   <xsl:template match="*[local-name() = 'TextCorpusContext']">
     <section id="resource-specific">
       <h2>Text Corpus</h2>
-      <xsl:call-template name="TextCorpusContextAsTable" /> 
+      <xsl:call-template name="TextCorpusContextAsSection" /> 
     </section>
   </xsl:template>
 
