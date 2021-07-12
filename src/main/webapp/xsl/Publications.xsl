@@ -5,85 +5,72 @@
   exclude-result-prefixes="">
 
   <xsl:output method="html" indent="yes"/>
-  <xsl:template name="PublicationsAsTable" match="*[local-name() = 'Publications']">
-    <table>
-      <!-- TODO: table header? -->
-      <!-- TODO: should this even be table output? perhaps we should
-           use something more like citation format -->
-      <tbody>
-        <xsl:for-each select="./*[local-name() = 'Publication']">
-          <tr>
-            <td>
-              <table border="3" cellpadding="10" cellspacing="10">
-                <tr>
-                  <td>
-                    <b>Title:</b>
-                  </td>
-                  <td>
-                    <xsl:value-of select="./*[local-name() = 'PublicationTitle']"/>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Author(s):</b>
-                  </td>
-                  <td>
-                    <xsl:for-each select="./*[local-name() = 'Author']">
-                      <xsl:choose>
-                        <xsl:when
-                            test="./*[local-name() = 'AuthoritativeIDs']/*[local-name() = 'AuthoritativeID']/*[local-name() = 'id'] != ''">
-                          <xsl:element name="a">
-                            <xsl:attribute name="href">
-                              <xsl:value-of
-                                  select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                                  />
-                            </xsl:attribute>
-                            <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                            <xsl:text> </xsl:text>
-                            <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                          </xsl:element>
-                        </xsl:when>
-                        <xsl:otherwise>
-                          <xsl:value-of select="./*[local-name() = 'firstName']"/>
-                          <xsl:text> </xsl:text>
-                          <xsl:value-of select="./*[local-name() = 'lastName']"/>
-                        </xsl:otherwise>
-                      </xsl:choose>
-                      <xsl:if test="position() != last()">, </xsl:if>
-                    </xsl:for-each>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Abstract:</b>
-                  </td>
-                  <td>
-                    <xsl:apply-templates select="*[local-name() = 'Descriptions']"/> 
-                    <!-- <xsl:value-of
-                         select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']" /> -->
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <b>Link:</b>
-                  </td>
-                  <td>
-                    <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="./*[local-name() = 'resolvablePID']"/>
-                        <!--<xsl:value-of
-                            select=".//*[local-name() = 'AuthoritativeID'][1]/*[local-name() = 'id']"
-                            />-->
-                      </xsl:attribute>
-                      <xsl:value-of select="./*[local-name() = 'resolvablePID']"/>
-                    </xsl:element>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-        </xsl:for-each>
-      </tbody>
-    </table>
+
+  <xsl:template match="*[local-name() = 'Publications']">
+    <xsl:apply-templates select="./*[local-name() = 'Descriptions']" />
+    <xsl:choose>
+      <xsl:when test=".//*[local-name() = 'PublicationTitle' and text()]">
+        <ol>
+          <xsl:apply-templates select="./*[local-name() = 'Publication']" mode="list-item" />
+        </ol>
+      </xsl:when>
+      <xsl:otherwise>
+        <p>No information is available about publications related to this resource.</p>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
+
+  <xsl:template match="*[local-name() = 'Publication']" mode="list-item">
+    <li itemscope="" itemtype="https://schema.org/ScholarlyArticle">
+      <p>
+        <!-- authors -->
+        <xsl:apply-templates select="./*[local-name() = 'Author']"
+                             mode="name-with-links-in-list" />
+        <!-- title -->
+        <cite>
+          <xsl:value-of select="./*[local-name() = 'PublicationTitle']"/>
+        </cite>
+        <xsl:text>. </xsl:text>
+        <!-- link -->
+        <xsl:apply-templates select="./*[local-name() = 'resolvablePID']" mode="link-to-url">
+          <xsl:with-param name="same-as" select="true()"/>
+        </xsl:apply-templates>
+      </p>
+      <xsl:if test=".//*[local-name() = 'Description' and text()]">
+        <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/> 
+      </xsl:if>
+    </li>
+  </xsl:template>
+
+  <!-- TODO: merge into CommonComponents -->
+  <xsl:template match="*[local-name() = 'Author']" mode="name-with-links-in-list">
+    <xsl:variable name="authorName">
+      <xsl:value-of select="./*[local-name() = 'firstName']"/>
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="./*[local-name() = 'lastName']"/>
+    </xsl:variable>
+
+    <xsl:if test="$authorName != ' '">
+      <!-- the name and links: -->
+      <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
+        <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']" mode="link-tags"/>
+        <!-- name comes *after* <links> because they introduce phantom space in rendered HTML:-->
+        <xsl:value-of select="$authorName"/>
+      </span>
+      <!-- following punctuation in the list: -->
+      <xsl:choose>
+        <xsl:when test="position() = last() - 1">
+          <xsl:text> and </xsl:text>
+        </xsl:when>
+        <xsl:when test="last() > position()">
+          <xsl:text>, </xsl:text>
+        </xsl:when>
+        <xsl:when test="last() = position() and last() > 1">
+          <!-- only generate a period at the end of nonempty lists -->
+          <xsl:text>. </xsl:text>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:if>
+  </xsl:template>
+
 </xsl:stylesheet>

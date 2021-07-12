@@ -8,44 +8,51 @@
 
   <xsl:output method="html" indent="yes"/>
 
-  <!-- This is called from many different templates: -->
-  <xsl:template name="DescriptionsByLangAsP" match="*[local-name() = 'Descriptions']">
-    <xsl:for-each select="*[local-name() = 'Description']">
-      <xsl:if test="@xml:lang='en'">
-	<p><span class="langkeyword">English: </span> <xsl:value-of select="."/> </p>
+  <!-- Turns a node collection of nodes with text values into comma-separated text -->
+  <xsl:template match="*" mode="comma-separated-text">
+    <xsl:if test="text()">
+      <xsl:value-of select="text()"/>
+      <xsl:if test="last() > 1 and position() != last()">
+        <xsl:text>, </xsl:text>
       </xsl:if>
-      <xsl:if test="@xml:lang='de'">
-	<p><span class="langkeyword">Deutsch: </span> <xsl:value-of select="."/> </p>
-      </xsl:if>	
-      
-      
-    </xsl:for-each>
-    <!-- 	<xsl:value-of
-	 select="./*[local-name() = 'Descriptions']/*[local-name() = 'Description']"/> -->
+    </xsl:if>
   </xsl:template>
 
-  <!-- This is called from the resource-specific templates: -->
-  <xsl:template name="TypeSpecificSizeInfoAsDefList"
-                match="*[local-name() ='TypeSpecificSizeInfo']">
-    <dl>
-      <dt>
-	<xsl:variable name="referenceid">
-	  <xsl:value-of select="@*[local-name()='ref']"></xsl:value-of>
-	</xsl:variable>
-	
-	<!-- <xsl:value-of select="../../../*:ResourceProxyListInfo/*:ResourceProxyInfo"/> -->
-	
-	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref']=$referenceid]/*[local-name() = 'ResProxItemName']"/>
-	
-	<!--	<xsl:value-of select="../../../..//*[local-name() = 'ResourceProxyListInfo']/*[local-name() = 'ResourceProxyInfo'][@ref=$referenceid]/*[local-name() = 'ResProxItemName']"></xsl:value-of>
-	-->
-      </dt>
-      <dd>
-	<xsl:for-each select="./*[local-name() = 'TypeSpecificSize']">
-	  <li><xsl:value-of select="*[local-name() = 'Size']"/> <xsl:text> </xsl:text><xsl:value-of select="*[local-name() = 'SizeUnit']"/> </li>
-	</xsl:for-each>
-      </dd>
-    </dl>	
+  <!-- Turns any node whose text() value is a URL into a link to that URL -->
+  <!-- The value of the link-text param, if supplied, will be used for
+       the link text; by default, the URL itself is used. -->
+  <!-- If the same-as param is true, the link will have
+       itemprop="sameAs", a way of specifying that the URL points to
+       an identifying resource -->
+  <!-- TODO: support the case where link-text is provided but URL is
+       empty: output link text alone. -->
+  <xsl:template match="*" mode="link-to-url">
+    <xsl:param name="link-text" select="./text()"/>
+    <xsl:param name="same-as" select="false()"/>
+    <xsl:element name="a">
+      <xsl:if test="$same-as">
+        <xsl:attribute name="itemprop">sameAs</xsl:attribute>
+      </xsl:if>
+      <xsl:attribute name="href">
+        <xsl:value-of select="./text()"/>
+      </xsl:attribute>
+      <xsl:value-of select="$link-text"/>
+    </xsl:element>
+  </xsl:template>
+
+  <!-- This is a variant of the above that can be applied to attribute
+       nodes to generate a link when the attribute contains the URL,
+       and its parent element's text() contains the link text. e.g.
+       <Licence src="...">CC-BY</Licence> -->
+  <!-- TODO: other attribute names? -->
+  <xsl:template match="@*[local-name() = 'src']" mode="link-to-url">
+    <xsl:param name="link-text" select="../text()"/>
+    <xsl:element name="a">
+      <xsl:attribute name="href">
+        <xsl:value-of select="."/>
+      </xsl:attribute>
+      <xsl:value-of select="$link-text"/>
+    </xsl:element>
   </xsl:template>
 
   <xsl:template name="replace-string">
