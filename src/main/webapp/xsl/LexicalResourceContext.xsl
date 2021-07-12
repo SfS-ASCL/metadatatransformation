@@ -18,12 +18,13 @@
 
   <xsl:template match="*[local-name() = 'LexicalResourceContext']" mode="def-list">
     <dl>
-      <dt>Lexicon type</dt>
+      <dt>Lexicon type(s)</dt>
       <dd>
-        <xsl:value-of select="./*[local-name() = 'LexiconType']"/>
+        <xsl:apply-templates select="./*[local-name() = 'LexiconType']"
+                             mode="comma-separated-text"/>
       </dd>
      
-      <dt>Headword types</dt>
+      <dt>Headword type(s)</dt>
       <dd>
         <xsl:apply-templates select="./*[local-name() = 'HeadwordType']/*[local-name() = 'LexicalUnit']" 
                              mode="comma-separated-text"/>
