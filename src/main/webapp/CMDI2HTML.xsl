@@ -216,7 +216,6 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
         <xsl:call-template name="meta-description" />
         <xsl:call-template name="JSONLD"/>
 
-	<xsl:comment>Generated with CMDI2HTML version 1.0.8</xsl:comment>
         <style>
 /* TODO: migrate these definitions into the main.css file once completed */
 body {          
