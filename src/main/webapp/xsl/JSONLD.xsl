@@ -114,7 +114,7 @@
 
 				<!-- Check for Accessibility -->
 				<xsl:if test="//*[local-name() = 'Availability'] != ''">
-					<xsl:text>    "conditionsOfAcess": "</xsl:text>
+					<xsl:text>    "conditionsOfAccess": "</xsl:text>
 					<xsl:value-of select="//*[local-name() = 'Availability']"/>
 					<xsl:text>",&#xA;</xsl:text>
 				</xsl:if>
@@ -127,14 +127,23 @@
 				</xsl:if>
 
 				<xsl:text>&#xA;</xsl:text>
+				
+				<!-- DataCatalog -->
+				<xsl:text>    "includedInDataCatalog": {&#xA;</xsl:text>
+				<xsl:text>        "@type": "DataCatalog",&#xA;</xsl:text>
+				<xsl:text>        "url": "https://vlo.clarin.eu"&#xA;</xsl:text>
+				<xsl:text>    },&#xA;</xsl:text>
 
 				<!-- Location Created -->
 				<xsl:variable name="CreatLoc"
 					select="//*[local-name() = 'GeneralInfo']/*[local-name() = 'Location']"/>
 				<xsl:if test="$CreatLoc/*[local-name() = 'Address'] != ''">
 					<xsl:text>    "locationCreated": {&#xA;</xsl:text>
-					<xsl:text>        "@type": "PostalAddress",&#xA;</xsl:text>
-					<xsl:text>        "name": "</xsl:text>
+					<xsl:text>        "@type": "Place",&#xA;</xsl:text>
+					<xsl:text>        "address": {&#xA;</xsl:text>
+					
+					<xsl:text>            "@type": "PostalAddress",&#xA;</xsl:text>
+					<xsl:text>            "name": "</xsl:text>
 					<xsl:value-of select="normalize-space($CreatLoc/*[local-name() = 'Address'])"/>
 					<xsl:text>"</xsl:text>
 
@@ -142,7 +151,7 @@
 					<xsl:if
 						test="$CreatLoc/*[local-name() = 'Country']/*[local-name() = 'CountryCoding'] != ''">
 						<xsl:text>,&#xA;</xsl:text>
-						<xsl:text>        "addressCountry": "</xsl:text>
+						<xsl:text>            "addressCountry": "</xsl:text>
 						<xsl:value-of
 							select="normalize-space($CreatLoc/*[local-name() = 'Country']/*[local-name() = 'CountryCoding'])"/>
 						<xsl:text>"&#xA;</xsl:text>
@@ -152,6 +161,7 @@
 						test="$CreatLoc/*[local-name() = 'Country']/*[local-name() = 'CountryCoding'] = '' or not($CreatLoc/*[local-name() = 'Country']/*[local-name() = 'CountryCoding'])">
 						<xsl:text>&#xA;</xsl:text>
 					</xsl:if>
+					<xsl:text>        }&#xA;</xsl:text>
 					<xsl:text>    },&#xA;</xsl:text>
 				</xsl:if>
 
