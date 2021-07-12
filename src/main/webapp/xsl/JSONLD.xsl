@@ -210,7 +210,9 @@
 					<xsl:if
 						test="$CreatorPers/*[local-name() = 'Person']/*[local-name() = 'lastName'] != ''">
 						<xsl:for-each select="$CreatorPers/*[local-name() = 'Person']">
-							<xsl:text>,&#xA;</xsl:text>
+							<xsl:if test="position() != 1">
+							 	<xsl:text>,&#xA;</xsl:text>
+							</xsl:if>
 							<xsl:text>        {&#xA;</xsl:text>
 							<xsl:text>            "@type": "Person",&#xA;</xsl:text>
 							<xsl:text>            "givenName": "</xsl:text>
