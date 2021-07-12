@@ -244,9 +244,10 @@
 				<xsl:text>    "distribution": [&#xA;</xsl:text>
 				<xsl:for-each select="//*[local-name() = 'ResourceProxy']">
 					<xsl:variable name="ResName" select="./*[local-name() = 'ResourceRef']"/>
-					<xsl:variable name="ResFileName" select="tokenize($ResName, '@')[last()]"/>
-					<xsl:variable name="ResProxListInfo"
-						select="//*[text() = $ResFileName]/parent::node()"/>
+					<xsl:variable name="id" select="./*[local-name() = 'ResourceType']/../@id"/>
+					<xsl:variable name="ResProxListInfo" select="//*[local-name() = 'ResourceProxyInfo'][@*[local-name()='ref' and .=$id]]"/>
+					<xsl:variable name="ResFileName"
+						select="$ResProxListInfo/*[local-name() = 'ResProxFileName']/text()"/>
 
 					<xsl:text>        {&#xA;</xsl:text>
 					<xsl:text>           "@type": "DataDownload",&#xA;</xsl:text>
