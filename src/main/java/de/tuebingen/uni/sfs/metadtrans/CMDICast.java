@@ -213,9 +213,13 @@ public class CMDICast {
 			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(output));
 			TransformerFactory tfactory = TransformerFactory.newInstance();
 			StreamSource xslSource = new StreamSource(foo_xsl_stream);
-			System.out.println("Set StreamSource");
-			tfactory.setURIResolver(new ClasspathResourceURIResolver());
-			System.out.println("Set ClasspathResourceUIRResolver");
+
+			// setting ClasspathResolver for every XSL breaks Marc2RDFDC and Marc2EAD
+			if (converter.equalsIgnoreCase("CMDI2HTML"))
+			{
+				tfactory.setURIResolver(new ClasspathResourceURIResolver());
+			}
+
 			Templates cachedXSLT = tfactory.newTemplates(xslSource);
 			Transformer transformer = cachedXSLT.newTransformer(); // new File(foo_xsl)
 			transformer.transform(new StreamSource(dcfile),
