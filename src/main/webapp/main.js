@@ -39,14 +39,11 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 								StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
 								DownloadBox({files: this.state.files}),
 								React.DOM.hr(null),
-								React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
-								React.DOM.pre(null, "$ curl -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc/?input=URL"),
-								React.DOM.pre(null, "$ curl -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC/?input=URL")
+								React.DOM.p(null, "You can also transform files directly from a URL via UI:"),
+								React.DOM.pre(null, "https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/?input=URL"),
+								React.DOM.p(null, "Or use this service programmatically, e.g., like this:"),
+								React.DOM.pre(null, "$ curl -d @input_file -o output_file https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/TransformerName"),
+								React.DOM.pre(null, "$ curl -o output_file https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/TransformerName/?input=URL"),
 							)
 						)
 					)
@@ -89,14 +86,11 @@ if (queryInput.startsWith("?input=") && queryInput.includes("http")){
 								StatusBox({status: this.state.status, text: this.state.msg, progress: this.state.progress}),
 								DownloadBox({files: this.state.files}),
 								React.DOM.hr(null),
-								React.DOM.p(null, "You can also use this service programmatically, e.g., like this:"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.html https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/CMDI2HTML"),
-								React.DOM.pre(null, "$ curl -d @input.dc.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/DC2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2RDFDC"),
-								React.DOM.pre(null, "$ curl -d @input.marc.xml -o output.ead.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Marc2EAD"),
-								React.DOM.pre(null, "$ curl -d @input.cmd.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/NaLiDa2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.marc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2Marc"),
-								React.DOM.pre(null, "$ curl -d @input.cmdi.xml -o output.dc.xml https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/Cmdi2DC")
+								React.DOM.p(null, "You can also transform files directly from a URL via UI:"),
+								React.DOM.pre(null, "https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/?input=URL"),
+								React.DOM.p(null, "Or use this service programmatically, e.g., like this:"),
+								React.DOM.pre(null, "$ curl -d @input_file -o output_file https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/TransformerName"),
+								React.DOM.pre(null, "$ curl -o output_file https://weblicht.sfs.uni-tuebingen.de/converter/MetaDataTransformer/rest/TransformerName/?input=URL"),
 							)
 						)
 					)
