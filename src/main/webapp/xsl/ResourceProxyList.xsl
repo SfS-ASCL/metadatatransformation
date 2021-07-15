@@ -39,7 +39,7 @@
 
     <h3>Files</h3>
     <xsl:choose>
-      <xsl:when test="count(./*[local-name() = 'ResourceProxy']) > 0">
+      <xsl:when test="count(./*[local-name() = 'ResourceProxy']/*[local-name() = 'ResourceType' and text() = 'Resource']) > 0">
         <p>This data set contains the following files: </p>
         <xsl:apply-templates select="./*[local-name() = 'ResourceProxy']"/>
       </xsl:when>
