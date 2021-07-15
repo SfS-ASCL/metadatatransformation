@@ -9,11 +9,7 @@
 			<xsl:attribute name="type">application/ld+json</xsl:attribute>
 
 			<!-- Only generate JSON-LD if name exists -->
-			<xsl:if
-				test="exists(//*[local-name() = 'ResourceName']) or exists(//*[local-name() = 'ResourceTitle'])">
-				<xsl:if
-					test="//*[local-name() = 'ResourceName'] != '' or //*[local-name() = 'ResourceTitle'] != ''">
-
+			<xsl:if test="//*[(local-name() = 'ResourceName' or local-name() = 'ResourceTitle') and text() != '']">
 					<xsl:text>/*&lt;![CDATA[*/</xsl:text>
 					<xsl:text>{&#xA;</xsl:text>
 					<xsl:text>    "@context": "https://schema.org/",&#xA;</xsl:text>
@@ -324,7 +320,6 @@
 					<xsl:text>    ]</xsl:text>
 					<xsl:text>&#xA;}</xsl:text>
 					<xsl:text>]</xsl:text>
-				</xsl:if>
 			</xsl:if>
 		</xsl:element>
 	</xsl:template>
