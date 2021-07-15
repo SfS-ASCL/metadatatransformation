@@ -65,7 +65,7 @@
         <xsl:when test="last() > position()">
           <xsl:text>, </xsl:text>
         </xsl:when>
-        <xsl:when test="last() = position() and last() > 1">
+        <xsl:when test="last() = position() and last() > 0">
           <!-- only generate a period at the end of nonempty lists -->
           <xsl:text>. </xsl:text>
         </xsl:when>
