@@ -226,12 +226,12 @@
     <blockquote>
       <xsl:call-template name="DatasetCitation"/>
     </blockquote>
-    <xsl:if test="count(//*[local-name() = 'ResourceRef']) > 1">
+    <xsl:if test="count(//*[local-name() = 'ResourceType' and text() = 'Resource']) > 1">
       <p>
         Individual items in the data set may be cited using their
         persistent identifiers (see <a href="#data-files">Data files</a>).
         For example, cite the file
-        <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef'])[2], '@')" /></code>
+        <code><xsl:value-of select="substring-after((//*[local-name() = 'ResourceRef' and preceding-sibling::*[text() = 'Resource']])[2], '@')" /></code>
         as follows:
       </p>
       <blockquote>
