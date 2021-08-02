@@ -73,19 +73,14 @@ public class Service {
 	}
 
 	public static List<FileEntry> extractFiles(HttpServletRequest request) throws Exception {
-		System.out.println("ITEM1" + request.getParameter("url"));
 		List<FileEntry> files = new ArrayList<>();
-		System.out.println("ITEM1");
 		if (ServletFileUpload.isMultipartContent(request)) {
-			System.out.println("ITEM2");
 			FileItemFactory factory = new DiskFileItemFactory();
 			ServletFileUpload upload = new ServletFileUpload(factory);
 			for (Object item : upload.parseRequest(request)) {
-				System.out.println("OBject item" + item);
 				if (item instanceof FileItem) {
 					FileItem fi = (FileItem) item;
-					System.out.println("ITEM");
-					System.out.println(request.getSession() + ":" + fi);
+
 					if (!fi.isFormField()) { // it's a file
 						System.out.println(request.getSession() + ":" + fi.getName());
 						File f = SessionTmpDir.newNamedFile(request.getSession(), fi.getName());
@@ -126,7 +121,6 @@ public class Service {
 			if (!ServletFileUpload.isMultipartContent(request)) {
 				return Response.status(400).entity("Multipart content expected, and this is not").build();
 			}
-			System.out.println("PARAMS" + request.getParameter("url"));
 			List<FileEntry> files = extractFiles(request);
 			Map<String, String> results = new HashMap<>();
 			if (files.isEmpty()) {
