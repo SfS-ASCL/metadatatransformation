@@ -71,7 +71,29 @@ new SpeechCorpusProfile: clarin.eu:cr1:p_1524652309878
           or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1445542587893')
           or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1485173990943')
           or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1447674760337')
-          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')">
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1505397653792')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1288172614026')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1288172614023')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1302702320451')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1290431694579')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1290431694580')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629644')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1320657629649')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309872')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309874')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309875')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309876')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309877')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1524652309878')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176122')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176123')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176124')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176125')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176126')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176127')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1527668176128')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1548239945774')
+          or contains(/cmd:CMD/@xsi:schemaLocation, 'clarin.eu:cr1:p_1562754657343')">
         <!-- CMDI 1.1 -->
         <xsl:call-template name="mainProcessing"/>
       </xsl:when>
