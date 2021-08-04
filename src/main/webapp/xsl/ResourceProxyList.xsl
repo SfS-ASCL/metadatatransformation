@@ -67,9 +67,22 @@
             <xsl:with-param name="link-text"
               select="normalize-space($infoNode/*[local-name() = 'ResProxFileName'])"/>
           </xsl:apply-templates>
-          <xsl:text> </xsl:text> (<xsl:value-of
-            select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>,
-            <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>) </summary>
+          <xsl:text> (</xsl:text>
+          <xsl:value-of
+            select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>
+          <xsl:choose>
+            <xsl:when test="$infoNode/*[local-name() = 'SizeInfo']">
+              <xsl:text>, </xsl:text>
+              <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
+            </xsl:when>
+            <xsl:when test="$infoNode/*[local-name() = 'FileSize']">
+              <xsl:text>, </xsl:text>
+              <xsl:apply-templates select="$infoNode/*[local-name() = 'FileSize']"/>
+            </xsl:when>
+            <xsl:otherwise><!-- no comma when size unspecified --></xsl:otherwise>
+          </xsl:choose>
+          <xsl:text>) </xsl:text>
+        </summary>
 
         <dl>
           <!-- TODO: display ResourceType here? or is it basically always just "Resource"? -->
@@ -98,9 +111,17 @@
                 select="./*[local-name() = 'ResourceType']/@*[local-name() = 'mimetype']"/>
             </dd>
           </xsl:if>
+          
           <dt>File size</dt>
           <dd>
-            <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
+            <xsl:choose>
+              <xsl:when test="$infoNode/*[local-name() = 'SizeInfo']">
+                <xsl:apply-templates select="$infoNode/*[local-name() = 'SizeInfo']"/>
+              </xsl:when>
+              <xsl:when test="$infoNode/*[local-name() = 'FileSize']">
+                <xsl:apply-templates select="$infoNode/*[local-name() = 'FileSize']"/>
+              </xsl:when>
+            </xsl:choose>
           </dd>
 
           <xsl:apply-templates select="$infoNode/*[local-name() = 'Checksums']"/>
@@ -111,11 +132,31 @@
     </xsl:if>
   </xsl:template>
 
-  <xsl:template name="SizeAsHumanText" match="*[local-name() = 'SizeInfo']">
-    <!-- returns value of SizeInfo node with units of KB, MB, etc. -->
-    <!-- TODO: check SizeUnit. For now we just assume unit is bytes... -->
-    <xsl:variable name="size"
-      select="number(./*[local-name() = 'TotalSize']/*[local-name() = 'Size'])"/>
+  <xsl:template match="*[local-name() = 'SizeInfo']">
+    <xsl:choose>
+      <xsl:when test="./*[local-name() = 'TotalSize']/*[local-name() = 'SizeUnit'] != 'B'">
+        <xsl:value-of select="./*[local-name() = 'TotalSize']/*[local-name() = 'Size']"/> 
+        <xsl:text> </xsl:text>
+        <xsl:value-of select="./*[local-name() = 'TotalSize']/*[local-name() = 'SizeUnit']" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:call-template name="SizeAsHumanText">
+          <xsl:with-param name="size" select="number(./*[local-name() = 'TotalSize']/*[local-name() = 'Size'])"/>
+        </xsl:call-template>        
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+  
+  <xsl:template match="*[local-name() = 'FileSize']">
+    <!-- TODO: is FileSize always in bytes? -->
+    <xsl:call-template name="SizeAsHumanText">
+      <xsl:with-param name="size" select="number(text())"/>
+    </xsl:call-template>
+  </xsl:template>
+  
+  <xsl:template name="SizeAsHumanText">
+    <!-- turns param $size, in bytes, into readable text with units of KB, MB, etc. -->
+    <xsl:param name="size" />
     <xsl:choose>
       <xsl:when test="$size &lt; 1024">
         <xsl:value-of select="$size"/> B</xsl:when>
