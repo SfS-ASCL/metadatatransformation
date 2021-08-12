@@ -4,7 +4,6 @@
   xmlns:cmd="http://www.clarin.eu/cmd/"
   exclude-result-prefixes="">
 
-  <!-- TODO: split out Annotation, Source, and Derivations into detail sections-->
   <xsl:output method="html" indent="yes"/>
 
   <!-- The main template for the Creation tab -->

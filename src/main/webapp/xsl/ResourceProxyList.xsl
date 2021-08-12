@@ -5,8 +5,6 @@
   <xsl:output method="html" indent="yes"/>
 
   <xsl:template name="ResourceProxyListSection" match="*[local-name() = 'ResourceProxyList']">
-    <!-- TODO: the language here is really esoteric. Can we change
-         "data object" to "resource", "data stream" to "file", etc.?  -->
 
     <p>Persistent Identifier (PID) of this resource: <xsl:apply-templates
         select="//*[local-name() = 'MdSelfLink']" mode="link-to-url"/>

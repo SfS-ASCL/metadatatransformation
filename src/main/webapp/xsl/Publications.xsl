@@ -54,7 +54,7 @@
       <!-- the name and links: -->
       <span itemscope="" itemprop="author" itemtype="https://schema.org/Person">
         <xsl:apply-templates select="./*[local-name() = 'AuthoritativeIDs']" mode="link-tags"/>
-        <!-- name comes *after* <links> because they introduce phantom space in rendered HTML:-->
+        <!-- name comes *after* <link>s because they introduce phantom space in rendered HTML:-->
         <xsl:value-of select="$authorName"/>
       </span>
       <!-- following punctuation in the list: -->
