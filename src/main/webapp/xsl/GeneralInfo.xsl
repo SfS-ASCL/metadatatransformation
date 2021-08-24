@@ -109,6 +109,7 @@
       <dt>Modality Info</dt>
       <dd>
         <xsl:value-of select="./*[local-name() = 'ModalityInfo']//*[local-name() = 'Modalities']"/>
+        <xsl:apply-templates select="./*[local-name() = 'ModalityInfo']/*[local-name() = 'Descriptions']" />
       </dd>
     </dl>
   </xsl:template>
