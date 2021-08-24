@@ -141,7 +141,7 @@
             </xsl:apply-templates>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:value-of select="partnerName"/>
+            <xsl:value-of select="$partnerName"/>
           </xsl:otherwise>
         </xsl:choose>
       </p>
