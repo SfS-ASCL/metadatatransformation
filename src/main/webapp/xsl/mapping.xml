@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Mappings>
+    <DataSet>
+        <Context>"@context": [ "https://schema.org/", {"Component": {"@type": "class","@id": "https://catalog.clarin.eu/ds/ComponentRegistry/#/"}}]</Context>
+        <!-- default -->
+        <Profiles/>
+        <Mapping>
+            <id>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </id>
+            <name>
+                <concept>http://www.isocat.org/datcat/DC-5428</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5428_65670fd6-3426-68ac-8f29-faef6ffd02ce</concept>
+                <concept>http://www.isocat.org/datcat/DC-5127</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5127_f2721b23-921c-46ba-8d4d-88b46aef6976</concept>
+                <concept>http://www.isocat.org/datcat/DC-4160</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-4160_192be757-0d8f-f4fe-b10b-d3d50de92482</concept>
+                <concept>http://www.isocat.org/rest/dc/4160</concept>
+                <concept>http://www.isocat.org/datcat/DC-4114</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-4114_747bf046-1208-940d-36ba-297e4de49e0c</concept>
+                <concept>http://www.isocat.org/datcat/DC-2545</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2545_d873f2ab-2a2f-29d6-a9ab-260cde57f227</concept>
+                <concept>http://www.isocat.org/datcat/DC-2544</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2544_3626545e-a21d-058c-ebfd-241c0464e7e5</concept>
+                <concept>http://purl.org/dc/terms/title</concept>
+                <concept>http://purl.org/dc/elements/1.1/title</concept>
+                <concept>http://www.isocat.org/datcat/DC-6119</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-6119_ea4226b5-8d55-e71e-730f-2a02e3adbeb4</concept>
+                <concept>http://www.loc.gov/standards/mods/userguide/titleinfo.html#title</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5129_3243b897-d5b0-f5b0-a446-2e5de627b1e4</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5130_ea7bb8be-cb01-383d-fd94-0d72168411d2</concept>
+
+                <pattern>/*:CMD/*:Components[1]/*/*:GeneralInfo[1]/*:ResourceName[1]</pattern>
+                <pattern>/*:CMD/*:Components[1]/*[not(local-name()='lat-corpus' or local-name()='VALID' or
+                    local-name()='MPI_Bundle')]/*/*:Name</pattern>
+
+                <pattern>/*:CMD/*:Components/*:media-corpus-profile/*:Collection/*:GeneralInfo/*:Title</pattern>
+
+                <pattern>/*:CMD/*:Components/*:IDSAGD_Corpus/*:Label</pattern>
+
+                <pattern>/*:CMD/*:Components/*:OLAC-DcmiTerms/*:title</pattern>
+                <pattern>/*:CMD/*:Components/*:OLAC-DcmiTerms-ref/*:title</pattern>
+
+
+                <blacklistProfile>clarin.eu:cr1:p_1527668176124</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1290431694579</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1548239945774</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1527668176123</blacklistProfile>
+            </name>
+            <description>
+                <pattern>/*:CMD/*:Components[1]/*/*:GeneralInfo[1]/*:Descriptions/*</pattern>
+                <pattern>/*:CMD/*:Components/*:media-session-profile[1]/*:media-session/*:Description/*:Description</pattern>
+                <pattern>/*:CMD/*:Components[1]/*:SpokenCorpusProfile/*:GeneralInfo//*:Description</pattern>
+                <pattern>/*:CMD/*:Components[1]/*:lat-corpus[1]/*:descriptions[1]/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:VALID/*:Session/*:Project/*:Descriptions/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:resourceInfo/*:identificationInfo/*:description</pattern>
+                <pattern>/*:CMD/*:Components/*:CEDIFOR_TextCorpus/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:LCC_CorpusProfile/*:LCC_Corpus/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:DGDCorpus/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:media-corpus-profile/*:Collection/*:GeneralInfo/*:Description/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:IDSAGD_Corpus/*:Collection/*:Project/*:Description/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:Framework/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*/*:GeneralInfo-DLU/*:Descriptions/*:Descriptions</pattern>
+                <pattern>/*:CMD/*:Components/*:DGDEvent/*:Description</pattern>
+                <pattern>/*:CMD/*:Components/*:OLAC-DcmiTerms/*:description</pattern>
+                <pattern>/*:CMD/*:Components/*:OLAC-DcmiTerms-ref/*:description</pattern>
+                <pattern>/*:CMD/*:Components/*:MPI_Bundle/*:Description/*:Description</pattern>
+            </description>
+            <url>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </url>
+            <identifier>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </identifier>
+            <sameAs>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </sameAs>
+            <includedInDataCatalog>
+                <pattern>/*:CMD/*:IsPartOfList[1]//*:IsPartOf</pattern>
+            </includedInDataCatalog>
+            <accessMode>
+                <concept>http://www.isocat.org/datcat/DC-2490</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2490_44bc38a3-1799-4149-c791-40ac0176f0ff</concept>
+            </accessMode>
+            <dateModified>
+                <pattern>/*:CMD/*:Components/*/*:GeneralInfo/*:LastUpdate</pattern>
+                <pattern>/*:CMD/*:Components/*:media-session-profile/*:media-session/*:RecordingDate</pattern>
+                <pattern>/*:CMD/*:Components/*:media-corpus-profile/*:Collection/*:GeneralInfo/*:PublicationYear</pattern>
+                <pattern>/*:CMD/*:Components/*:DGDCorpus/*:LastUpdate</pattern>
+                <pattern>/*:CMD/*:Components/*:AnnotatedCorpusProfile-DLU/*:GeneralInfo-DLU/*:LastUpdate</pattern>
+                <pattern>/*:CMD/*:Components/*:BatImageBundle/*:Date</pattern>
+                <pattern>/*:CMD/*:Components/*:DGDEvent/*:LastUpdate</pattern>
+                <pattern>/*:CMD/*:Components/*:MPI_Bundle/*:Date</pattern>
+            </dateModified>
+            <!-- Too messy -->
+            <!-- 
+            <inLanguage>
+                <concept>http://www.isocat.org/datcat/DC-2482</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2482_08eded24-4086-7e3f-88e5-e0807fb01e17</concept>
+                <concept>http://www.isocat.org/datcat/DC-2484</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2484_669684e7-cb9e-ea96-59cb-a25fe89b9b9d</concept>
+                <concept>http://www.isocat.org/datcat/DC-5361</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5361_ba085ec1-9746-52bf-8cc1-3c300ce16eb8</concept>
+                <concept>http://www.isocat.org/datcat/DC-5358</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5358_3cd089fe-ad03-6181-b20c-635ea41ed818</concept>
+                <concept>http://purl.org/dc/terms/language</concept>
+                <concept>http://purl.org/dc/elements/1.1/language</concept>
+                <concept>http://www.loc.gov/standards/mods/userguide/language.html#languageterm</concept>
+                
+                <blacklistProfile>clarin.eu:cr1:p_1288172614026</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1527668176122</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1524652309874</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1562754657343</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1369752611624</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1527668176124</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1290431694579</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1548239945774</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1527668176123</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1387365569699</blacklistProfile>
+                <blacklistProfile>clarin.eu:cr1:p_1336550377513</blacklistProfile>
+            </inLanguage> 
+            -->
+            <copyrightNotice>
+                <concept>http://www.isocat.org/datcat/DC-6709</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-6709_cb3572ed-ffd3-04f1-c145-b9c1f26bfc82</concept>
+                <concept>http://purl.org/dc/terms/rightsHolder</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2956_519a4aab-2f76-0fd3-090e-f0d6b81a7dbb</concept>
+            </copyrightNotice>
+            <genre>
+                <concept>http://www.isocat.org/datcat/DC-2470</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2470_d191f2b2-6339-f031-b534-70d526b28357</concept>
+                <concept>http://www.isocat.org/datcat/DC-3899</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3899_c6c608e7-cb2e-1832-09ff-aee36e1f2ed4</concept>
+            </genre>
+            <keywords>
+                <concept>http://www.isocat.org/datcat/DC-5436</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5436_6ab57c2c-5f8d-3561-6db6-d75da23d2637</concept>
+                <concept>http://www.isocat.org/datcat/DC-278</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-278_336dd81a-626b-713e-c74a-34fa2ca26a71"</concept>
+            </keywords>
+            <funder>
+                <pattern>/*:CMD/*:Components/*/*:Project/*:Funder/*:fundingAgency</pattern>
+                <pattern>/*:CMD/*:Components[1]/*:SpokenCorpusProfile[1]/*:GeneralInfo[1]/*:Project//*:Funder</pattern>
+                <pattern>/*:CMD/*:Components/*:VALID/*:Session/*:Project/*:Funder</pattern>
+                <pattern>/*:CMD/*:Components/*:SL-IPROSLA/*:Project/*:Funder</pattern>
+                <pattern>/*:CMD/*:Components/*:media-corpus-profile/*:Collection/*:Project/*:Funder</pattern>
+                <pattern>/*:CMD/*:Components/*:IDSAGD_Corpus/*:Collection/*:Project/*:Funder</pattern>
+                <pattern>/*:CMD/*:Components/*:TreebankProfile-DLU/*:Project/*:Funder</pattern>
+            </funder>
+            <conditionsOfAccess>
+                <concept>http://www.isocat.org/datcat/DC-2453</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2453_1f0c3ea5-7966-ae11-d3c6-448424d4e6e8</concept>
+                <concept>http://www.isocat.org/datcat/DC-3800</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3800_12a79edd-0ffe-8d82-9831-45d125c54aee</concept>>
+                <concept>http://www.isocat.org/datcat/DC-6846</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-6846_d6adb99c-15ac-fac7-7911-f64c48298ce3</concept>
+                <concept>http://purl.org/dc/terms/accessRights</concept>
+                <concept>http://purl.org/dc/terms/rights</concept>
+            </conditionsOfAccess>
+            <license type="CreativeWork">
+                <name>
+                    <concept>http://www.isocat.org/datcat/DC-2453</concept>
+                    <concept>http://www.isocat.org/datcat/DC-2457</concept>
+                    <concept>http://hdl.handle.net/11459/CCR_C-2457_45bbaa1a-7002-2ecd-ab9d-57a189f694a6</concept>
+                    <concept>http://www.isocat.org/datcat/DC-3800</concept>
+                    <concept>http://hdl.handle.net/11459/CCR_C-3800_12a79edd-0ffe-8d82-9831-45d125c54aee</concept>
+                    <concept>http://www.isocat.org/datcat/DC-5439</concept>
+                    <concept>http://hdl.handle.net/11459/CCR_C-5439_98bb103d-476a-7f62-54b4-bf9de24d2229</concept>
+                    <concept>http://hdl.handle.net/11459/CCR_C-5362_8cffd964-f57e-09ed-daed-eeabbf2d22c0</concept>
+                    <concept>http://purl.org/dc/terms/license</concept>
+                    <concept>http://purl.org/dc/terms/rights</concept>
+                </name>
+            </license>
+            <temporalCoverage>
+                <concept>http://www.isocat.org/datcat/DC-2502</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2502_747eb0cd-03e9-cffb-34cc-d0c8c77e4c5a</concept>
+                <concept>http://www.isocat.org/datcat/DC-3664</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3664_eb600f47-5123-efbe-251b-d952c65fc847</concept>
+                <concept>http://www.isocat.org/datcat/DC-4343</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-4343_0d6e80e7-6f6c-5497-eac6-29b95a5fa9ec</concept>
+                <concept>http://www.isocat.org/datcat/DC-5742</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-5742_66aaccdd-f1d0-a6a6-a4fb-efa704e06d8b</concept>
+                <concept>http://www.isocat.org/datcat/DC-3654</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3654_f1608e88-95e6-4233-5d21-5312e76de32d</concept>
+                <concept>http://www.isocat.org/datcat/DC-3655</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3655_bc4c2656-2946-0be9-49f0-021a811e531b</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-6849_03a7b38d-de17-accc-8795-8dbfbf301420</concept>
+                <concept>http://purl.org/dc/elements/1.1/date</concept>
+                <concept>http://purl.org/dc/terms/temporal</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-4373_855312db-e0d6-b319-b65e-24819101d83d</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-4374_dcfb9f02-a210-2b80-a181-509d4315cadc</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2510_2402e609-046a-dfbf-c2d7-5a2f1ae6dc86</concept>
+                <concept>http://purl.org/dc/terms/issued</concept>
+
+                <pattern>/*:CMD/*:Components/*:OLAC-DcmiTerms/*:coverage/text()</pattern>
+            </temporalCoverage>
+            <encodingFormat>
+                <concept>http://www.isocat.org/datcat/DC-2571</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-2571_2be2e583-e5af-34c2-3673-93359ec1f7df</concept>
+                <concept>http://purl.org/dc/terms/format</concept>
+            </encodingFormat>
+            <creativeWorkStatus>
+                <concept>http://www.isocat.org/datcat/DC-3818</concept>
+                <concept>http://hdl.handle.net/11459/CCR_C-3818_8c4aec73-1654-7565-9575-c4a17425ee29</concept>
+            </creativeWorkStatus>
+            <locationCreated type="Place">
+                <address type="PostalAddress">
+                    <name>
+                        <pattern>/*:CMD/*:Components/*/*:GeneralInfo/*:Location//*:Address[1]</pattern>
+                        <pattern>/*:CMD/*:Components[1]/*:SpokenCorpusProfile[1]/*:GeneralInfo[1]/*:Contact[1]/*:Address[1]</pattern>
+                        <pattern>/*:CMD/*:Components/*:IDSAGD_Event/*:Creation/*:Place/*:Location/*:Address</pattern>
+                        <pattern>/*:CMD/*:Components/*:CommunicationProfile/*:GeneralInfo/*:Contact/*:Address</pattern>
+                        <pattern>/*:CMD/*:Components/*:SL-IPROSLA/*:Location/*:Address</pattern>
+                        <pattern>/*:CMD/*:Components/*:TreebankProfile-DLU/*:Project/*:Contact/*:Address</pattern>
+                    </name>
+                    <addressCountry>
+                        <pattern>/*:CMD/*:Components/*/*:GeneralInfo/*:Location/*:Country//*:CountryCoding</pattern>
+                        <pattern>/*:CMD/*:Components/*:IDSAGD_Event/*:Creation/*:Place/*:Location/*:Country</pattern>
+                        <pattern>/*:CMD/*:Components/*:SL-IPROSLA[1]/*:Location/*:Country/*:Code</pattern>
+                    </addressCountry>
+                </address>
+            </locationCreated>
+            <creator expand="true">
+                <expand type="Organization">
+                    <expandPattern>/*:CMD/*:Components/*/*:Project/*:Institution/*:Organisation</expandPattern>
+                    <expandPattern>/*:CMD/*:Components[1]/*:LCC_DataProviderProfile[1]/*:LCC_DataProvider[1]</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:collection/*:Contact</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:CommunicationProfile/*:GeneralInfo/*:Contact</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:resourceInfo/*:distributionInfo/*:licenceInfo/*:distributionRightsHolderOrganization</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:IDSAGD_Corpus/*:Collection/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:Framework/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:MPI_Bundle/*:Institution</expandPattern>
+                    <id>
+                        <pattern>(./*:AuthoritativeIDs//*:id)[1]</pattern>
+                    </id>
+                    <name>
+                        <pattern>./*:name</pattern>
+                        <pattern>./*:ResponsibleOrganisation</pattern>
+                        <pattern>./*:Organisation</pattern>
+                        <pattern>./*:organizationInfo/*:organizationName</pattern>
+                        <pattern>./*:Contact/*:Organisation</pattern>
+                    </name>
+                    <sameAs>
+                        <pattern>./*:AuthoritativeIDs//*:id</pattern>
+                    </sameAs>
+                    <email>./*:Email</email>
+                </expand>
+                <expand type="Person">
+                    <expandPattern>/*:CMD/*:Components/*/*:Creation/*:Creators/*:Person</expandPattern>
+                    <expandPattern>/*:CMD/*:Components[1]/*:SpokenCorpusProfile[1]/*:GeneralInfo/*:Creators//*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:collection/*:CollectionInfo</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:resourceInfo/*:metadataInfo/*:metadataCreator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:VALID/*:Session/*:Content</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:CEDIFOR_TextCorpus/*:PublicationsBibTex/*:PublicationBibTex/*:Author</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:LexicalResourceProfile-DLU/*:Creation/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:SpeechCorpus-DLU/*:Creation/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:IDSAGD_Corpus/*:Collection/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:Framework/*:Creators/*:Creator</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:BilingualDictionaryProfile-DLU/*:Creation/*:Creators/*:Creator/*:Contact/*:Person</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:DGDEvent/*:Staff</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:OLAC-DcmiTerms/*:contributor</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:OLAC-DcmiTerms-ref/*:contributor</expandPattern>
+                    <expandPattern>/*:CMD/*:Components/*:MPI_Bundle/*:Contributor</expandPattern>
+                    <id>
+                        <pattern>(./*:AuthoritativeIDs//*:id)[1]</pattern>
+                    </id>
+                    <givenName>
+                        <pattern>./*:firstName</pattern>
+                        <pattern>./*:personInfo/*:surname</pattern>
+                    </givenName>
+                    <familyName>
+                        <pattern>./*:lastName</pattern>
+                        <pattern>./*:personInfo/*:givenName</pattern>
+                    </familyName>
+                    <name>
+                        <pattern>./*:Person</pattern>
+                        <pattern>./*:Owner</pattern>
+                        <pattern>./*:Experimentor</pattern>
+                        <pattern>if(parent::*/local-name() = 'PublicationBibTex' or ancestor::*/local-name() = 'BilingualDictionaryProfile-DLU' or parent::*/local-name() = 'OLAC-DcmiTerms') then . else
+                            ()</pattern>
+                        <pattern>./*:Contact/*:Person</pattern>
+                        <pattern>./*:ResearcherParticipating</pattern>
+                        <pattern>if(parent::*/local-name()='MPI_Bundle') then ./*:Name else ()</pattern>
+                    </name>
+                    <email>
+                        <pattern>./*:email</pattern>
+                        <pattern>./*:personInfo/*:communicationInfo/*:email</pattern>
+                        <pattern>./*:Contact/*:Email</pattern>
+                    </email>
+                    <sameAs>
+                        <pattern>./*:AuthoritativeIDs//*:id</pattern>
+                    </sameAs>
+                </expand>
+            </creator>
+            <isBasedOnUrl type="CreativeWork">
+                <name>
+                    <pattern>/*:CMD/*:Components/*/*:Creation/*:Source/*:OriginalSource</pattern>
+                </name>
+            </isBasedOnUrl>
+            <distribution expand="true">
+                <expand type="DataDownload">
+                    <expandPattern>/*:CMD/*:Resources/*:ResourceProxyList//*:ResourceProxy</expandPattern>
+                    <contentUrl>
+                        <pattern>./*:ResourceRef</pattern>
+                    </contentUrl>
+                    <encodingFormat>
+                        <pattern>./*:ResourceType/@mimetype</pattern>
+                    </encodingFormat>
+                    <contentSize>
+                        <pattern>for $x in @id return //*[@*:ref = $x]//*:Size</pattern>
+                    </contentSize>
+
+                    <identifier expand="true">
+                        <expand type="PropertyValue">
+                            <expandPattern>for $x in @id return //*[@*:ref = $x]//*:Checksums</expandPattern>
+                            <propertyID>
+                                <pattern>./*:md5/local-name()</pattern>
+                            </propertyID>
+                            <value>
+                                <pattern>./*:md5</pattern>
+                            </value>
+                            <identifier>
+                                <pattern>concat(./*:md5/local-name(), ':', ./*:md5/text())</pattern>
+                            </identifier>
+                        </expand>
+                        <expand type="PropertyValue">
+                            <expandPattern>for $x in @id return //*[@*:ref = $x]//*:Checksums</expandPattern>
+                            <propertyID>
+                                <pattern>./*:sha1/local-name()</pattern>
+                            </propertyID>
+                            <value>
+                                <pattern>./*:sha1</pattern>
+                            </value>
+                            <identifier>
+                                <pattern>concat(./*:sha1/local-name(), ':', ./*:sha1/text())</pattern>
+                            </identifier>
+                        </expand>
+
+                        <expand type="PropertyValue">
+                            <expandPattern>for $x in @id return //*[@*:ref = $x]//*:Checksums</expandPattern>
+                            <propertyID>
+                                <pattern>./*:sha256/local-name()</pattern>
+                            </propertyID>
+                            <value>
+                                <pattern>./*:sha256</pattern>
+                            </value>
+                            <identifier>
+                                <pattern>concat(./*:sha256/local-name(), ':', ./*:sha256/text())</pattern>
+                            </identifier>
+                        </expand>
+                    </identifier>
+                </expand>
+            </distribution>
+        </Mapping>
+    </DataSet>
+
+    <ScholaryArticle>
+        <Context>"@context": ["https://schema.org/", {"Component": {"@type": "class", "@id": "https://catalog.clarin.eu/ds/ComponentRegistry/#/"}}]</Context>
+        <Profiles>
+            <singlePaperPackage>clarin.eu:cr1:p_1375880372976</singlePaperPackage>
+            <DcmiTerms>clarin.eu:cr1:p_1288172614023</DcmiTerms>
+        </Profiles>
+        <Mapping>
+            <name>
+                <pattern>/*:CMD/*:Components/*:DcmiTerms/*:title</pattern>
+                <pattern>/*:CMD/*:Components/*:singlePaperPackage/*:paperPackage/*:mods/*:titleInfo/*:title</pattern>
+            </name>
+            <description>
+                <pattern>/*:CMD/*:Components/*:singlePaperPackage/*:paperPackage/*:mods/*:abstract</pattern>
+            </description>
+            <url>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </url>
+            <identifier>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </identifier>
+            <sameAs>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </sameAs>
+            <datePublished>
+                <pattern>/*:CMD/*:Components/*:singlePaperPackage/*:paperPackage[1]/*:mods/*:originInfo/*:dateIssued</pattern>
+            </datePublished>
+            <genre>
+                <pattern>/*:CMD/*:Components/*:singlePaperPackage/*:paperPackage[1]/*:mods/*:originInfo/*:genre</pattern>
+            </genre>
+            <citation>
+                <pattern>/*:CMD/*:Components/*:DcmiTerms/*:bibliographicCitation</pattern>
+            </citation>
+            <author expand="true">
+                <expand type="Person">
+                    <expandPattern>/*:CMD/*:Components/*:singlePaperPackage/*:paperPackage/*:mods/*:name</expandPattern>
+                    <firstName>
+                        <pattern>./*:namePart[@type = 'given']</pattern>
+                    </firstName>
+                    <familyName>
+                        <pattern>./*:namePart[@type = 'family']</pattern>
+                    </familyName>
+                </expand>
+            </author>
+        </Mapping>
+    </ScholaryArticle>
+
+    <SoftwareApplication>
+        <Context>"@context": ["https://schema.org/", {"Component": {"@type": "class", "@id": "https://catalog.clarin.eu/ds/ComponentRegistry/#/"}}]</Context>
+        <Profiles>
+            <WebLichtWebService>clarin.eu:cr1:p_1320657629644</WebLichtWebService>
+        </Profiles>
+        <Mapping>
+            <id>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </id>
+            <name>
+                <pattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:Name</pattern>
+            </name>
+            <description>
+                <pattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:Description</pattern>
+            </description>
+            <url>
+                <pattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:url</pattern>
+            </url>
+            <identifier>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </identifier>
+            <sameAs>
+                <pattern>/*:CMD/*:Header/*:MdSelfLink</pattern>
+            </sameAs>
+            <applicationCategory>
+                <pattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:ApplicationType</pattern>
+            </applicationCategory>
+            <applicationSubCategory>
+                <pattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:TypeOfWebservice</pattern>
+            </applicationSubCategory>
+            <applicationSuite>
+                <pattern>/*:CMD/*:Header/*:MdCollectionDisplayName</pattern>
+            </applicationSuite>
+            <creator expand="true">
+                <expand type="Organization">
+                    <expandPattern>/*:CMD/*:Components/*:WebLichtWebService/*:Service/*:Creation/*:Creators</expandPattern>
+                    <name>
+                        <pattern>./*:Creator/*:Contact/*:Organisation</pattern>
+                    </name>
+                </expand>
+            </creator>
+        </Mapping>
+    </SoftwareApplication>
+</Mappings>

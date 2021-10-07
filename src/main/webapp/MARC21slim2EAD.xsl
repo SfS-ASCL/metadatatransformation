@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0" xmlns:marc="http://www.loc.gov/MARC21/slim"  xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="marc">
-    <xsl:import href="https://talar.sfb833.uni-tuebingen.de/cmdixsl/MARC21slimUtils.xsl"/>
+    <xsl:import href="MARC21slimUtils.xsl"/>
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
 
 <xsl:template match="/">

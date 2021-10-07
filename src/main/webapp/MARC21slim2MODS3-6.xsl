@@ -1,5 +1,5 @@
 <xsl:stylesheet xmlns="http://www.loc.gov/mods/v3" xmlns:marc="http://www.loc.gov/MARC21/slim" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" exclude-result-prefixes="xlink marc" version="1.0">
-        <xsl:import href="https://talar.sfb833.uni-tuebingen.de/cmdixsl/MARC21slimUtils.xsl"/>
+        <xsl:import href="MARC21slimUtils.xsl"/>
 	<xsl:output encoding="UTF-8" indent="yes" method="xml"/>
 	<xsl:strip-space elements="*"/>
 
