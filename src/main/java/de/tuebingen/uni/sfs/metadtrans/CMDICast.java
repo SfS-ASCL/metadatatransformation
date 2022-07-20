@@ -182,6 +182,10 @@ public class CMDICast {
 			result[0] = "chain_xsl.xsl";
 			result[1] = ".jsonld";
 			result[2] = "text";
+		} else if (converter.equalsIgnoreCase("CMDI-v1.1-to-v.1.2")) {
+			result[0] = "cmd-record-1_1-to-1_2.xsl";
+			result[1] = ".xml";
+			result[2] = "xml";
 		}
 		return result;
 	}

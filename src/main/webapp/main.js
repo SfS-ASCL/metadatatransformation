@@ -117,7 +117,9 @@ var TransformList = React.createClass({
 				React.DOM.option({value:"Marc2RDFDC", disabled:false}, "Marc2RDFDC"),
 				React.DOM.option({value:"Marc2EAD", disabled:false}, "Marc2EAD"),
 				React.DOM.option({value:"DC2Marc", disabled:false}, "DC2Marc"),
-				React.DOM.option({value:"NaLiDa2Marc", disabled:false}, "NaLiDa2Marc"))
+					 React.DOM.option({value:"NaLiDa2Marc", disabled:false}, "NaLiDa2Marc"),
+					 React.DOM.option({value:"CMDI-v1.1-to-v.1.2", disabled:false}, "CMDI-v1.1-to-v.1.2")					 
+					)
 
 		);
 	}

@@ -7,6 +7,9 @@ HTML. The code has been significantly refactored and split into a set
 of sub-stylesheets which deal with the different portions of CMDI
 files. These sub-stylesheets can be found in the `xsl/` subdirectory.
 
+`cmd-record-1_1-to-1_2.xsl` is the stylesheet taken from the
+[CLARIN-ERIC github repository (cmdi-toolkit)](https://github.com/clarin-eric/cmdi-toolkit/blob/master/src/main/resources/toolkit/upgrade/cmd-record-1_1-to-1_2.xsl)
+
 ## Code structure and style
 
 The refactored code is organized into sub-stylesheets which each deal
