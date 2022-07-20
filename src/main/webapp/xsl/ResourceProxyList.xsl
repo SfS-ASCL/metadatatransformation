@@ -4,12 +4,28 @@
 
   <xsl:output method="html" indent="yes"/>
 
+
   <xsl:template name="ResourceProxyListSection" match="*[local-name() = 'ResourceProxyList']">
 
     <p>Persistent Identifier (PID) of this resource: <xsl:apply-templates
         select="//*[local-name() = 'MdSelfLink']" mode="link-to-url"/>
     </p>
 
+    <p>Call CMDI Explorer with this resource: 
+     <xsl:element name="a">
+						    <xsl:attribute  name="style">
+						      border:solid; 
+						    </xsl:attribute>
+						    <xsl:attribute name="href">
+						      <xsl:value-of
+							  select="concat('https://weblicht.sfs.uni-tuebingen.de/CMDIExplorer/#/talar/', encode-for-uri(normalize-space(//*[local-name() = 'MdSelfLink'])))" />
+						    </xsl:attribute>
+						    <xsl:text>
+						      Open Link in CMDI Explorer
+						    </xsl:text>
+     </xsl:element>
+    </p>
+    
     <p>Landing page for this resource: <xsl:for-each select="./*">
         <xsl:if test="./*[local-name() = 'ResourceType'] = 'LandingPage'">
           <xsl:apply-templates select="./*[local-name() = 'ResourceRef']" mode="link-to-url"/>
