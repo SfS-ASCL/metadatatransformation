@@ -219,6 +219,20 @@
     </details>
   </xsl:template>
 
+    <xsl:template name="ViolationText">
+      <!-- Provides the contents of the "Report Violation" tab -->
+      <p>
+      	To report a violation on this resource, please click on the following link to send an email: 
+	<xsl:element name="a">
+	  <xsl:attribute name="href">
+	    <xsl:text>mailto:clarin-repository@sfs.uni-tuebingen.de?subject=Report%20Violation:</xsl:text> <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+	    <xsl:text>&amp;body=Dear Talar repository team! I'd like to report a violation with regard to resource mentioned in the subject line. The reasons are as follows: PLEASE GIVE  REASONS HERE</xsl:text>
+	  </xsl:attribute>
+	  <bf>CLICK HERE TO REPORT VIOLATION.</bf>
+	</xsl:element>
+      </p>	  
+    </xsl:template>
+  
   <xsl:template name="CitationExamples">
     <!-- Provides the contents of the "Cite data set" tab -->
     <p>Please cite the data set itself as follows:</p>

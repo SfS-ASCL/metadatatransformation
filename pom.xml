@@ -18,8 +18,9 @@
 		<repository>
 			<id>xqj</id>
 			<name>XQJ Maven Repository</name>
-			<url>http://xqj.net/maven</url>
-		</repository>
+			<!--- <url>http://xqj.net/maven</url>-->
+                        <url>https://mvnrepository.com</url>
+		</repository>    
 	</repositories>
 
 	<dependencies>

@@ -432,6 +432,9 @@ footer {
               <li>
                 <a href="#citation">Cite data set</a>
               </li>
+	      <li>
+                <a href="#violation">Report violation</a>
+              </li>
             </ul>
           </nav>
 
@@ -450,6 +453,7 @@ footer {
                                          
             <xsl:call-template name="DataFilesSection" />
             <xsl:call-template name="CitationSection" />
+            <xsl:call-template name="ReportViolation" />
             <!-- General info is rendered *last* in the HTML so it can be displayed by default; see CSS.  -->
             <xsl:call-template name="GeneralInfoSection" />
           </article>
@@ -504,6 +508,13 @@ footer {
     <section id="citation">
       <h2>Citation Information</h2>
       <xsl:call-template name="CitationExamples" />
+    </section>
+  </xsl:template>
+
+  <xsl:template name="ReportViolation">
+    <section id="violation">
+      <h2>Report Violation</h2>
+      <xsl:call-template name="ViolationText" />
     </section>
   </xsl:template>
 
