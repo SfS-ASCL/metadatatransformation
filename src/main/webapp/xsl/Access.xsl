@@ -9,11 +9,32 @@
   <xsl:template match="*[local-name() = 'Access']" mode="def-list">
     <xsl:apply-templates select="./*[local-name() = 'Descriptions']"/>
     <dl>
+        <dt>Persistent Identifier (PID) of this digital object</dt>
+        <dd>
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	      <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+	    </xsl:attribute>
+	    <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+	  </xsl:element>
+        </dd>
+
+        <dt>TALAR / Archive Contact</dt>
+        <dd>
+	  <xsl:element name="a">
+	    <xsl:attribute name="href">
+	      <xsl:text>mailto:clarin-repository@sfs.uni-tuebingen.de?subject=Request%20Access:%20</xsl:text> <xsl:value-of select="//*[local-name() = 'MdSelfLink']"/>
+	      <xsl:text>&amp;body=Dear Talar repository team! I'd like to get access to data in the repository.</xsl:text>
+	    </xsl:attribute>
+	    <bf>CLICK HERE to contact archivist to get access to data.</bf>
+	  </xsl:element>		    
+        </dd>
+	
         <dt>Availability</dt>
         <dd>
           <xsl:value-of select="./*[local-name() = 'Availability']"/>
         </dd>
-        
+	
         <dt>Distribution Medium</dt>
         <dd>
           <xsl:value-of select="./*[local-name() = 'DistributionMedium']"/>
